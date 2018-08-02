@@ -11,13 +11,18 @@ import javax.ws.rs.core.MediaType;
 @Path("myresource")
 public class MyResource {
 
-    @GET
+	@GET
+	@Produces("text/plain")
+	public String getClichedMessage() {
+		return "Hello World";
+		
+   /* @GET
     @Path("person")
     @Produces(MediaType.APPLICATION_JSON)
     public Person getPerson() {
         Person p = new Person();
         p.setFirstName("Paul");
         p.setLastName("Samsotha");
-        return p;
+        return p;*/
     }
 }
