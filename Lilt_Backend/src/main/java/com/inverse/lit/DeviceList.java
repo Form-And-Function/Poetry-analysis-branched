@@ -1,5 +1,4 @@
-package com.poetryanalyzer.lit;
-
+package com.inverse.lit;
 import java.util.ArrayList;
 
 //A list of devices within a section

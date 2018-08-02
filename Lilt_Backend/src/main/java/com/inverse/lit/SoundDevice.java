@@ -1,7 +1,7 @@
 //Class for Alliteration, Assonance, Consonance, and Rhyme
 //25 July 2018
 
-package com.poetryanalyzer.lit;
+package com.inverse.lit;
 
 import java.util.ArrayList;
 
