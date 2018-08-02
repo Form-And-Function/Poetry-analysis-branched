@@ -1,4 +1,4 @@
-package com.poetryanalyzer.lit;
+package com.inverse.lit;
 
 public class Formatter {
 

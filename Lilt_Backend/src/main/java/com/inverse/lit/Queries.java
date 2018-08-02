@@ -1,4 +1,4 @@
-package com.poetryanalyzer.lit;
+package com.inverse.lit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

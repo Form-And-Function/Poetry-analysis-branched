@@ -3,7 +3,7 @@
 //by: Alexander Dyall, Alex Gitteau, & Sydney Von Arx
 //23 July 2018
 
-package com.poetryanalyzer.lit;
+package com.inverse.lit;
 
 import java.awt.GridLayout;
 import java.awt.Toolkit;

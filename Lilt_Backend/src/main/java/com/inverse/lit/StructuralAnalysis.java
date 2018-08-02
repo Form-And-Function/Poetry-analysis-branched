@@ -1,4 +1,4 @@
-package com.poetryanalyzer.lit;
+package com.inverse.lit;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,11 +7,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+/*
 import edu.mit.jwi.*;
 import edu.mit.jwi.item.IIndexWord;
 import edu.mit.jwi.item.IWord;
 import edu.mit.jwi.item.IWordID;
 import edu.mit.jwi.item.POS;
+*/
 
 public class StructuralAnalysis {
     private Poem poem;
@@ -157,7 +160,7 @@ public class StructuralAnalysis {
 		return ProcessedLine;
 	}
 	*/
-	
+
 	public void runExample(){
 		// construct the URL to the Wordnet dictionary directory
 		String wnhome = System.getenv("WNHOME");
@@ -185,6 +188,5 @@ public class StructuralAnalysis {
 		    System.out.println("Gloss = " + word.getSynset().getGloss());
 		
 		  }
-
 
 }
