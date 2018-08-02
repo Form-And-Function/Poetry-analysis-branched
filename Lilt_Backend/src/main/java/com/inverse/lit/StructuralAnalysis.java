@@ -160,7 +160,7 @@ public class StructuralAnalysis {
 		return ProcessedLine;
 	}
 	*/
-
+	/*
 	public void runExample(){
 		// construct the URL to the Wordnet dictionary directory
 		String wnhome = System.getenv("WNHOME");
@@ -188,5 +188,5 @@ public class StructuralAnalysis {
 		    System.out.println("Gloss = " + word.getSynset().getGloss());
 		
 		  }
-
+	*/
 }
