@@ -1,2 +1,9 @@
-
-
+.DS_Store
+Lilt_Backend/.DS_Store
+Lilt_Backend/.classpath
+Lilt_Backend/.project
+Lilt_Backend/pom.xml
+Lilt_Backend/src/main/webapp/
+Lilt_Backend/target/
+Servers/
+poetryanalyzer/.DS_Store
