@@ -7,6 +7,7 @@ Lilt_Backend/src/main/webapp/
 Lilt_Backend/src/main/resources/
 Lilt_Backend/target/
 Servers/
+.metadata
 poetryanalyzer/.DS_Store
 *.prefs
 Lilt_Backend/.settings/*
