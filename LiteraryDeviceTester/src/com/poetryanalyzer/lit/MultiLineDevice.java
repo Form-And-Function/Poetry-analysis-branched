@@ -17,13 +17,19 @@ public class MultiLineDevice extends Device {
 		for (int i = 0; i < lines.length; i++) {					//for each line
 			String firstWord = lines[i].getWords()[0].getText();	//get the first word
 			
-			if (!anaphoricWords.contains(firstWord)) {				//is the first word unique?
-				anaphoricWords.add(firstWord);						//the word is uniuqe, add it as a potential anaphora
-				anaphoraInstances.add(new MultiLineDevice());						      		 //create an new anaphora instance
-				anaphoraInstances.get(anaphoraInstances.size() - 1).setText(firstWord);		 //assign it its text
-				anaphoraInstances.get(anaphoraInstances.size() - 1).getIndices().add(i);	 //assign it its index
-			} else {	//the word isn't unique
-				anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add(i);//add its index to the list of indices for that word
+			if (!anaphoricWords.contains(firstWord) || 
+			  (i - anaphoraInstances.get
+			  (anaphoricWords.indexOf(firstWord)).getIndices().get
+			  (anaphoraInstances.get
+			  (anaphoricWords.indexOf(firstWord)).getIndices().size() - 1) > 3) ) {
+									
+				anaphoricWords.add(firstWord);						
+				anaphoraInstances.add(new MultiLineDevice());						      		 
+				anaphoraInstances.get(anaphoraInstances.size() - 1).setText(firstWord);		 
+				anaphoraInstances.get(anaphoraInstances.size() - 1).getIndices().add((double)i);
+				
+			} else {	
+				anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add((double)i);//add its index to the list of indices for that word
 			}
 		}
 		
@@ -35,15 +41,15 @@ public class MultiLineDevice extends Device {
 		for (MultiLineDevice a : anaphoraInstances) { //for each instance of anaphora
 			int minWords = Integer.MAX_VALUE;				//iterates through each line that contains an instance of this anaphora and
 															//-finds the shortest line by words, and stores that number
-			for (int i : a.getIndices())					//
-				if (lines[i].getWords().length < minWords)	//
-					minWords = lines[i].getWords().length;	//
+			for (Double i : a.getIndices())					//
+				if (lines[i.intValue()].getWords().length < minWords)	//
+					minWords = lines[i.intValue()].getWords().length;	//
 			
 			for (int w = 1; w < minWords; w++) {			//checks word by word "deeper", or to the right in the poem
 				boolean escape = false;														//-until there is no longer an identical 
-				String nextWord = lines[a.getIndices().get(0)].getWords()[w].getText();		//-anaphora on all indices
-				for (int i : a.getIndices()) {
-					if (!lines[i].getWords()[w].getText().equals(nextWord)) {	//if the words on the ith word column do not match, break
+				String nextWord = lines[a.getIndices().get(0).intValue()].getWords()[w].getText();		//-anaphora on all indices
+				for (Double i : a.getIndices()) {
+					if (!lines[i.intValue()].getWords()[w].getText().equals(nextWord)) {	//if the words on the ith word column do not match, break
 						escape = true;
 						break;
 					}
@@ -51,29 +57,14 @@ public class MultiLineDevice extends Device {
 				if (escape)
 					break;
 				else
-					a.setText(a.getText() + " " + nextWord); //if the words on the ith word column do match, continue checking to the right
+					a.setText(a.getText() + " " + nextWord); //if the words on the i-th word column do match, continue checking to the right
 			}																								
 		}
 		
 		return anaphoraInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a unique anaphora or word phrase
-	}																							//with its stored indices
-
-	/*public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {
-		
-		ArrayList<ArrayList<Integer>> anaphoraInstances = new ArrayList<ArrayList<Integer>>();
-		ArrayList<String> 			  anaphoricWords =    new ArrayList<String>();
-		
-		for (int i = 0; i < lines.length; i++) {
-			String firstWord = lines[i].getWords()[0].getText();
-			
-			if (!anaphoricWords.contains(firstWord)) {
-				anaphoricWords.add(firstWord);
-				anaphoraInstances.add(new MultiLineDevice());
-			}
-		}
-	}*/
+	}
  	
-	public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
+	/*public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
 		
 		ArrayList<MultiLineDevice> polysyndetonInstances = new ArrayList<MultiLineDevice>();
 		
@@ -143,5 +134,5 @@ public class MultiLineDevice extends Device {
 		}
 		
 		return asyndetonInstances;
-	}
+	}*/
 }
