@@ -17,7 +17,7 @@ public class MultiLineDevice extends Device {
 		
 	}
 	
-	public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {		//looks for anaphora (words/phrases repeated at the beginning of each line for poetic effect)
+	/*public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {		//looks for anaphora (words/phrases repeated at the beginning of each line for poetic effect)
 																																//>for poetic effect)
 		ArrayList<MultiLineDevice> anaphoraInstances = new ArrayList<MultiLineDevice>(); //stores instances
 		ArrayList<String> anaphoricWords = new ArrayList<String>(); 					 //stores first words of instances
@@ -72,7 +72,9 @@ public class MultiLineDevice extends Device {
 		return anaphoraInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a unique anaphora or word phrase
 	}
  	
-	public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
+ 	
+ 	
+	/*public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
 		
 		ArrayList<MultiLineDevice> polysyndetonInstances = new ArrayList<MultiLineDevice>();
 		
@@ -111,7 +113,6 @@ public class MultiLineDevice extends Device {
 			    			if (pastWord.equals(conjuncBuscar)) {
 			    				indices.add(x);
 			    			}
-			    		}*/
 			    		
 			    	} else if (conjuncInstances > 2) {
 			    		polysyndetonInstances.get(polysyndetonInstances.size() - 1).getIndices().add(w);
@@ -130,7 +131,7 @@ public class MultiLineDevice extends Device {
 		return polysyndetonInstances;
 	}
 	
-	/*public static ArrayList<MultiLineDevice> checkAsyndeton (Line[] lines) {
+	public static ArrayList<MultiLineDevice> checkAsyndeton (Line[] lines) {
 		
 		ArrayList<MultiLineDevice> asyndetonInstances = new ArrayList<MultiLineDevice>();
 		
