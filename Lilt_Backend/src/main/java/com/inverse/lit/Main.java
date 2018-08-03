@@ -53,6 +53,7 @@ public class Main implements ActionListener {
         } catch (Exception ex) {
             // handle the error
         }
+		System.out.println("hi");
 		
 		
 		
@@ -87,7 +88,7 @@ public class Main implements ActionListener {
 		if(ae.getSource().equals(runBtn)) {											//If run button is pushed
 			statusLbl.setText("Status: Working...");									//report Working, start recording times
 			time = System.currentTimeMillis();
-			poemLines = readFile("Poems/A Brook in the City.txt");//TODO
+			poemLines = readFile(inputTF.getText());
 			
 			//poemLines = readFile(inputTF.getText());
 			if(poemLines != null) {

@@ -17,7 +17,7 @@ public class StructuralAnalysis {
 		poem = new Poem(poemLines);
 		
 		//Calculate Scansion
-		///*
+		/*
 		ArrayList<Scansion> scansion = new ArrayList<Scansion>();							//(stores possible scansions)
 		ArrayList<ArrayList<Boolean>> baseList = new ArrayList<ArrayList<Boolean>>();		//(stores known pieces of scansion (from polysyllabic words))
 		ArrayList<int[]> holeList = new ArrayList<int[]>();									//(stores the indecies of syllables with unknown scansion)
@@ -67,7 +67,7 @@ public class StructuralAnalysis {
 			scansion.get(scansion.size() - 1).buildMeter();
 			stress = scansion.get(0).getStress();
 		}
-		//*/
+		*/
 		
 		//TODO: Evaluate and Rank Scansions
 		

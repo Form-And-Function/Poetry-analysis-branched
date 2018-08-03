@@ -12,10 +12,12 @@ public class Queries {
 	private Connection conn = null;
 	public Queries() {
 		try {
-		    conn =
+		    System.out.println("hello");
+			conn =
 		       DriverManager.getConnection("jdbc:mysql://localhost/words?" +
 		                                   "user=root&password=123abcSyd");
-
+			System.out.println("he");
+			//OTHER PASSWORD: CMU062592kotoba
 		    // Do something with the Connection
 
 		} catch (SQLException ex) {
