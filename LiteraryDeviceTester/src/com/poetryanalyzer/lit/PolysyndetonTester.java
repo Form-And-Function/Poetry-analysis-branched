@@ -37,7 +37,7 @@ public class PolysyndetonTester {
 			System.out.println();
 			for (int line = 0; line < a.getIndices().size(); line++) {
 				for (int word = 0; line < a.getIndices().get(line).size(); word++) {
-					   
+					
 				}
 			}
 			System.out.println(); 
