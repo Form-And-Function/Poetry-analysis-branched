@@ -17,7 +17,32 @@ public class MultiLineDevice extends Device {
 		
 	}
 	
-	public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {
+	public static ArrayList<MultiLineDevice> checkRepetition   (Line[] lines) {
+		
+		ArrayList<MultiLineDevice> reps = new ArrayList<MultiLineDevice>();
+		
+		ArrayList<String> words = new ArrayList<String>();
+		
+		for (int x = 0; x < lines.length; x++) {
+			for (int w = 0; w < lines[x].getWords().length; w++) {
+		
+				String word = lines[x].getWords()[w].getText();
+				
+				if (!words.contains(word)) {
+					words.add(word);
+					reps.add(new MultiLineDevice());
+					reps.get(reps.size() - 1).setText(word);
+					reps.get(reps.size() - 1).getIndices().add(new int[]{x,w});
+				} else {
+					reps.get(words.indexOf(word)).getIndices().add(new int[]{x,w});
+				}
+			}
+		}
+		
+		return reps;
+	}
+	
+	public static ArrayList<MultiLineDevice> checkAnaphora     (Line[] lines) {
 		
 		ArrayList<MultiLineDevice> anaInstances = new ArrayList<MultiLineDevice>();
 		ArrayList<String> anaphoricWords = new ArrayList<String>();
@@ -139,61 +164,13 @@ public class MultiLineDevice extends Device {
 		return polyInstances;
 		
 	}
+
+	public static ArrayList<MultiLineDevice> checkAsyndeton    (Line[] lines) {
+		
+		ArrayList<MultiLineDevice> asynInstances = new ArrayList<MultiLineDevice>();
+		
+		return asynInstances;
+	}
 	
-	/*public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
-		
-		ArrayList<MultiLineDevice> polysyndetonInstances = new ArrayList<MultiLineDevice>();
-		
-		String conjuncBuscar = "";
-		int    conjuncInstances = 0;
-		
-		for (int i = 0; i < lines.length; i++) {
-			for (int w = 0; w < lines[i].getWords().length; w++) {
-				String text = lines[i].getWords()[w].getText().toLowerCase();
-			    if (conjuncBuscar.equals("")) {
-			    	for (String conjunc : conjuncs) {
-			    		if (text.equals(conjunc)) {
-			    			conjuncBuscar = text;
-			    			conjuncInstances++;
-			    			break;
-			    		}
-			    	}
-			    } else if (text.equals(conjuncBuscar)) {
-			    	conjuncInstances++;
-			    	if (conjuncInstances == minConjuncsToBePolysyndeton) {
-			    		polysyndetonInstances.add(new MultiLineDevice());
-			    		polysyndetonInstances.get(polysyndetonInstances.size() - 1).setText(conjuncBuscar);
-			    		ArrayList<Double> indices = polysyndetonInstances.get(polysyndetonInstances.size() - 1).getIndices();
-			    		
-			    		for (int j = 0; j < i; j++) {
-			    			for (int v = 0; v < w; v++) {
-			    				String pastWord = lines[j].getWords()[v].getText();
-			    				if (pastWord.equals(conjuncBuscar)) {
-			    					indices.add((double)i + Math.pow(v, b));
-			    				}
-			    			}
-			    		}
-			    		
-			    		for (int x = 0; x <= w; x++) {
-			    			String pastWord = lines[i].getWords()[x].getText();
-			    			if (pastWord.equals(conjuncBuscar)) {
-			    				indices.add(x);
-			    			}
-			    		
-			    	} else if (conjuncInstances > 2) {
-			    		polysyndetonInstances.get(polysyndetonInstances.size() - 1).getIndices().add(w);
-			        }
-			    } else if (!conjuncBuscar.equals("")) {
-			    	for (String conjunc : conjuncs) {
-			    		if (text.equals(conjunc)) {
-			    			conjuncBuscar = "";
-			    			conjuncInstances = 0;
-			    		}
-			    	}
-			    }
-		    } 
-		}
-	
-		return polysyndetonInstances;
-	}*/
 }
+

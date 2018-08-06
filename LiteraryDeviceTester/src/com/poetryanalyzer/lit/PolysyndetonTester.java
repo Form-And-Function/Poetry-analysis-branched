@@ -5,18 +5,35 @@ import java.util.ArrayList;
 public class PolysyndetonTester {
 
 	public PolysyndetonTester (Line[] poemLines) {
-		display(MultiLineDevice.checkPolysyndeton(poemLines));
+		//display(MultiLineDevice.checkPolysyndeton(poemLines));
+		displayRepetition(MultiLineDevice.checkPolysyndeton(poemLines));
 	}
 	
 	public static void main (String[] args) {
-		ArrayList<String> poem = new ArrayList<String>();
+		/*ArrayList<String> poem = new ArrayList<String>();
 		
-		/*poem.add("And God said, \"Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind.\"");
+		poem.add("And God said, \"Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind.\"");
 		poem.add("And it was so.");
 		poem.add("And God made the beast of the earth after his kind and cattle after their kind, and everything that creeps upon the earth to its kind. ");
-		poem.add("And God saw that it was good.");*/
+		poem.add("And God saw that it was good.");
 		
-		poem.add("Sam ran and jumped and laughed and clapped yet played and sang and wrote and cried badly");
+		poem.add("Sam ran and jumped and laughed and");
+		poem.add("clapped yet played and sang and wrote and cried badly");
+		
+		Line[] poemLines = new Line[poem.size()];
+		
+		for (int x = 0; x < poemLines.length; x++) {
+			poemLines[x] = new Line (poem.get(x));
+		}
+		
+		for (Line x : poemLines) { System.out.println(x.getText()); } //TESTING
+		System.out.println(); //TESTING
+		
+		PolysyndetonTester polysyndetonTester = new PolysyndetonTester (poemLines);*/
+		
+		ArrayList<String> poem = new ArrayList<String>();
+		
+		poem.add("Alexander has has has a stut stut er");
 		
 		Line[] poemLines = new Line[poem.size()];
 		
@@ -40,6 +57,16 @@ public class PolysyndetonTester {
 			                     + "word: " + a.getIndices().get(i)[1]);
 			}
 			System.out.println(); 
+		}
+	}
+	
+	public void displayRepetition (ArrayList<MultiLineDevice> repetitionInstances) {
+		for (MultiLineDevice r : repetitionInstances) {
+			System.out.println("test: " + r.getText());
+			System.out.println();
+			for (int i = 0; i < r.getIndices().size(); i++) {
+				System.out.println("line: " + r.getIndices().get(i)[0] + " " + "words: " + r.getIndices().get(i)[1]);
+			}
 		}
 	}
 }
