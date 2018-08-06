@@ -16,7 +16,7 @@ public class PolysyndetonTester {
 		poem.add("And God made the beast of the earth after his kind and cattle after their kind, and everything that creeps upon the earth to its kind. ");
 		poem.add("And God saw that it was good.");*/
 		
-		poem.add("Sam ran and jumped and laughed and clapped in joy");
+		poem.add("Sam ran and jumped and laughed and clapped yet played and sang and wrote and cried badly");
 		
 		Line[] poemLines = new Line[poem.size()];
 		
@@ -33,12 +33,11 @@ public class PolysyndetonTester {
 	public void display (ArrayList<MultiLineDevice> polysyndetonInstances) {
 		for (MultiLineDevice a : polysyndetonInstances) {
 			System.out.println("Text: " + a.getText());
-			System.out.println("Intensity: " + a.getIntensity());
+			//System.out.println("Intensity: " + a.getIntensity());
 			System.out.println();
-			for (int line = 0; line < a.getIndices().size(); line++) {
-				for (int word = 0; line < a.getIndices().get(line).size(); word++) {
-					
-				}
+			for (int i = 0; i < a.getIndices().size(); i++) {
+				System.out.println("line: " + a.getIndices().get(i)[0] + " " 
+			                     + "word: " + a.getIndices().get(i)[1]);
 			}
 			System.out.println(); 
 		}
