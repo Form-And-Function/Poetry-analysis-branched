@@ -17,35 +17,68 @@ public class MultiLineDevice extends Device {
 		
 	}
 	
-	/*public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {		//looks for anaphora (words/phrases repeated at the beginning of each line for poetic effect)
-																																//>for poetic effect)
-		ArrayList<MultiLineDevice> anaphoraInstances = new ArrayList<MultiLineDevice>(); //stores instances
-		ArrayList<String> anaphoricWords = new ArrayList<String>(); 					 //stores first words of instances
+	public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {
 		
-		for (int i = 0; i < lines.length; i++) {					//for each line
-			String firstWord = lines[i].getWords()[0].getText();	//get the first word
-			
+		ArrayList<MultiLineDevice> anaphoraInstances = new ArrayList<MultiLineDevice>();
+		ArrayList<String> anaphoricWords = new ArrayList<String>();
+		
+		for (int i = 0; i < lines.length; i++) {
+			String firstWord = lines[i].getWords()[0].getText();
+					
 			if (!anaphoricWords.contains(firstWord) || 
-			  (i - anaphoraInstances.get
-			  (anaphoricWords.indexOf(firstWord)).getIndices().get
-			  (anaphoraInstances.get
-			  (anaphoricWords.indexOf(firstWord)).getIndices().size() - 1) > minLineSpacingToBeDistinctAnaphora) ) {
-									
-				anaphoricWords.add(firstWord);						
-				anaphoraInstances.add(new MultiLineDevice());						      		 
-				anaphoraInstances.get(anaphoraInstances.size() - 1).setText(firstWord);		 
-				anaphoraInstances.get(anaphoraInstances.size() - 1).getIndices().add((double)i);
+			    i - anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices()
+			    .get(anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().size() - 1)[0]
+			    > minLineSpacingToBeDistinctAnaphora) {
 				
-			} else {	
-				anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add((double)i);//add its index to the list of indices for that word
+					anaphoricWords.add(firstWord);
+					anaphoraInstances.add(new MultiLineDevice());
+					anaphoraInstances.get(anaphoraInstances.size() - 1).setText(firstWord);
+					anaphoraInstances.get(anaphoraInstances.size() - 1).getIndices().add(new int[]{i});
+					
+			} else {
+				anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add(new int[]{i});
 			}
 		}
 		
-		for (int p = anaphoraInstances.size() - 1; p >= 0; p--) {	//removes anaphora instances with only one index, i.e., non-anaphoras
-			if (anaphoraInstances.get(p).getIndices().size() == 1)	
-				anaphoraInstances.remove(p);
+		for (int i = anaphoraInstances.size() - 1; i >= 0; i--) {
+			if (anaphoraInstances.get(i).getIndices().size() == 1) {
+				anaphoraInstances.remove(i);
+			}
 		}
 		
+		for (MultiLineDevice a : anaphoraInstances) {
+			int minWords = Integer.MAX_VALUE;
+			
+			for (int i = 0; i < a.getIndices().size(); i++) {
+				int val = a.getIndices().get(i)[0];
+				
+				if (lines[val].getWords().length < minWords)
+					minWords = lines[i].getWords().length;
+			}
+			
+			for (int w = 1; w < minWords; w++) {
+				boolean escape = false;
+				String nextWord = lines[a.getIndices().get(0)[0]].getWords()[w].getText();
+				for (int i = 0; i < a.getIndices().size(); i++) {
+					int val = a.getIndices().get(i)[0];
+					
+					if (!lines[val].getWords()[w].getText().equals(nextWord)) {
+						escape = true;
+						break;
+					}
+					if (escape)
+						break;
+					else
+						a.setText(a.getText() + " " + nextWord);
+				}
+			}
+		}
+		
+		return anaphoraInstances;
+	}
+	
+	/*public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {		//looks for anaphora (words/phrases repeated at the beginning of each line for poetic effect)
+																																//>for poetic effect)
 		for (MultiLineDevice a : anaphoraInstances) { //for each instance of anaphora
 			int minWords = Integer.MAX_VALUE;				//iterates through each line that contains an instance of this anaphora and
 															//-finds the shortest line by words, and stores that number
@@ -70,9 +103,9 @@ public class MultiLineDevice extends Device {
 		}
 		
 		return anaphoraInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a unique anaphora or word phrase
-	}
- 	
- 	
+	}*/
+	
+	
  	
 	/*public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
 		
@@ -154,5 +187,61 @@ public class MultiLineDevice extends Device {
 		}
 		
 		return asyndetonInstances;
-	}*/
+	}
+	
+	/*public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {		//looks for anaphora (words/phrases repeated at the beginning of each line for poetic effect)
+	//>for poetic effect)
+ArrayList<MultiLineDevice> anaphoraInstances = new ArrayList<MultiLineDevice>(); //stores instances
+ArrayList<String> anaphoricWords = new ArrayList<String>(); 					 //stores first words of instances
+
+for (int i = 0; i < lines.length; i++) {					//for each line
+String firstWord = lines[i].getWords()[0].getText();	//get the first word
+
+if (!anaphoricWords.contains(firstWord) || 
+(i - anaphoraInstances.get
+(anaphoricWords.indexOf(firstWord)).getIndices().get
+(anaphoraInstances.get
+(anaphoricWords.indexOf(firstWord)).getIndices().size() - 1) > minLineSpacingToBeDistinctAnaphora) ) {
+
+anaphoricWords.add(firstWord);						
+anaphoraInstances.add(new MultiLineDevice());						      		 
+anaphoraInstances.get(anaphoraInstances.size() - 1).setText(firstWord);		 
+anaphoraInstances.get(anaphoraInstances.size() - 1).getIndices().add((double)i);
+
+} else {	
+anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add((double)i); //add its index to the list of indices for that word
+}
+}
+
+for (int p = anaphoraInstances.size() - 1; p >= 0; p--) {	//removes anaphora instances with only one index, i.e., non-anaphoras
+if (anaphoraInstances.get(p).getIndices().size() == 1)	
+anaphoraInstances.remove(p);
+}
+
+for (MultiLineDevice a : anaphoraInstances) { //for each instance of anaphora
+int minWords = Integer.MAX_VALUE;				//iterates through each line that contains an instance of this anaphora and
+//-finds the shortest line by words, and stores that number
+for (Double i : a.getIndices())					//
+if (lines[i.intValue()].getWords().length < minWords)	//
+minWords = lines[i.intValue()].getWords().length;	//
+
+for (int w = 1; w < minWords; w++) {			//checks word by word "deeper", or to the right in the poem
+boolean escape = false;														//-until there is no longer an identical 
+String nextWord = lines[a.getIndices().get(0).intValue()].getWords()[w].getText();		//-anaphora on all indices
+for (Double i : a.getIndices()) {
+if (!lines[i.intValue()].getWords()[w].getText().equals(nextWord)) {	//if the words on the ith word column do not match, break
+escape = true;
+break;
+}
+}
+if (escape)
+break;
+else
+a.setText(a.getText() + " " + nextWord); //if the words on the i-th word column do match, continue checking to the right
+}																								
+}
+
+return anaphoraInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a unique anaphora or word phrase
+}*/
+
 }

@@ -50,8 +50,10 @@ public class AnaphoraTester {
 			System.out.println("Text: " + a.getText());
 			//System.out.println("Intensity: " + a.getIntensity());
 			System.out.println();
-			for (Double i : a.getIndices()) {
-				System.out.println("Index: " + i.intValue());
+			for (int i = 0; i < a.getIndices().size(); i++) {
+				int val = a.getIndices().get(i)[0];
+				
+				System.out.println("Index: " + i);
 			}
 			System.out.println(); 
 		}

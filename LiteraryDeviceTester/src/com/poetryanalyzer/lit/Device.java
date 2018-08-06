@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class Device {
 	private String text;																	//text of the specific literary device instance
-	private ArrayList<int[]> indices = new ArrayList<int[]>(); 							    //ArraylLst of int arrays
+	private ArrayList<int[]> indices = new ArrayList<int[]>(); 							    
 	private int intensity; 																	//strength literary device in poem, based on occurrence rate and other factors
 	
 	public Device () {
