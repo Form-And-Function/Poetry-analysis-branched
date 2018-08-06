@@ -1,6 +1,5 @@
 $(document).ready(function() {
-	
-	
+	$('.tooltip').tooltipster();
 	function submit(){
 	    var input = document.getElementById("inputBox");
 	    var txt = $("#inputBox").val();
@@ -39,7 +38,7 @@ $(document).ready(function() {
 	        } else {
 	            for (var j = 0; j < currentDevices.length; j ++) { //j is which device we're on
 	            }
-	            lineHTML = lineHTML + "<br>" + '<span class = "devices">' + line[i].text + "</span>";            
+	            lineHTML = lineHTML + "<br>" + '<span class = "devices tooltip">' + line[i].text + "</span>";            
 	        }
 	    }
 	}

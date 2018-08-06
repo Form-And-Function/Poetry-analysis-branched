@@ -1,6 +1,7 @@
 package com.inverse.lit;
 
 import java.util.ArrayList;
+import com.inverse.lit.DeviceList;
 
 public class Line {
 	
