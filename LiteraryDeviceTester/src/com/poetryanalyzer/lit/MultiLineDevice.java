@@ -103,25 +103,28 @@ public class MultiLineDevice extends Device {
 			    		polyInstances.get(polyInstances.size() - 1).setText(conjuncBuscar);
 			    		ArrayList<int[]> indices = polyInstances.get(polyInstances.size() - 1).getIndices();
 			    		
-			    		for (int h = 0; h < i; i++) {
-			    			for (int v = 0; v < w; v++) {
-			    				String pastWord = lines[h].getWords()[v].getText();
-			    				if (pastWord.equals(conjuncBuscar)) {
-			    					indices.add(new int[]{h,v});
-			    				}
-			    			}
-			    		}
-			    		
-			    		for (int c = 0; c <= w; c++) {
-			    			String pastWord = lines[i].getWords()[c].getText();
-			    			if (pastWord.equals(conjuncBuscar)) {
-			    				indices.add(new int[]{i,c});
+			    		for (int h = i; h >= 0; h--) {
+			    			for (int v = w; v >= 0; v--) {
+			    				String word = lines[h].getWords()[v].getText();
+			    				
+			    				if (word.equals(conjuncBuscar)) {
+			    					indices.add(0, new int[]{h,v});
+			    					
+			    				} else {
+			    					for (String c : conjuncs) {
+			    						if (word.equals(c)) {
+			    							v = -1;
+			    							h = -1;
+			    						}
+			    					}
+			    				} 
 			    			}
 			    		}
 			    		
 					} else if (conjuncInstances > minConjuncsToBePolysyndeton) {
 						polyInstances.get(polyInstances.size() - 1).getIndices().add(new int[]{i,w});
 					} 
+					
 				} else if (!conjuncBuscar.equals("")) {
 					for (String conjunc : conjuncs) {
 			    		if (text.equals(conjunc)) {
