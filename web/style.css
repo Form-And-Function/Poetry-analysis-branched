@@ -1,0 +1,38 @@
+@charset "ISO-8859-1";
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.devices {
+    text-decoration: underline;
+}
+
+textarea {
+    height: 90vh;
+    min-width: 100px;
+    max-width: 1000px;
+    width: 80vw;
+    resize: none;
+    display: block;
+    margin: 0 auto;
+}
+
+#submitButton {
+    display: block;
+    font-size: 2em;
+    font-family: Garamond;
+    height: 50px;
+    width: 120px;
+    background-color: transparent;
+    color: #331f07;
+    margin: 10px auto;
+    border: 6px solid #331f07;
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+
+#submitButton:hover {
+    border-width: 10px;
+    font-size: 2.2em;
+}

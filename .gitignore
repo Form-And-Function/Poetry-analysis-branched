@@ -11,3 +11,7 @@ Servers/
 poetryanalyzer/.DS_Store
 *.prefs
 Lilt_Backend/.settings/*
+.idea/*
+*.jar
+out/*
+target/*
