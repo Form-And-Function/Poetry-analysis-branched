@@ -53,7 +53,7 @@ public class AnaphoraTester {
 			for (int i = 0; i < a.getIndices().size(); i++) {
 				int val = a.getIndices().get(i)[0];
 				
-				System.out.println("Index: " + i);
+				System.out.println("Index: " + val);
 			}
 			System.out.println(); 
 		}

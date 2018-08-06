@@ -53,7 +53,7 @@ public class MultiLineDevice extends Device {
 				int val = a.getIndices().get(i)[0];
 				
 				if (lines[val].getWords().length < minWords)
-					minWords = lines[i].getWords().length;
+					minWords = lines[val].getWords().length;
 			}
 			
 			for (int w = 1; w < minWords; w++) {
@@ -68,7 +68,8 @@ public class MultiLineDevice extends Device {
 					}
 					if (escape)
 						break;
-					else
+					
+					if (i == a.getIndices().size() - 1)
 						a.setText(a.getText() + " " + nextWord);
 				}
 			}
@@ -104,8 +105,6 @@ public class MultiLineDevice extends Device {
 		
 		return anaphoraInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a unique anaphora or word phrase
 	}*/
-	
-	
  	
 	/*public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
 		
