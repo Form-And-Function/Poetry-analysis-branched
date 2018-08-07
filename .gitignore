@@ -21,3 +21,4 @@ web/package-lock.json
 src/main/java/com/inverse/lit/Main.java
 src/main/java/com/inverse/lit/ConnectToDb.java
 src/main/java/com/inverse/lit/Driver.java
+Poems/*
