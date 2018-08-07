@@ -14,6 +14,7 @@ public class MultiLineDevice extends Device {
 	private static final int minConjuncsToBePolysyndeton = 3;
 	
 	//ASYNDETON
+	private static final int minAbsentConjuncsToBeAsyndeton = 2;
 	
 	public MultiLineDevice () {
 		
@@ -174,50 +175,44 @@ public class MultiLineDevice extends Device {
 		
 		ArrayList<MultiLineDevice> asynInstances = new ArrayList<MultiLineDevice>();
 		
+		
 		int count = 0;
+		
 		
 		for (int i = 0; i < lines.length; i++) {
 			String lineText = lines[i].getText();
-			int fromIndex = 0;
 			
-			int commaIndex = lineText.substring(0).indexOf(",");
 			
-			while (commaIndex > -1 && 
-					   commaIndex != lineText.length() - 1 ) { //while a comma exists in the substring and is not at the end of the line...
+			while (lineText.indexOf(",") > 0 && 
+				   lineText.indexOf(",") != lineText.length() - 1) {
 				
 				
+				int commaIndex = lineText.indexOf(",");
+			
+				String word = lineText.substring(commaIndex + 2, lineText.indexOf(" ", commaIndex + 2)); //the word following the comma
+				
+				boolean isConjunc = false;
+				
+				for (String c : conjuncs) {
+					if (word.equals(c)) {
+						isConjunc = true;
+						break;
+					}
+				}
+				
+				if (!isConjunc) {
+					count++;
+					if (count >= minAbsentConjuncsToBeAsyndeton) {
+						
+					}
+				}
+				
+				lineText = lineText.substring(lineText.indexOf(",") + 2);
 			}
+			
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		/*for (int i = 0; i < lines.length; i++) {
-			String lineText = lines[i].getText();
-			int commaIndex = lineText.substring(0).indexOf(","); //index of a possible comma in the substring
-			 
-			while (commaIndex > -1 && 
-				   commaIndex != lineText.length() - 1 ) { //while a comma exists in the substring and is not at the end of the line...
-				
-				String word = "";
-				
-				commaIndex = lineText.substring(commaIndex).indexOf(",");
-				System.out.println("fine");
-			}
-		}*/
-		
 		return asynInstances;
+		
 	}
 }
