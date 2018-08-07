@@ -6,7 +6,8 @@ public class PolysyndetonTester {
 
 	public PolysyndetonTester (Line[] poemLines) {
 		//display(MultiLineDevice.checkPolysyndeton(poemLines));
-		displayRepetition(MultiLineDevice.checkRepetition(poemLines));
+		//displayRepetition(MultiLineDevice.checkRepetition(poemLines));
+		displayRepetition(MultiLineDevice.checkAsyndeton(poemLines));
 	}
 	
 	public static void main (String[] args) {
@@ -33,8 +34,10 @@ public class PolysyndetonTester {
 		
 		ArrayList<String> poem = new ArrayList<String>();
 		
-		poem.add("Alexander has has has a stut stut er");
-		poem.add("he can't fit everything he he has to say on one line because of his stut er");
+		//poem.add("Alexander has has has a stut stut er");
+		//poem.add("he can't fit everything he he has to say on one line because of his stut er");
+		
+		poem.add("I came, I saw, I conquered");
 		
 		Line[] poemLines = new Line[poem.size()];
 		

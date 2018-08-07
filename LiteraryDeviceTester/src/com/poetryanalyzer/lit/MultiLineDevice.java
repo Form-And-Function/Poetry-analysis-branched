@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class MultiLineDevice extends Device {
 	
+	//MULTIPLE
+	private static final String[] conjuncs = {"and", "or", "but", "nor", "for", "yet", "so"}; //common conjunctions
+	
 	//ANAPHORA
 	private static final int minLineSpacingToBeDistinctAnaphora = 3;
 	
 	//POLYSYNDETON
-	private static final String[] conjuncs = {"and", "or", "but", "nor", "for", "yet", "so"}; //common conjunctions
 	private static final int minConjuncsToBePolysyndeton = 3;
 	
 	//ASYNDETON
@@ -172,8 +174,50 @@ public class MultiLineDevice extends Device {
 		
 		ArrayList<MultiLineDevice> asynInstances = new ArrayList<MultiLineDevice>();
 		
+		int count = 0;
+		
+		for (int i = 0; i < lines.length; i++) {
+			String lineText = lines[i].getText();
+			int fromIndex = 0;
+			
+			int commaIndex = lineText.substring(0).indexOf(",");
+			
+			while (commaIndex > -1 && 
+					   commaIndex != lineText.length() - 1 ) { //while a comma exists in the substring and is not at the end of the line...
+				
+				
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*for (int i = 0; i < lines.length; i++) {
+			String lineText = lines[i].getText();
+			int commaIndex = lineText.substring(0).indexOf(","); //index of a possible comma in the substring
+			 
+			while (commaIndex > -1 && 
+				   commaIndex != lineText.length() - 1 ) { //while a comma exists in the substring and is not at the end of the line...
+				
+				String word = "";
+				
+				commaIndex = lineText.substring(commaIndex).indexOf(",");
+				System.out.println("fine");
+			}
+		}*/
+		
 		return asynInstances;
 	}
-	
 }
-

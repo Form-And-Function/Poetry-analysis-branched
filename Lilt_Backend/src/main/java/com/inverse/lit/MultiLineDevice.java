@@ -3,105 +3,170 @@ package com.inverse.lit;
 import java.util.ArrayList;
 
 public class MultiLineDevice extends Device {
-	private static final String[] conjuncs = {"and", "or", "but", "nor", "for", "yet", "so"}; //common conjunctions
+	
+	//MULTIPLE
+    private static final String[] conjuncs = {"and", "or", "but", "nor", "for", "yet", "so"}; //common conjunctions
+		
+    //ANAPHORA
+    private static final int minLineSpacingToBeDistinctAnaphora = 3;
+		
+    //POLYSYNDETON
+    private static final int minConjuncsToBePolysyndeton = 3;
+		
+    //ASYNDETON
 	
 	public MultiLineDevice () {
 		
 	}
 	
-	public static ArrayList<MultiLineDevice> checkAnaphora (Line[] lines) {		//looks for anaphora (words/phrases repeated at the
-																						     //>beginning of each line for poetic effect)
-		ArrayList<MultiLineDevice> anaphoraInstances = new ArrayList<MultiLineDevice>(); //stores instances
-		ArrayList<String> anaphoricWords = new ArrayList<String>(); 					 //stores first words of instances
-
-		for (int i = 0; i < lines.length; i++) {					//for each line
-			String firstWord = lines[i].getWords()[0].getText();	//get the first word
-
-			if (!anaphoricWords.contains(firstWord)) {		 		//is the first word unique?
-				anaphoricWords.add(firstWord);						//the word is uniuqe, add it as a potential anaphora
-				anaphoraInstances.add(new MultiLineDevice());						      		 //create an new anaphora instance
-				anaphoraInstances.get(anaphoraInstances.size() - 1).setText(firstWord);		 //assign it its text
-				anaphoraInstances.get(anaphoraInstances.size() - 1).getIndices().add(i);;	 //assign it its index
-			} else {	//the word isn't unique
-				anaphoraInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add(i);//add its index to the list of indices for that word
+    public static ArrayList<MultiLineDevice> checkRepetition   (Line[] lines) {
+		
+		ArrayList<MultiLineDevice> reps = new ArrayList<MultiLineDevice>();
+		ArrayList<String> 	 	  words = new ArrayList<String>();
+		
+		for (int x = 0; x < lines.length; x++) {
+			for (int w = 0; w < lines[x].getWords().length; w++) {
+		
+				String word = lines[x].getWords()[w].getText();
+				
+				if (!words.contains(word)) {
+					words.add(word);
+					reps.add(new MultiLineDevice());
+					reps.get(reps.size() - 1).setText(word);
+					reps.get(reps.size() - 1).getIndices().add(new int[]{x,w});
+				} else
+					reps.get(words.indexOf(word)).getIndices().add(new int[]{x,w});
+				
 			}
 		}
-
-		for (int i = anaphoraInstances.size() - 1; i >= 0; i--) {	//removes anaphora instances with only one index, i.e., non-anaphoras
-			if (anaphoraInstances.get(i).getIndices().size() == 1)	
-				anaphoraInstances.remove(i);
+		
+		for (int r = reps.size() - 1; r >= 0; r--)
+			if (reps.get(r).getIndices().size() == 1) 
+				reps.remove(r);
+		
+		return reps;
+	}
+	
+    public static ArrayList<MultiLineDevice> checkAnaphora     (Line[] lines) {
+		
+		ArrayList<MultiLineDevice> anaInstances = new ArrayList<MultiLineDevice>();
+		ArrayList<String> 		 anaphoricWords = new ArrayList<String>();
+		
+		for (int i = 0; i < lines.length; i++) {
+			String firstWord = lines[i].getWords()[0].getText();
+					
+			if (!anaphoricWords.contains(firstWord) || 
+			    i - anaInstances.get(anaphoricWords.indexOf(firstWord)).getIndices()
+			    .get(anaInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().size() - 1)[0]
+			    > minLineSpacingToBeDistinctAnaphora) {
+				
+					anaphoricWords.add(firstWord);
+					anaInstances.add(new MultiLineDevice());
+					anaInstances.get(anaInstances.size() - 1).setText(firstWord);
+					anaInstances.get(anaInstances.size() - 1).getIndices().add(new int[]{i});
+					
+			} else {
+				anaInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add(new int[]{i});
+			}
 		}
 		
-		for (MultiLineDevice a : anaphoraInstances) { //for each instance of anaphora
-			int minWords = Integer.MAX_VALUE;				//iterates through each line that contains an instance of this anaphora and
-															//-finds the shortest line by words, and stores that number
-			for (int i : a.getIndices())					//
-				if (lines[i].getWords().length < minWords)	//
-					minWords = lines[i].getWords().length;	//
+		for (int i = anaInstances.size() - 1; i >= 0; i--) {
+			if (anaInstances.get(i).getIndices().size() == 1) {
+				anaInstances.remove(i);
+			}
+		}
+		
+		for (MultiLineDevice a : anaInstances) {
+			int minWords = Integer.MAX_VALUE;
 			
-			for (int w = 1; w < minWords; w++) {			//checks word by word "deeper", or to the right in the poem
-				boolean escape = false;														//-until there is no longer an identical 
-				String nextWord = lines[a.getIndices().get(0)].getWords()[w].getText();		//-anaphora on all indices
-				for (int i : a.getIndices()) {
-					if (!lines[i].getWords()[w].getText().equals(nextWord)) {	//if the words on the ith word column do not match, break
+			for (int i = 0; i < a.getIndices().size(); i++) {
+				int val = a.getIndices().get(i)[0];
+				
+				if (lines[val].getWords().length < minWords)
+					minWords = lines[val].getWords().length;
+			}
+			
+			for (int w = 1; w < minWords; w++) {
+				boolean escape = false;
+				String nextWord = lines[a.getIndices().get(0)[0]].getWords()[w].getText();
+				for (int i = 0; i < a.getIndices().size(); i++) {
+					int val = a.getIndices().get(i)[0];
+					
+					if (!lines[val].getWords()[w].getText().equals(nextWord)) {
 						escape = true;
 						break;
 					}
+					if (escape)
+						break;
+					
+					if (i == a.getIndices().size() - 1)
+						a.setText(a.getText() + " " + nextWord);
 				}
-				if (escape)
-					break;
-				else
-					a.setText(a.getText() + " " + nextWord); //if the words on the ith word column do match, continue checking to the right
-			}																								
+			}
 		}
 		
-		return anaphoraInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is an anaphora 
+		return anaInstances;
 	}
 	
-	public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) { //looks for polysyndeton (many of the same conjunction
-																								//>used in a sentence to create a sense of overwhelming emotion, being overwhelmed, etc.
-		ArrayList<MultiLineDevice> polysyndetonInstances = new ArrayList<MultiLineDevice>();
+    public static ArrayList<MultiLineDevice> checkPolysyndeton (Line[] lines) {
 		
-		String conjuncBuscar = ""; 	//the conjunction "to look for" (buscar), the word that might turn out to be an instance of polysyndeton
-		int    conjuncInstances = 0;//a count of how many times this instance appears
+		ArrayList<MultiLineDevice> polyInstances = new ArrayList<MultiLineDevice>();
 		
-		for (int i = 0; i < lines.length; i++) { 								//for each line...
-			for (int w = 0; w < lines[i].getWords().length; w++) {				//look at each word...
-				String text = lines[i].getWords()[w].getText().toLowerCase();	//stores this word in lowercase...
-			    if (conjuncBuscar.equals("")) {								//if there isn't a canidate for a polysyndeton (the starting case)
-			    	for (String conjunc : conjuncs) {								//look to see if the current word is a select conjunction
-			    		if (text.equals(conjunc)) {									//if so assign it to conjuncBuscar and add one recorded instance
+		String conjuncBuscar = "";
+		int conjuncInstances = 0;
+		
+		for (int i = 0; i < lines.length; i++) {
+			for (int w = 0; w < lines[i].getWords().length; w++) {
+				String text = lines[i].getWords()[w].getText().toLowerCase();
+				if (conjuncBuscar.equals("")) {
+					for (String conjunc : conjuncs) {
+			    		if (text.equals(conjunc)) {
 			    			conjuncBuscar = text;
 			    			conjuncInstances++;
 			    			break;
 			    		}
 			    	}
-			    } else if (text.equals(conjuncBuscar)) {					//if the current word is another instance of the current candidate
-			    	conjuncInstances++;										//increment the counter
-			    	if (conjuncInstances == 3) {							//3 is the threshold for what is and isn't considered a polysyndeton
-			    		polysyndetonInstances.add(new MultiLineDevice());														//]
-			    		polysyndetonInstances.get(polysyndetonInstances.size() - 1).setText(conjuncBuscar);						//] - create a polysyndeton ins.
-			    		ArrayList<Integer> indices = polysyndetonInstances.get(polysyndetonInstances.size() - 1).getIndices();	
-			    		for (int x = 0; x <= w; x++) {
-			    			String pastWord = lines[i].getWords()[x].getText();
-			    			if (pastWord.equals(conjuncBuscar)) {					//iterate throught the string traversed so far and add indices of the poly.
-			    				indices.add(x);
+				} else if (text.equals(conjuncBuscar)) {
+					conjuncInstances++;
+					if (conjuncInstances == minConjuncsToBePolysyndeton) {
+						polyInstances.add(new MultiLineDevice());
+			    		polyInstances.get(polyInstances.size() - 1).setText(conjuncBuscar);
+			    		ArrayList<int[]> indices = polyInstances.get(polyInstances.size() - 1).getIndices();
+			    		
+			    		for (int h = i; h >= 0; h--) {
+			    			for (int v = w; v >= 0; v--) {
+			    				String word = lines[h].getWords()[v].getText();
+			    				
+			    				if (word.equals(conjuncBuscar)) {
+			    					indices.add(0, new int[]{h,v});
+			    					
+			    				} else {
+			    					for (String c : conjuncs) {
+			    						if (word.equals(c)) {
+			    							v = -1;
+			    							h = -1;
+			    						}
+			    					}
+			    				} 
 			    			}
 			    		}
-			    	} else if (conjuncInstances > 3) {	
-			    		polysyndetonInstances.get(polysyndetonInstances.size() - 1).getIndices().add(w); //if another instance of the polysyndeton add to the indices again
-			        }
-			    } else if (!conjuncBuscar.equals("")) {
-			    	for (String conjunc : conjuncs) {
-			    		if (text.equals(conjunc)) {	//if the word equals a conjunction but not the current conjunction, cancel the current conjunction
+			    		
+					} else if (conjuncInstances > minConjuncsToBePolysyndeton) {
+						polyInstances.get(polyInstances.size() - 1).getIndices().add(new int[]{i,w});
+					} 
+					
+				} else if (!conjuncBuscar.equals("")) {
+					for (String conjunc : conjuncs) {
+			    		if (text.equals(conjunc)) {
 			    			conjuncBuscar = "";
 			    			conjuncInstances = 0;
 			    		}
 			    	}
-			    }
-		    } 
+				}
+			}
 		}
-	
-		return polysyndetonInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a polysyndeton
+		
+		return polyInstances;
+		
 	}
 }
