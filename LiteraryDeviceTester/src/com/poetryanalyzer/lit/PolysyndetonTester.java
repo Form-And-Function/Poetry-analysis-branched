@@ -6,7 +6,7 @@ public class PolysyndetonTester {
 
 	public PolysyndetonTester (Line[] poemLines) {
 		//display(MultiLineDevice.checkPolysyndeton(poemLines));
-		displayRepetition(MultiLineDevice.checkPolysyndeton(poemLines));
+		displayRepetition(MultiLineDevice.checkRepetition(poemLines));
 	}
 	
 	public static void main (String[] args) {
@@ -34,6 +34,7 @@ public class PolysyndetonTester {
 		ArrayList<String> poem = new ArrayList<String>();
 		
 		poem.add("Alexander has has has a stut stut er");
+		poem.add("he can't fit everything he he has to say on one line because of his stut er");
 		
 		Line[] poemLines = new Line[poem.size()];
 		
@@ -62,11 +63,11 @@ public class PolysyndetonTester {
 	
 	public void displayRepetition (ArrayList<MultiLineDevice> repetitionInstances) {
 		for (MultiLineDevice r : repetitionInstances) {
-			System.out.println("test: " + r.getText());
-			System.out.println();
+			System.out.println("repeating word: " + r.getText());
 			for (int i = 0; i < r.getIndices().size(); i++) {
-				System.out.println("line: " + r.getIndices().get(i)[0] + " " + "words: " + r.getIndices().get(i)[1]);
+				System.out.println("line: " + r.getIndices().get(i)[0] + " " + "word: " + r.getIndices().get(i)[1]);
 			}
+			System.out.println();
 		}
 	}
 }

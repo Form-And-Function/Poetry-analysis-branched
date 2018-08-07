@@ -20,8 +20,7 @@ public class MultiLineDevice extends Device {
 	public static ArrayList<MultiLineDevice> checkRepetition   (Line[] lines) {
 		
 		ArrayList<MultiLineDevice> reps = new ArrayList<MultiLineDevice>();
-		
-		ArrayList<String> words = new ArrayList<String>();
+		ArrayList<String> 	 	  words = new ArrayList<String>();
 		
 		for (int x = 0; x < lines.length; x++) {
 			for (int w = 0; w < lines[x].getWords().length; w++) {
@@ -33,11 +32,15 @@ public class MultiLineDevice extends Device {
 					reps.add(new MultiLineDevice());
 					reps.get(reps.size() - 1).setText(word);
 					reps.get(reps.size() - 1).getIndices().add(new int[]{x,w});
-				} else {
+				} else
 					reps.get(words.indexOf(word)).getIndices().add(new int[]{x,w});
-				}
+				
 			}
 		}
+		
+		for (int r = reps.size() - 1; r >= 0; r--)
+			if (reps.get(r).getIndices().size() == 1) 
+				reps.remove(r);
 		
 		return reps;
 	}
@@ -45,7 +48,7 @@ public class MultiLineDevice extends Device {
 	public static ArrayList<MultiLineDevice> checkAnaphora     (Line[] lines) {
 		
 		ArrayList<MultiLineDevice> anaInstances = new ArrayList<MultiLineDevice>();
-		ArrayList<String> anaphoricWords = new ArrayList<String>();
+		ArrayList<String> 		 anaphoricWords = new ArrayList<String>();
 		
 		for (int i = 0; i < lines.length; i++) {
 			String firstWord = lines[i].getWords()[0].getText();
