@@ -1,12 +1,12 @@
 package com.inverse.lit;
-
+/*
 import javax.servlet.ServletConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-
-@WebServlet(loadOnStartup = 1)
+*/
+//@WebServlet(loadOnStartup = 1)
 public class ConnectToDb {
-	
+	/*
 	public static Queries db;
 	
 	public void init(ServletConfig config) {
@@ -29,4 +29,5 @@ public class ConnectToDb {
 	public static void setDb(Queries database) {
 		db = database;
 	}
+	*/
 }

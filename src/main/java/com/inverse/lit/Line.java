@@ -63,7 +63,9 @@ public class Line {
 		this.devices = devices;
 	}
 	
-	//finds the rhyming portion of the last line
+	//finds the rhyming portion of the last line	
+	
+	/*
 	public String getEndRhyme() {
 		String endRhyme = "";											//Stores String of sounds for end rhyme
 		int startIndex = 0;												//Stores the index of the vowel that begins the rhyme-relevant portion of the word
@@ -91,6 +93,8 @@ public class Line {
 		
 		return endRhyme;
 	}
+	
+	*/
 
 	/*
 	 * OLD CONSTRUCTOR

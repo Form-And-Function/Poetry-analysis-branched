@@ -1,5 +1,5 @@
 package com.inverse.lit;
-
+/*
 import java.util.ArrayList;
 import java.util.Arrays;
 import com.inverse.lit.*;
@@ -10,17 +10,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
+*/
 /**
  * Root resource (exposed at "processPoem" path)
  */
-@Path("poem")
+//@Path("poem")
 public class Driver {
 	//Main Class of Poetry Analyzer
 	//GUI and Central Control
 	//by: Alexander Dyall, Alex Gitteau, & Sydney Von Arx
 	//23 July 2018
-	
+	/*
 	@GET
 	    @Produces(MediaType.APPLICATION_JSON)
 		public Poem Analyze(@QueryParam("text") String poemLines) {
@@ -41,5 +41,5 @@ public class Driver {
 			return poem;
 			
 		}
-
+*/
 }

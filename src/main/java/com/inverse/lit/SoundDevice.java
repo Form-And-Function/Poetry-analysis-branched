@@ -7,15 +7,20 @@ import java.util.ArrayList;
 
 public class SoundDevice extends Device {
 	
-	//NON-STATIC----------------------------------------------
+	//STATIC VARIABLES
+	public static int sensitivity = 1;			//maximum number of lines of separations repeated sounds can have and still be considered proximate
 	
-	//Attributes
+	//ATTRIBUTES
 	private int depth;							//number of vowel and/or consonant sounds repeated
 	
+	//CONSTRUCTOR
 	public SoundDevice(String text){
 		super();
 		setText(text);
 	}
+
+	//NON-STATIC METHODS----------------------------------------------
+
 	
 	public int getDepth() {
 		return depth;
@@ -25,7 +30,70 @@ public class SoundDevice extends Device {
 		this.depth = depth;
 	}
 	
-	//STATIC---------------------------------------------------------------------------
+	public void buildScore(Line[] lines) {
+		int intensity = 0;										//(stores the intensity score of the SoundDevice)
+		int[] separation = new int[getIndices().size()-1];		//(stores the separation between each occurance of the sound and the next one)
+		for(int a = 0; a < separation.length; a++) {
+			separation[a] = getIndices().get(a+1)[0] - getIndices().get(a)[0];
+		}
+		intensity = getIndices().size();
+		setIntensity(intensity);
+	}
+	
+	//STATIC METHODS---------------------------------------------------------------------------
+	
+	//TODO: internal rhyme
+
+	public static SoundDevice[] checkInRhyme(Line[] lines) {
+		ArrayList<SoundDevice> alliterations = new ArrayList<SoundDevice>();
+		
+		return (SoundDevice[])alliterations.toArray();
+	}
+	
+	//finds instances of alliteration in a Line[]
+	public static SoundDevice[] checkAlliteration(Line[] lines) {
+		ArrayList<SoundDevice> alliterations = new ArrayList<SoundDevice>();				//(stores instances of alliteration, henceforth "alliterations")
+		String sound;																		//(stores the current sound in question)
+		boolean contains;																	//(stores whether current sound is stored in alliteration array)
+		for(int a = 0; a < lines.length; a++) {												//go through each line
+			for(int b = 0; b < lines[a].getWords().length; b++) {								//go through each word in each line
+				sound = lines[a].getWords()[b].getSound()[0];										//grab the 1st sound of the word
+				contains = false;
+				for(int c = 0; c < alliterations.size(); c++) {										//if the sound is present in the alliterations array
+					if(alliterations.get(c).getText().equals(sound)) {
+						int[] index = {a, b};															//...record add this index to the alliteration
+						alliterations.get(c).getIndices().add(index);
+						contains = true;
+						c = alliterations.size();
+					}
+				}
+				if(!contains) {																		//if the sound is not present in the alliterations array
+					int[] index = {a, b};
+					alliterations.add(new SoundDevice(sound));										//add it to the alliterations array
+					alliterations.get(alliterations.size() - 1).getIndices().add(index);				//...with its index
+					alliterations.get(alliterations.size() - 1).setDepth(1);							//...and with a depth of one
+				}
+			}
+		}
+		
+		//TODO: filter out (010 -> null) and split up (01101110 -> 11 111) spread out alliterations
+		for(int a = alliterations.size() - 1; a > -1; a--) {
+			if(alliterations.get(a).getIndices().size() == 1) {
+				alliterations.remove(a);
+			}
+			else {
+				for(int b = alliterations.get(a).getIndices().size() - 2; b > 0; b--) {
+					
+				}
+			}
+		}
+		
+		//TODO: pursue alliterations to the furthers amount of the word they all share, filtering out homophones-dake no alliterations
+		
+		return (SoundDevice[])alliterations.toArray();
+	}
+		
+	//TODO: homophones
 	
 	//finds all instances of alliteration in list of words, reporting  sound, indices, and depth of alliteration
 	
@@ -218,15 +286,15 @@ public class SoundDevice extends Device {
 					indices.remove(a);
 				}
 				else {														//remove all repeated vowel sounds separated from their counterparts by at least one line
-					for(int b = indices.get(a).size() - 2; b > 0; b--) {				//if a middle index is separated by more than one line from those on either side
-						if(indices.get(a).get(b)[0] - indices.get(a).get(b-1)[0] > 1 && indices.get(a).get(b+1)[0] - indices.get(a).get(b)[0] > 1) {
-							indices.get(a).remove(b);										//remove it
+					for(int b = indices.get(a).size() - 2; b > 0; b--) {						//if a middle index is separated by more than sensitivity# line(s) from those on either side
+						if(indices.get(a).get(b)[0] - indices.get(a).get(b-1)[0] > sensitivity && indices.get(a).get(b+1)[0] - indices.get(a).get(b)[0] > sensitivity) {
+							indices.get(a).remove(b);												//remove it
 						}
 					}
-					if(indices.get(a).get(1)[0] - indices.get(a).get(0)[0] > 1) {		//if the 1st index is separated by more than 1 line from the 2nd
-						indices.get(a).remove(0);											//remove it
-					}																	//if the last index is separated by >= 1 line from the 2nd, remove it
-					if(indices.get(a).size() != 1 && indices.get(a).get(indices.get(a).size()-1)[0] - indices.get(a).get(indices.get(a).size()-2)[0] > 1) {
+					if(indices.get(a).get(1)[0] - indices.get(a).get(0)[0] > sensitivity) {		//if the 1st index is separated by more than sensitivity# line(s) from the 2nd
+						indices.get(a).remove(0);													//remove it
+					}																	//if the last index is separated by >= sensitivity# line(s) from the 2nd, remove it
+					if(indices.get(a).size() != 1 && indices.get(a).get(indices.get(a).size()-1)[0] - indices.get(a).get(indices.get(a).size()-2)[0] > sensitivity) {
 						indices.get(a).remove(indices.get(a).size()-1);						//remove it
 					}
 					if(indices.get(a).size() < 2) {										//if the vowel has 0-1 remaining indices, remove it
@@ -236,12 +304,21 @@ public class SoundDevice extends Device {
 				}
 			}
 			
-			//create consonance SoundDevices from the remaining consonant sounds and return them
+			//create assonance SoundDevices from the remaining vowel sounds
 			output = new SoundDevice[vowelSounds.size()];
+			int maxScore = 0;
 			for(int a = 0; a < output.length; a++) {
 				output[a] = new SoundDevice(vowelSounds.get(a));
 				output[a].setIndices(indices.get(a));
+				output[a].buildScore(lines);
+				if(output[a].getIntensity() > maxScore) {
+					maxScore = output[a].getIntensity();
+				}
 			}
+			for(int a = 0; a < output.length; a++) {
+				output[a].setIntensity(output[a].getIntensity()/maxScore*100);
+			}
+			
 			return output;
 		}
 	
@@ -277,15 +354,15 @@ public class SoundDevice extends Device {
 				indices.remove(a);
 			}
 			else {														//remove all repeated consonant sounds separated from their counterparts by at least one line
-				for(int b = indices.get(a).size() - 2; b > 0; b--) {				//if a middle index is separated by more than one line from those on either side
-					if(indices.get(a).get(b)[0] - indices.get(a).get(b-1)[0] > 1 && indices.get(a).get(b+1)[0] - indices.get(a).get(b)[0] > 1) {
-						indices.get(a).remove(b);										//remove it
+				for(int b = indices.get(a).size() - 2; b > 0; b--) {						//if a middle index is separated by more than sensitivity# line(s) from those on either side
+					if(indices.get(a).get(b)[0] - indices.get(a).get(b-1)[0] > sensitivity && indices.get(a).get(b+1)[0] - indices.get(a).get(b)[0] > sensitivity) {
+						indices.get(a).remove(b);												//remove it
 					}
 				}
-				if(indices.get(a).get(1)[0] - indices.get(a).get(0)[0] > 1) {		//if the 1st index is separated by more than 1 line from the 2nd, remove it
-					indices.get(a).remove(0);											//remove it
-				}																	//if the last index is separated by >= 1 line from the 2nd, remove it
-				if(indices.get(a).size() != 1 && indices.get(a).get(indices.get(a).size()-1)[0] - indices.get(a).get(indices.get(a).size()-2)[0] > 1) {
+				if(indices.get(a).get(1)[0] - indices.get(a).get(0)[0] > sensitivity) {		//if the 1st index is separated by more than sensitivity# line(s) from the 2nd, remove it
+					indices.get(a).remove(0);													//remove it
+				}																	//if the last index is separated by >= sensitivity# line(s) from the 2nd, remove it
+				if(indices.get(a).size() != 1 && indices.get(a).get(indices.get(a).size()-1)[0] - indices.get(a).get(indices.get(a).size()-2)[0] > sensitivity) {
 					indices.get(a).remove(indices.get(a).size()-1);						//remove it
 				}
 				if(indices.get(a).size() < 2) {										//if the vowel has 0-1 remaining indices, remove it

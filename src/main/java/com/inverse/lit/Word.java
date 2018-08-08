@@ -105,4 +105,26 @@ public class Word {
 		this.stress = stress;
 	}
 	
+	//returns the rhyme-relevant part of the sound of the word (from last stressed vowel sound to end)
+	public String getRhyme() {
+		String rhyme = "";
+		int index = 0;
+		for(int i = stress.length - 1; i > -1; i--) {		//find the index of the last stressed syllable in the vowels[] (same as in stress[])
+			if(stress[i] != NO_STRESS) {
+				index = i;
+				i = -1;
+			}
+		}
+		for(int i = sound.length-1; i > -1; i--) {			//find the index of the last stressed vowel in the sound[]
+			if(sound[i].equals(vowels[index])){
+				index = i;
+				i = -1;
+			}
+		}
+		for(int i = index; i < sound.length; i++) {			//add the last stressed vowel and all following sounds to the output
+			rhyme += sound[i];
+		}
+		return rhyme;
+	}
+	
 }
