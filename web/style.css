@@ -33,6 +33,5 @@ textarea {
 }
 
 #submitButton:hover {
-    border-width: 10px;
-    font-size: 2.2em;
+    border-color: black;
 }
