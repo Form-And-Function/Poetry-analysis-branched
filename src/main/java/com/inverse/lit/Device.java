@@ -3,6 +3,9 @@ package com.inverse.lit;
 import java.util.ArrayList;
 
 public abstract class Device {
+	
+	
+	
 	private String text;													//text of the specific literary device instance
 	private ArrayList<int[]> indices = new ArrayList<int[]>(); 			//the indices of a specific literary device within the poem
 	private int intensity; 													//strength literary device in poem, based on occurrence rate and other factors

@@ -3,9 +3,11 @@ import java.util.ArrayList;
 
 //A list of devices within a section
 public class DeviceList {
+	
+	private ArrayList<ArrayList<Device>> extantDevices;
 	private ArrayList<Device> AlliterationSound;
 	private ArrayList<Device> AlliterationVisual;
-	private ArrayList<Device> Rhyme;
+	private ArrayList<Device> InternalRhyme;
 	private ArrayList<Device> Homophone;
 	private ArrayList<Device> Anaphora;
 	private ArrayList<Device> Assonance;
@@ -24,11 +26,11 @@ public class DeviceList {
 	public void setAlliterationVisual(ArrayList<Device> alliterationVisual) {
 		AlliterationVisual = alliterationVisual;
 	}
-	public ArrayList<Device> getRhyme() {
-		return Rhyme;
+	public ArrayList<Device> getInternalRhyme() {
+		return InternalRhyme;
 	}
-	public void setRhyme(ArrayList<Device> rhyme) {
-		Rhyme = rhyme;
+	public void setInternalRhyme(ArrayList<Device> rhyme) {
+		InternalRhyme = rhyme;
 	}
 	public ArrayList<Device> getHomophone() {
 		return Homophone;
@@ -65,5 +67,11 @@ public class DeviceList {
 	}
 	public void setAsyndeton(ArrayList<Device> asyndeton) {
 		Asyndeton = asyndeton;
+	}
+	public ArrayList<ArrayList<Device>> getExtantDevices() {
+		return extantDevices;
+	}
+	public void setExtantDevices(ArrayList<ArrayList<Device>> extantDevices) {
+		this.extantDevices = extantDevices;
 	}
 }

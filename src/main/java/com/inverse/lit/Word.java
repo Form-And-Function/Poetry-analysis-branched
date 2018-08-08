@@ -9,6 +9,7 @@ public class Word {
 	private int count;
 	private String[] sound, vowels, consonants;
 	private byte[] stress;
+	private ArrayList<int[]> deviceIDs = new ArrayList<int[]>();
 	
 	//Word Static Constants
 	public static final byte UNKNOWN_STRESS = -1;
@@ -105,6 +106,14 @@ public class Word {
 		this.stress = stress;
 	}
 	
+	public ArrayList<int[]> getDeviceIDs() {
+		return deviceIDs;
+	}
+
+	public void setDeviceIDs(ArrayList<int[]> deviceIDs) {
+		this.deviceIDs = deviceIDs;
+	}
+	
 	//returns the rhyme-relevant part of the sound of the word (from last stressed vowel sound to end)
 	public String getRhyme() {
 		String rhyme = "";
@@ -126,5 +135,7 @@ public class Word {
 		}
 		return rhyme;
 	}
+
+
 	
 }

@@ -9,10 +9,7 @@ public class SoundDevice extends Device {
 	
 	//STATIC VARIABLES
 	public static int sensitivity = 1;			//maximum number of lines of separations repeated sounds can have and still be considered proximate
-	
-	//ATTRIBUTES
-	private int depth;							//number of vowel and/or consonant sounds repeated
-	
+		
 	//CONSTRUCTOR
 	public SoundDevice(String text){
 		super();
@@ -21,21 +18,38 @@ public class SoundDevice extends Device {
 
 	//NON-STATIC METHODS----------------------------------------------
 
-	
-	public int getDepth() {
-		return depth;
-	}
-
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-	
 	public void buildScore(Line[] lines) {
 		int intensity = 0;										//(stores the intensity score of the SoundDevice)
-		int[] separation = new int[getIndices().size()-1];		//(stores the separation between each occurance of the sound and the next one)
-		for(int a = 0; a < separation.length; a++) {
-			separation[a] = getIndices().get(a+1)[0] - getIndices().get(a)[0];
+		int[] separation = new int[getIndices().size()];		//(stores the separation between each occurrence of the sound and the previous one)
+		double avgSeparation = 0;								//(stores the average separation between occurrences of the sound)
+		int n = 0;												//(stores which index (#1, #2, #3) we are working with (the nth index)
+		
+		int[] firstIndex = {getIndices().get(0)[0], getIndices().get(0)[1], getIndices().get(0)[2]};
+		int[] lastIndex = {getIndices().get(getIndices().size()-1)[0], getIndices().get(getIndices().size()-1)[1], getIndices().get(getIndices().size()-1)[2]};
+		
+		for(int i = 0; i < lines[getIndices().get(0)[0]].getWords()[getIndices().get(0)[1]].getSound().length; i++) {
 		}
+		
+		
+		//find sound index of relevantSound's first and last index
+		
+		//find the index of the first and last instance of the device in the Sound[] of the word they appear in
+		
+		
+		
+		//calculate sound distance between them (vowel (sound begins with AIUEO) gets 5x or something)
+		//divide sound distance by number of instances for average separation
+		
+		
+		
+		for(int a = getIndices().get(0)[0]; a < lines.length; a++) {						//go through each line
+			for(int b = getIndices().get(0)[1]; b < lines[a].getWords().length; b++) {			//go through each word of each line
+				for(int c = 0; c < lines[a].getWords()[b].getSound().length; c++) {					//go through each sound of each word of each line
+					
+				}
+			}
+		}
+		
 		intensity = getIndices().size();
 		setIntensity(intensity);
 	}
@@ -71,7 +85,7 @@ public class SoundDevice extends Device {
 					int[] index = {a, b};
 					alliterations.add(new SoundDevice(sound));										//add it to the alliterations array
 					alliterations.get(alliterations.size() - 1).getIndices().add(index);				//...with its index
-					alliterations.get(alliterations.size() - 1).setDepth(1);							//...and with a depth of one
+					//alliterations.get(alliterations.size() - 1).setDepth(1);							//...and with a depth of one
 				}
 			}
 		}
