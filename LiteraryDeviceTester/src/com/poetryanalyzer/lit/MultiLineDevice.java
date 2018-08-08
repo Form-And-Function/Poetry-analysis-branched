@@ -1,4 +1,4 @@
-package com.poetryanalyzer.lit;
+          package com.poetryanalyzer.lit;
 
 import java.util.ArrayList;
 
@@ -219,8 +219,8 @@ public class MultiLineDevice extends Device {
 							if (count == 1) {
 								v = x;
 								b = c;
-							} else if (count >= 2) {
-								if (count == 2) {
+							} else if (count >= minAbsentConjuncsToBeAsyndeton) {
+								if (count == minAbsentConjuncsToBeAsyndeton) {
 									asynInstances.add(new MultiLineDevice());
 									asynInstances.get(asynInstances.size() - 1).getIndices().add(new int[]{v,b});
 								}

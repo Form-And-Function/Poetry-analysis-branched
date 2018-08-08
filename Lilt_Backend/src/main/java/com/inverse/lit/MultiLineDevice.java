@@ -8,14 +8,14 @@ public class MultiLineDevice extends Device {
 	private static final String[] conjuncs = {"and", "or", "but", "nor", "for", "yet", "so"}; //common conjunctions
 	
 	//ANAPHORA
-	private static final int minLineSpacingToBeDistinctAnaphora = 3;
-	
+	private static final int minLineSpacingToBeDistinctAnaphora = 3; //how many lines must be between instances of the same beginning word before they aren't
+																	     //considered part of the same anaphora
 	//POLYSYNDETON
-	private static final int minConjuncsToBePolysyndeton = 3;
-	
+	private static final int minConjuncsToBePolysyndeton = 3; //how many instances of the same conjunction, uninterrupted by a different conjunction, must occur
+															      //to count as an instance of polysyndeton
 	//ASYNDETON
-	private static final int minAbsentConjuncsToBeAsyndeton = 2;
-	
+	private static final int minAbsentConjuncsToBeAsyndeton = 2; //inversely, how many commas must NOT be followed by any conjunction to count as an instance
+																      //of asyndeton
 	public MultiLineDevice () {
 		
 	}
@@ -219,8 +219,8 @@ public class MultiLineDevice extends Device {
 							if (count == 1) {
 								v = x;
 								b = c;
-							} else if (count >= 2) {
-								if (count == 2) {
+							} else if (count >= minAbsentConjuncsToBeAsyndeton) {
+								if (count == minAbsentConjuncsToBeAsyndeton) {
 									asynInstances.add(new MultiLineDevice());
 									asynInstances.get(asynInstances.size() - 1).getIndices().add(new int[]{v,b});
 								}
