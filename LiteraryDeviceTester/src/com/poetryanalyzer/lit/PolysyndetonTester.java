@@ -38,7 +38,8 @@ public class PolysyndetonTester {
 		//poem.add("he can't fit everything he he has to say on one line because of his stut er");
 		
 		poem.add("Standing tall at the crowd he exclaimed");
-		poem.add("I came, I saw, I conquered");
+		poem.add("I came, I saw, I conquered,");
+		poem.add("I thought this might work");
 		
 		Line[] poemLines = new Line[poem.size()];
 		
@@ -46,8 +47,8 @@ public class PolysyndetonTester {
 			poemLines[x] = new Line (poem.get(x));
 		}
 		
-		//for (Line x : poemLines) { System.out.println(x.getText()); } //TESTING
-		//System.out.println(); //TESTING
+		for (Line x : poemLines) { System.out.println(x.getText()); } //TESTING
+		System.out.println(); //TESTING
 		
 		PolysyndetonTester polysyndetonTester = new PolysyndetonTester (poemLines);
 	}
@@ -65,7 +66,7 @@ public class PolysyndetonTester {
 		}
 	}
 	
-	public void displayRepetition (ArrayList<MultiLineDevice> repetitionInstances) {
+	public void displayRepetition (ArrayList<MultiLineDevice> asyndetonInstances) {
 		/*for (MultiLineDevice r : repetitionInstances) {
 			System.out.println("repeating word: " + r.getText());
 			for (int i = 0; i < r.getIndices().size(); i++) {
@@ -73,5 +74,13 @@ public class PolysyndetonTester {
 			}
 			System.out.println();
 		}*/
+		
+		for (MultiLineDevice asyn : asyndetonInstances) {
+			for (int i = 0; i < asyn.getIndices().size(); i++) {
+				System.out.println("line: " + asyn.getIndices().get(i)[0] + " " +  
+						           "index: " + asyn.getIndices().get(i)[1]);
+			}
+			System.out.println();
+		}
 	}
 }
