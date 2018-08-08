@@ -4,9 +4,7 @@ $(document).ready(function() {
     function submit(){
 	    var input = document.getElementById("inputBox");
 	    var txt = $("#inputBox").val();
-		$.ajax("rest/poem",{data: {text: txt}}).done(function(result){
-	      $("#output").html(processInput(result));
-	    });
+		$.ajax("rest/poem",{data: {text: txt}}).done(processInput);
 
 	    input.style.display="none";
 	    var button = document.getElementById("submitButton");
@@ -18,15 +16,11 @@ $(document).ready(function() {
 	
 	function processInput(poem) {
 		console.log(poem);
-        poem.lines.each(function () {
-            var html = processLine(poem.lines);
-            addLine(html);
-        });
-	}
-
-	function addLine(line) {
-	    output.prepend("<br>")
-        $("#output").append(output);
+		var poemNode = poem.lines.map(processLine);
+		addDevices(poemNode, poem.deviceList);
+		var br = $('<br>');
+        var output = poemNode.map(line=> line.add(br));
+        $('#output').append(output);
 	}
 
 	function processLine(line){
@@ -37,10 +31,13 @@ $(document).ready(function() {
             if(currentDevices.length <= 0) {
                 node = word.text;
             } else {
+                var node = $('<span class = "device"></span>')
+                    .text(word)
+                    .tooltipster()
+                    .data(deviceInstance);
                 curretDevices.each(function () {
-                    var node = $('<span class = "device"></span>')
-                        .text(word.text).
-                        tooltipster(this);
+                    //TODO:store less stuff here
+                    node.data(deviceInstance, this.toString());
                 });
             }
             nodes.add(node);

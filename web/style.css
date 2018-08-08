@@ -1,7 +1,7 @@
 @charset "ISO-8859-1";
 body{
     margin: 0;
-    padding: 0;
+    padding: 10px 0;
 }
 
 .devices {
