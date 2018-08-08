@@ -1,4 +1,4 @@
-package com.inverse.lit;
+/**package com.inverse.lit;
 
 import java.util.ArrayList;
 
@@ -105,3 +105,4 @@ public class MultiLineDevice extends Device {
 		return polysyndetonInstances; //return an ArrayList of MultiLineDevices, where each MultiLineDevice is a polysyndeton
 	}
 }
+**/

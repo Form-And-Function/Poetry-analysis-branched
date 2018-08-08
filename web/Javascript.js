@@ -1,5 +1,8 @@
 $(document).ready(function() {
 	$('.tooltip').tooltipster();
+
+	words = [];
+
 	function submit(){
 	    var input = document.getElementById("inputBox");
 	    var txt = $("#inputBox").val();
@@ -17,29 +20,36 @@ $(document).ready(function() {
 	
 	function processInput(poem) {
 		console.log(poem);
-	    for(var i = 0; i < poem.length(); i ++) {
-	        var html = processLine(poem[i]);
-	        addLine(html);
-	    }
+        poem.lines.each(function () {
+            var html = processLine(poem.lines);
+            addLine(html);
+        });
 	}
 
+	function addDevice(device, words, poem){
+	    poem.lines.devices.
+    }
+
 	function addLine(line) {
-	    var output = document.getElementById("output");
+	    var output =$("#output");
 	    line = "<br>" + line;
 	    output.appendChild(line);
 	}
 
 	function processLine(line){
 	    var lineHTML = "";
-	    for(var i = 0; i < line.length; i ++){ //i is which word we're on
-	        var currentDevices = line[i].devices;
-	        if(currentDevices.length <= 0) {
-	            lineHTML = lineHTML + line[i].text;
-	        } else {
-	            for (var j = 0; j < currentDevices.length; j ++) { //j is which device we're on
-	            }
-	            lineHTML = lineHTML + "<br>" + '<span class = "devices tooltip">' + line[i].text + "</span>";            
-	        }
-	    }
+	    line.words.each(function () {
+            var currentDevices = this.devices.map(i => poem.deviceList.ExtantDevices.i);
+            if(currentDevices.length <= 0) {
+                lineHTML += line[i].text;
+            } else {
+                curretDevices.each(function () {
+                    var tooltipTxt = 'text="Device: '+this.Name+
+                        '\nStrength: '+this.intensity+'"';
+                    lineHTML = lineHTML + "<br>" + '<span class = "devices tooltip"'+tooltipTxt+'>' + line[i].text + "</span>"
+                });
+            }
+        });
+	    return lineHTML;
 	}
 });

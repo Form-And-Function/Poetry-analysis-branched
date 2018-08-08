@@ -1,16 +1,23 @@
 package com.inverse.lit;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.sql.DataSource;
 
-@WebServlet(loadOnStartup = 1)
+
 public class ConnectToDb {
 	
 	public static Queries db;
 	
 	public void init(ServletConfig config) {
-		setDb(new Queries());
+
+
+
+        setDb(new Queries());
 		//SQL says to add this 
 		try {
 	        // The newInstance() call is a work around for some

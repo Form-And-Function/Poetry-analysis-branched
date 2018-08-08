@@ -1,0 +1,21 @@
+<Context>
+
+    <Resource name="jdbc/pronounce"
+
+              auth="Container"
+
+              type="javax.sql.DataSource"
+
+              username="root"
+
+              password="123abcSyd"
+
+              driverClassName="com.mysql.jdbc.Driver"
+
+              url="jdbc:mysql://localhost:3306/words"
+
+              maxActive="15"
+
+              maxIdle="3"/>
+
+</Context>

@@ -77,8 +77,8 @@ public class StructuralAnalysis {
 		int n = 1;														//Stores number of rhymes found so far (serves as rhyme number to identify rhyming lines)
 		boolean match;													//stores whether another rhyme of the same kind has been found
 		for(int i = 0; i < poem.getLines().length; i++) {
-			if(poem.getLines()[i].getWords().length > 0) {					//(ignoring blank lines)
-				endRhymes[i] = poem.getLines()[i].getEndRhyme();			//get the rhyme-relevant sound at the end of each line
+			if(poem.getLines()[i].getWords().length > 0) {						//get the rhyme-relevant sound of the last word of each line (ignoring blank lines)
+				endRhymes[i] = poem.getLines()[i].getWords()[poem.getLines()[i].getWords().length-1].getRhyme();
 				if(endRhymes[i] != null) {
 					match = false;
 					for(int j = 0; j < i; j++) {								//check if it matches any others
