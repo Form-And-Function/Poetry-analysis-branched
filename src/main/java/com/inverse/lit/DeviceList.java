@@ -14,6 +14,11 @@ public class DeviceList {
 	private ArrayList<Device> Consonance;
 	private ArrayList<Device> Polysyndeton;
 	private ArrayList<Device> Asyndeton;
+	
+	public DeviceList() {
+		extantDevices = new ArrayList<ArrayList<Device>>();
+	}
+	
 	public ArrayList<Device> getAlliterationSound() {
 		return AlliterationSound;
 	}
@@ -74,4 +79,6 @@ public class DeviceList {
 	public void setExtantDevices(ArrayList<ArrayList<Device>> extantDevices) {
 		this.extantDevices = extantDevices;
 	}
+	
+	
 }
