@@ -11,13 +11,49 @@ public class MultiLineDevice extends Device {
 	private static final int minLineSpacingToBeDistinctAnaphora = 3;
 	
 	//POLYSYNDETON
-	private static final int minConjuncsToBePolysyndeton = 3;
+	private static final int minConjuncsToBePolysyndeton = 2;
 	
 	//ASYNDETON
 	private static final int minAbsentConjuncsToBeAsyndeton = 2;
 	
 	public MultiLineDevice () {
 		
+	}
+	
+	public void calcIntensity (MultiLineDevice instance, Line[] lines) {
+		
+		//FREQUENCY half
+		double frequency = 0;
+		
+		for (int i = 1; i < instance.getIndices().size(); i++) {
+			
+			int[] currIndices = instance.getIndices().get(i);
+			int[] pastIndices = instance.getIndices().get(i - 1);
+			
+			if (currIndices.length == 1) { //line number
+				frequency += currIndices[0] - pastIndices[0];
+				
+			} /*else {				   //line number, character number
+				frequency += indices[0] - indices[0];
+				
+			}*/	
+		}
+		
+		frequency /= instance.getIndices().size() - 1;
+		
+		
+		//VOLUME half
+		int totalWords = 0;
+		
+		for (Line x : lines) {
+			totalWords += x.getWords().length;
+		}
+		
+		int instanceWords = instance.getIndices().size();
+		
+		
+		//COMBINE
+		instance.setIntensity(100 * (int)((frequency + ((double) instanceWords / totalWords)) / 2.0));
 	}
 	
 	public static ArrayList<MultiLineDevice> checkRepetition   (Line[] lines) {

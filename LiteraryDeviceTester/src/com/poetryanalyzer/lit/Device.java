@@ -34,4 +34,10 @@ public abstract class Device {
 	public void setText(String text) {
 		this.text = text;
 	}
+	
+	public int calcIntensity (ArrayList<Device> instances) {
+		
+		
+		return 0;
+	}
 }
