@@ -55,19 +55,14 @@ public class Poem {
 		
 		//find and store literary devices
 		deviceList.setAlliterationSound(SoundDevice.checkAlliteration(lines));
-		if(deviceList.getAlliterationSound().size() != 0) {
-			deviceList.getExtantDevices().add(deviceList.getAlliterationSound());
-		}
+		deviceList.getAllDevices().add(deviceList.getAlliterationSound());
 		
 		deviceList.setAssonance(SoundDevice.checkAssonance(lines));
-		if(deviceList.getAssonance().size() != 0) {
-			deviceList.getExtantDevices().add(deviceList.getAssonance());
-		}
+		deviceList.getAllDevices().add(deviceList.getAssonance());
+
 		
 		deviceList.setConsonance(SoundDevice.checkConsonance(lines));
-		if(deviceList.getConsonance().size() != 0) {
-			deviceList.getExtantDevices().add(deviceList.getConsonance());
-		}
+		deviceList.getAllDevices().add(deviceList.getConsonance());
 
 	}
 

@@ -54,7 +54,10 @@ public class Word {
 		
 		}
 		else {
-			sound = null;
+			sound = new String[0];
+			vowels = new String[0];
+			consonants = new String[0];
+			stress = new byte[0];
 		}
 	}
 

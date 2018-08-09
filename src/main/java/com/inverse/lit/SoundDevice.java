@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class SoundDevice extends Device {
 	
 	//STATIC VARIABLES
-	public static int sensitivity = 2;			//maximum number of lines of separations repeated sounds can have and still be considered proximate
+	public static int sensitivity = 1;			//maximum number of lines of separations repeated sounds can have and still be considered proximate
 	
 	//ATRIBUTES
 	private double rawIntensity;
@@ -21,7 +21,15 @@ public class SoundDevice extends Device {
 
 	//NON-STATIC METHODS----------------------------------------------
 
-	public void buildRawScore(Line[] lines) {
+	public double getRawIntensity() {
+		return rawIntensity;
+	}
+
+	public void setRawIntensity(double rawIntensity) {
+		this.rawIntensity = rawIntensity;
+	}
+	
+	public void buildRawIntensity(Line[] lines) {
 		double totalSeparation = 0;								//(stores the average separation between occurrences of the sound)		
 		int startIndex = 0;
 		int endIndex = 0;
@@ -81,7 +89,6 @@ public class SoundDevice extends Device {
 		}
 		//set the intensity to instance density (# of instances / total separation) times the square root of the number of instances
 		rawIntensity = Math.pow(getIndices().size(), 2) / totalSeparation;
-		System.out.println(rawIntensity);		//TODO: Debug
 	}
 	
 	//STATIC METHODS---------------------------------------------------------------------------
@@ -100,20 +107,22 @@ public class SoundDevice extends Device {
 		boolean contains;																	//(stores whether current sound is stored in alliteration array)
 		for(int a = 0; a < lines.length; a++) {												//go through each line
 			for(int b = 0; b < lines[a].getWords().length; b++) {								//go through each word in each line
-				sound = lines[a].getWords()[b].getSound()[0];										//grab the 1st sound of the word
-				contains = false;
-				for(int c = 0; c < alliterations.size(); c++) {										//if the sound is present in the alliterations array
-					if(alliterations.get(c).getText().equals(sound)) {
-						int[] index = {a, b};															//...record add this index to the alliteration
-						alliterations.get(c).getIndices().add(index);
-						contains = true;
-						c = alliterations.size();
+				if(lines[a].getWords()[b].getSound().length != 0) {										//(if we have a pronunciation for the word)
+					sound = lines[a].getWords()[b].getSound()[0];										//grab the 1st sound of the word
+					contains = false;
+					for(int c = 0; c < alliterations.size(); c++) {										//if the sound is present in the alliterations array
+						if(alliterations.get(c).getText().equals(sound)) {
+							int[] index = {a, b};															//...record add this index to the alliteration
+							alliterations.get(c).getIndices().add(index);
+							contains = true;
+							c = alliterations.size();
+						}
 					}
-				}
-				if(!contains) {																		//if the sound is not present in the alliterations array
-					int[] index = {a, b};
-					alliterations.add(new SoundDevice(sound));										//add it to the alliterations array
-					alliterations.get(alliterations.size() - 1).getIndices().add(index);				//...with its index
+					if(!contains) {																		//if the sound is not present in the alliterations array
+						int[] index = {a, b};
+						alliterations.add(new SoundDevice(sound));										//add it to the alliterations array
+						alliterations.get(alliterations.size() - 1).getIndices().add(index);				//...with its index
+					}
 				}
 			}
 		}
@@ -143,7 +152,7 @@ public class SoundDevice extends Device {
 		
 		double maxScore = 0;
 		for(int i = 0; i < alliterations.size(); i++) {
-			((SoundDevice) alliterations.get(i)).buildRawScore(lines);
+			((SoundDevice) alliterations.get(i)).buildRawIntensity(lines);
 			if(((SoundDevice) alliterations.get(i)).getRawIntensity() > maxScore) {
 				maxScore = ((SoundDevice) alliterations.get(i)).getRawIntensity();
 			}
@@ -171,17 +180,15 @@ public class SoundDevice extends Device {
 			//record each vowel sound in the line[] and their respective indices
 			for(int a = 0; a < lines.length; a++) {												//go through each line
 				for(int b = 0; b < lines[a].getWords().length; b++) {								//go through each word of each line
-					if(lines[a].getWords()[b].getSound() != null) {										//(if we have a pronunciation for the word)
-						for(int c = 0; c < lines[a].getWords()[b].getVowels().length; c++) {				//go through each vowel sound of each word of each line
-							int[] index = {a, b, c};															//(stores the index of the sound in question)
-							if(!vowelSounds.contains(lines[a].getWords()[b].getVowels()[c])) {					//If it's not yet in the list of vowel sounds...
-								vowelSounds.add(lines[a].getWords()[b].getVowels()[c]);									//...add it to the list and record its index
-								indices.add(new ArrayList<int[]>());
-								indices.get(indices.size()-1).add(0, index);
-							}
-							else {																				//If it is already in the list...
-								indices.get(vowelSounds.indexOf(lines[a].getWords()[b].getVowels()[c])).add(index);		//...record another index for the vowel sound
-							}
+					for(int c = 0; c < lines[a].getWords()[b].getVowels().length; c++) {				//go through each vowel sound of each word of each line
+						int[] index = {a, b, c};															//(stores the index of the sound in question)
+						if(!vowelSounds.contains(lines[a].getWords()[b].getVowels()[c])) {					//If it's not yet in the list of vowel sounds...
+							vowelSounds.add(lines[a].getWords()[b].getVowels()[c]);									//...add it to the list and record its index
+							indices.add(new ArrayList<int[]>());
+							indices.get(indices.size()-1).add(0, index);
+						}
+						else {																				//If it is already in the list...
+							indices.get(vowelSounds.indexOf(lines[a].getWords()[b].getVowels()[c])).add(index);		//...record another index for the vowel sound
 						}
 					}
 				}
@@ -209,7 +216,6 @@ public class SoundDevice extends Device {
 						vowelSounds.remove(a);
 						indices.remove(a);
 					}
-					
 				}
 			}
 			
@@ -219,7 +225,7 @@ public class SoundDevice extends Device {
 			for(int i = 0; i < vowelSounds.size(); i++) {
 				output.add(new SoundDevice(vowelSounds.get(i)));
 				output.get(i).setIndices(indices.get(i));
-				((SoundDevice) output.get(i)).buildRawScore(lines);
+				((SoundDevice) output.get(i)).buildRawIntensity(lines);
 				if(((SoundDevice)output.get(i)).getRawIntensity() > maxScore) {
 					maxScore = ((SoundDevice)output.get(i)).getRawIntensity();
 				}
@@ -234,24 +240,29 @@ public class SoundDevice extends Device {
 	//finds instances of consonance in a given line[]
 	public static ArrayList<Device> checkConsonance(Line[] lines) {
 		System.out.println("Consonance"); 		//TODO: Debug
-		ArrayList<Device> output = null;														//(stores final output: Array of SoundDevices)
-		ArrayList<String> consonantSounds = new ArrayList<String>();						//(stores consonant sounds found in Word[])
+		ArrayList<Device> instances = new ArrayList<Device>();								//(stores instances of consonance found in the Line[])
+		ArrayList<String> consonantSounds = new ArrayList<String>();						//(stores consonant sounds found in Line[])
 		ArrayList<ArrayList<int[]>> indices = new ArrayList<ArrayList<int[]>>();			//(stores indices of consonant sounds found)
+		String sound;																		//(stores the current sound being worked with)
+		boolean contains;																	//(stores whether instances contains the current sound)
 		
 		//record each consonant sound in the line[] and their respective indices
 		for(int a = 0; a < lines.length; a++) {												//go through each line
 			for(int b = 0; b < lines[a].getWords().length; b++) {								//go through each word of each line
-				if(lines[a].getWords()[b].getSound() != null) {										//(if we have a pronunciation for the word)
-					for(int c = 0; c < lines[a].getWords()[b].getConsonants().length; c++) {			//go through each consonant sound of each word of each line
-						int[] index = {a, b, c};															//(stores the index of the sound in question)
-						if(!consonantSounds.contains(lines[a].getWords()[b].getConsonants()[c])) {			//If it's not yet in the list of consonant sounds...
-							consonantSounds.add(lines[a].getWords()[b].getConsonants()[c]);									//...add it to the list and record its index
-							indices.add(new ArrayList<int[]>());
-							indices.get(indices.size()-1).add(0, index);
+				for(int c = 0; c < lines[a].getWords()[b].getConsonants().length; c++) {			//go through each consonant sound of each word of each line
+					int[] index = {a, b, c};															//(stores the index of the sound in question)
+					sound = lines[a].getWords()[b].getConsonants()[c];
+					contains = false;
+					for(int d = 0; d < instances.size(); d++) {										//if the sound is already contained in instances
+						if(instances.get(d).getText().equals(sound)) {									//add the index of this sound to that instance
+							instances.get(d).getIndices().add(index);
+							contains = true;
+							d = instances.size();
 						}
-						else {																				//If it is already in the list...
-							indices.get(consonantSounds.indexOf(lines[a].getWords()[b].getConsonants()[c])).add(index);		//...record another index for the consonant sound
-						}
+					}
+					if(!contains) {																	//otherwise, add a new instance and record its index
+						instances.add(new SoundDevice(sound));
+						instances.get(instances.size()-1).getIndices().add(index);
 					}
 				}
 			}
@@ -282,21 +293,21 @@ public class SoundDevice extends Device {
 			}
 		}
 		
-		//create consonance SoundDevices from the remaining consonant sounds and return them
-		output = new ArrayList<Device>(consonantSounds.size());
+		//remove instances that are composed entirely of homophones from the instances list
+		instances = removeHomophones(instances, lines);
+		
+		//score the intensity of each instance, normalized from 0-100 (where most intense device has score 100)
 		double maxScore = 0;
-		for(int i = 0; i < consonantSounds.size(); i++) {
-			output.add(new SoundDevice(consonantSounds.get(i)));
-			output.get(i).setIndices(indices.get(i));
-			((SoundDevice) output.get(i)).buildRawScore(lines);
-			if(((SoundDevice)output.get(i)).getRawIntensity() > maxScore) {
-				maxScore = ((SoundDevice)output.get(i)).getRawIntensity();
+		for(int i = 0; i < instances.size(); i++) {									//get the raw score of each instance and record the highest raw score
+			((SoundDevice)instances.get(i)).buildRawIntensity(lines);
+			if(((SoundDevice)instances.get(i)).getRawIntensity() > maxScore) {
+				maxScore = ((SoundDevice)instances.get(i)).getRawIntensity();
 			}
 		}
-		for(int i = 0; i < output.size(); i++) {
-			output.get(i).setIntensity((int)Math.round(100*((SoundDevice)output.get(i)).getRawIntensity()/maxScore));
+		for(int i = 0; i < instances.size(); i++) {									//express each intensity score as a rounded percent of the maximum raw score
+			instances.get(i).setIntensity((int)Math.round(100*((SoundDevice)instances.get(i)).getRawIntensity()/maxScore));
 		}
-		return output;
+		return instances;
 	}
 	
 	private static int soundWeight(String sound) {
@@ -306,111 +317,22 @@ public class SoundDevice extends Device {
 		}
 		return out;
 	}
-
-	public double getRawIntensity() {
-		return rawIntensity;
-	}
-
-	public void setRawIntensity(double rawIntensity) {
-		this.rawIntensity = rawIntensity;
-	}
 	
-	//finds all instances of alliteration in list of words, reporting  sound, indices, and depth of alliteration
-	
-	/*
-	public static ArrayList<SoundDevice> checkAlliteration(Word[] words) {
-		ArrayList<SoundDevice> alliterations = new ArrayList<SoundDevice>();			//Stores instances of alliteration
-		//ArrayList<SoundDevice> homophones = new ArrayList<SoundDevice>();				//Stores homophones (sound of entire word is the same)
-		ArrayList<SoundDevice> potential = new ArrayList<SoundDevice>();				//Stores potential alliterations longer than first sound
-		String sound;																	//Stores sound in question
-		boolean contains;																//Stores whether ArrayList contains SoundDevice in question
-		
-		//**Alliterations of 1st Sound**
-		//Record the starting sound of each word and their indices as instances of alliteration (aka alliterations)
-		for(int a = 0; a < words.length; a++) {
-			sound = words[a].getSound()[0];													//take first sound from each word
-			contains = false;
-			for(int b = 0; b < alliterations.size(); b++) {									//check if that sound matches any in an existing instance of alliteration
-				if(alliterations.get(b).getText().equals(sound)) {
-					alliterations.get(b).getIndices().add(a);								//if so, add the index of the word to the alliteration and record a match
-					contains = true;
+	private static ArrayList<Device> removeHomophones(ArrayList<Device> instances, Line[] lines){
+		boolean allHomophones;
+		for(int a = instances.size()-1; a > -1; a--) {																						//go through each instance of the SoundDevice
+			allHomophones = true;
+			String word = lines[instances.get(a).getIndices().get(0)[0]].getWords()[instances.get(a).getIndices().get(0)[1]].getText();			//get the text of the word associated with the first index of the instance
+			for(int b = 1; b < instances.get(a).getIndices().size(); b++) {																		//go through each index of the instance 
+				if(lines[instances.get(a).getIndices().get(b)[0]].getWords()[instances.get(a).getIndices().get(b)[1]].getText() != word) {			//if any of them are associated with a different word than the first one
+					allHomophones = false;																												//the instance of the sound device is not merely a case of homophones (not all homophones)
 				}
 			}
-			if(contains == false){															//if the sound does not match an existing alliteration
-				alliterations.add(new SoundDevice(sound));									//add an alliteration with that sound...
-				//alliterations.get(alliterations.size() - 1).getIndices().add(a);			//...the index of the word
-				alliterations.get(alliterations.size() - 1).setDepth(1);					//...and a depth of 1
+			if(allHomophones) {																													//if the instance is made up of only homophones
+				instances.remove(a);																												//remove it
 			}
 		}
-		
-		//Remove each alliteration that only occurs once (b/c its not really alliteration)
-		for(int a = alliterations.size() - 1; a > -1; a--) {
-			if(alliterations.get(a).getIndices().size() == 1) {
-				alliterations.remove(a);
-			}
-		}
-			
-		//**Alliterations of two or more sounds**
-		int i = 0;																		//Iterator
-		int n = alliterations.size();													//Stores number of alliterations in array (gets updated during while loop)
-		int index;																		//Stores index of word in question
-		while(i < n) {
-			//for an alliteration, create an ArrayList of each sound combo (1 sound longer than the sound of the alliteration) with frequencies
-			for(int a = 0; a < alliterations.get(i).getIndices().size(); a++) {				//for each index of the alliterations:
-				index = alliterations.get(i).getIndices().get(a);									//find the index of the word in which the alliteration occurs
-				if(words[index].getSound().length > alliterations.get(i).getDepth()) {			//if we are not at the end of the word
-					sound = alliterations.get(i).getText() + words[index].getSound()[alliterations.get(i).getDepth()];  //add in the next sound of the word
-					contains = false;
-					for(int b = 0; b < potential.size(); b++) {						//if the combined sound is contained among potential new alliterations
-						if(potential.get(b).getText().equals(sound)) {
-							potential.get(b).getIndices().add(index);				//add the index of the word in question
-							contains = true;
-						}
-					}
-					if(contains == false) {											//if not, add the new sound 
-						potential.add(new SoundDevice(sound));
-						potential.get(potential.size() - 1).setDepth(alliterations.get(i).getDepth() + 1);	  //with depth 1 greater than the alliteration it extends
-						potential.get(potential.size() - 1).getIndices().add(a);							  //and add it's index
-					}
-				}
-			}
-			//remove each sound combo with only one occurrence
-			for(int a = 0; a < potential.size(); a++) {
-				if(potential.get(a).getIndices().size() == 1) {
-					potential.remove(a);
-				}
-				else {
-					//check if instance of alliteration is actually merely homophones
-					boolean AllHomophones = true;
-					for(int b = 0; b < potential.get(a).getIndices().size(); b++) {		//for each index of the word
-						String[] wordSounds = words[potential.get(a).getIndices().get(b)].getSound();
-						sound = "";
-						for(int c = 0; c < wordSounds.length; c++) {		//store the sound of the word as a string
-							sound += wordSounds[c];
-						}
-						if(!potential.get(a).getText().equals(sound)) {	//if the sound of the alliteration and the word are not the same
-							AllHomophones = false;							//we're not talking all homophones
-						}
-					}
-					//if not all homophones, add potential alliteration to alliteration list
-					if(AllHomophones == false) {
-						alliterations.add(potential.get(a));
-					}
-					//if all homophones, add potential alliteration to the homophones list
-					else {
-						//homophones.add(potential.get(a));
-					}
-				}
-			}
-			n = alliterations.size();		//update the size of the ArrayList
-			i++;							//proceed to the next alliteration
-		}
-		//output.add(alliterations);
-		//output.add(homophones);
-		return alliterations;
-		
+		return instances;
 	}
-	*/
-	
 	
 }

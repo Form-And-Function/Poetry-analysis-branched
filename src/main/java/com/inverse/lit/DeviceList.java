@@ -4,7 +4,7 @@ import java.util.ArrayList;
 //A list of devices within a section
 public class DeviceList {
 	
-	private ArrayList<ArrayList<Device>> extantDevices;
+	private ArrayList<ArrayList<Device>> allDevices;
 	private ArrayList<Device> alliterationSound;
 	private ArrayList<Device> alliterationVisual;
 	private ArrayList<Device> internalRhyme;
@@ -16,7 +16,7 @@ public class DeviceList {
 	private ArrayList<Device> asyndeton;
 	
 	public DeviceList() {
-		extantDevices = new ArrayList<ArrayList<Device>>();
+		allDevices = new ArrayList<ArrayList<Device>>();
 	}
 	
 	public ArrayList<Device> getAlliterationSound() {
@@ -73,11 +73,11 @@ public class DeviceList {
 	public void setAsyndeton(ArrayList<Device> asyndeton) {
 		this.asyndeton = asyndeton;
 	}
-	public ArrayList<ArrayList<Device>> getExtantDevices() {
-		return extantDevices;
+	public ArrayList<ArrayList<Device>> getAllDevices() {
+		return allDevices;
 	}
-	public void setExtantDevices(ArrayList<ArrayList<Device>> extantDevices) {
-		this.extantDevices = extantDevices;
+	public void setAllDevices(ArrayList<ArrayList<Device>> extantDevices) {
+		this.allDevices = extantDevices;
 	}
 	
 	
