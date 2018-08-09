@@ -13,7 +13,7 @@ public class Line {
 	//CONSTRUCTOR
 	public Line (String lineText) {
 		text = lineText;														//Store text of line under Line.text
-		lineText += " ";															//(adds padding to end of line text to allow iterating 1 char past last word)
+		lineText += " ";														//(adds padding to end of line text to allow iterating 1 char past last word)
 		ArrayList<String> wordStrings = new ArrayList<String>();				//(stores String of each word in line)
 		int startIndex = 0;														//(stores index at beginning of word)
 		boolean startOfWord = true;												//(stores whether at the start of a word)

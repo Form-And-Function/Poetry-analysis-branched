@@ -26,10 +26,10 @@ public class Poem {
 		}
 		
 		//calculate rhyme scheme
-		String[] endRhymes = new String[getLines().length];		//stores rhyme relevant part of each line (last stressed vowel onward)
-		rhymeScheme = new int[getLines().length];			//stores numbers corresponding to each unique rhyme, in order
-		int n = 1;														//Stores number of rhymes found so far (serves as rhyme number to identify rhyming lines)
-		boolean match;													//stores whether another rhyme of the same kind has been found
+		String[] endRhymes = new String[getLines().length];				//(stores rhyme relevant part of each line (last stressed vowel onward))
+		rhymeScheme = new int[getLines().length];						//(stores numbers corresponding to each unique rhyme, in order)
+		int n = 1;														//(stores number of rhymes found so far (serves as rhyme number to identify rhyming lines))
+		boolean match;													//(stores whether another rhyme of the same kind has been found)
 		for(int i = 0; i < getLines().length; i++) {
 			if(getLines()[i].getWords().length > 0) {						//get the rhyme-relevant sound of the last word of each line (ignoring blank lines)
 				endRhymes[i] = getLines()[i].getWords()[getLines()[i].getWords().length-1].getRhyme();
@@ -58,11 +58,12 @@ public class Poem {
 		if(deviceList.getAlliterationSound().size() != 0) {
 			deviceList.getExtantDevices().add(deviceList.getAlliterationSound());
 		}
-
+		
 		deviceList.setAssonance(SoundDevice.checkAssonance(lines));
 		if(deviceList.getAssonance().size() != 0) {
 			deviceList.getExtantDevices().add(deviceList.getAssonance());
 		}
+		
 		deviceList.setConsonance(SoundDevice.checkConsonance(lines));
 		if(deviceList.getConsonance().size() != 0) {
 			deviceList.getExtantDevices().add(deviceList.getConsonance());
