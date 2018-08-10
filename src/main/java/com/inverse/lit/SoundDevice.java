@@ -241,8 +241,6 @@ public class SoundDevice extends Device {
 	public static ArrayList<Device> checkConsonance(Line[] lines) {
 		System.out.println("Consonance"); 		//TODO: Debug
 		ArrayList<Device> instances = new ArrayList<Device>();								//(stores instances of consonance found in the Line[])
-		ArrayList<String> consonantSounds = new ArrayList<String>();						//(stores consonant sounds found in Line[])
-		ArrayList<ArrayList<int[]>> indices = new ArrayList<ArrayList<int[]>>();			//(stores indices of consonant sounds found)
 		String sound;																		//(stores the current sound being worked with)
 		boolean contains;																	//(stores whether instances contains the current sound)
 		
@@ -269,26 +267,24 @@ public class SoundDevice extends Device {
 		}
 		
 		//remove all consonant sounds with only one index and all indices that are too far apart
-		for(int a = consonantSounds.size() - 1; a > -1; a--) {		//go through each recorded consonant sound
-			if(indices.get(a).size() == 1) {							//remove all consonant sounds with only one occurance
-				consonantSounds.remove(a);
-				indices.remove(a);
+		for(int a = instances.size() - 1; a > -1; a--) {		//go through each recorded consonant sound
+			if(instances.get(a).getIndices().size() == 1) {			//remove all consonant sounds with only one occurance
+				instances.remove(a);
 			}
 			else {														//remove all repeated consonant sounds separated from their counterparts by at least one line
-				for(int b = indices.get(a).size() - 2; b > 0; b--) {						//if a middle index is separated by more than sensitivity# line(s) from those on either side
-					if(indices.get(a).get(b)[0] - indices.get(a).get(b-1)[0] > sensitivity && indices.get(a).get(b+1)[0] - indices.get(a).get(b)[0] > sensitivity) {
-						indices.get(a).remove(b);												//remove it
+				for(int b = instances.get(a).getIndices().size() - 2; b > 0; b--) {						//if a middle index is separated by more than sensitivity# line(s) from those on either side
+					if(instances.get(a).getIndices().get(b)[0] - instances.get(a).getIndices().get(b-1)[0] > sensitivity && instances.get(a).getIndices().get(b+1)[0] - instances.get(a).getIndices().get(b)[0] > sensitivity) {
+						instances.get(a).getIndices().remove(b);												//remove it
 					}
 				}
-				if(indices.get(a).get(1)[0] - indices.get(a).get(0)[0] > sensitivity) {		//if the 1st index is separated by more than sensitivity# line(s) from the 2nd, remove it
-					indices.get(a).remove(0);													//remove it
+				if(instances.get(a).getIndices().get(1)[0] - instances.get(a).getIndices().get(0)[0] > sensitivity) {		//if the 1st index is separated by more than sensitivity# line(s) from the 2nd, remove it
+					instances.get(a).getIndices().remove(0);													//remove it
 				}																	//if the last index is separated by >= sensitivity# line(s) from the 2nd, remove it
-				if(indices.get(a).size() != 1 && indices.get(a).get(indices.get(a).size()-1)[0] - indices.get(a).get(indices.get(a).size()-2)[0] > sensitivity) {
-					indices.get(a).remove(indices.get(a).size()-1);						//remove it
+				if(instances.get(a).getIndices().size() != 1 && instances.get(a).getIndices().get(instances.get(a).getIndices().size()-1)[0] - instances.get(a).getIndices().get(instances.get(a).getIndices().size()-2)[0] > sensitivity) {
+					instances.get(a).getIndices().remove(instances.get(a).getIndices().size()-1);						//remove it
 				}
-				if(indices.get(a).size() < 2) {										//if the vowel has 0-1 remaining indices, remove it
-					consonantSounds.remove(a);
-					indices.remove(a);
+				if(instances.get(a).getIndices().size() < 2) {										//if the vowel has 0-1 remaining indices, remove it
+					instances.remove(a);
 				}
 			}
 		}
@@ -322,9 +318,11 @@ public class SoundDevice extends Device {
 		boolean allHomophones;
 		for(int a = instances.size()-1; a > -1; a--) {																						//go through each instance of the SoundDevice
 			allHomophones = true;
-			String word = lines[instances.get(a).getIndices().get(0)[0]].getWords()[instances.get(a).getIndices().get(0)[1]].getText();			//get the text of the word associated with the first index of the instance
+			Word word1 = lines[instances.get(a).getIndices().get(0)[0]].getWords()[instances.get(a).getIndices().get(0)[1]];			//get the text of the word associated with the first index of the instance
+			Word wordb;
 			for(int b = 1; b < instances.get(a).getIndices().size(); b++) {																		//go through each index of the instance 
-				if(lines[instances.get(a).getIndices().get(b)[0]].getWords()[instances.get(a).getIndices().get(b)[1]].getText() != word) {			//if any of them are associated with a different word than the first one
+				wordb = lines[instances.get(a).getIndices().get(b)[0]].getWords()[instances.get(a).getIndices().get(b)[1]];
+				if(!(word1.getSound() == wordb.getSound() && word1.getStress() == wordb.getStress())) {												//if any of them are associated with a different-sounding word from the first one
 					allHomophones = false;																												//the instance of the sound device is not merely a case of homophones (not all homophones)
 				}
 			}
