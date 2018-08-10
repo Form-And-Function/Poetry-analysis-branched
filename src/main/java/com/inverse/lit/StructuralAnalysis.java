@@ -72,6 +72,7 @@ public class StructuralAnalysis {
 		//TODO: Evaluate and Rank Scansions
 		
 		//find Rhyme Scheme of Poem
+		/*
 		String[] endRhymes = new String[poem.getLines().length];		//stores rhyme relevant part of each line (last stressed vowel onward)
 		int[] rhymeScheme = new int[poem.getLines().length];			//stores numbers corresponding to each unique rhyme, in order
 		int n = 1;														//Stores number of rhymes found so far (serves as rhyme number to identify rhyming lines)
@@ -97,7 +98,7 @@ public class StructuralAnalysis {
 			}
 		}
 		poem.setRhymeScheme(rhymeScheme);								//store the acquired rhymescheme in the poem
-		
+		*/
 	}
 	
 	public Poem getPoem() {

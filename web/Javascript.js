@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
 	var devices;
-	var intensityThreshold = 0;
+	var Poem;
 
     function submit(){
 	    var input = document.getElementById("inputBox");
@@ -18,38 +18,102 @@ $(document).ready(function() {
 	
 	function processInput(poem) {
 		console.log(poem);
-		devices = poem.deviceList;
+		Poem = poem;
+		devices = Object.entries(poem.deviceList);
+        var output = $('<div></div>');
 
-        var p = $('<p></p>');
 		var poemNode = poem.lines.map(function(line){
-		    var lineList = line.words.map(word=>$(word.text));
-		    return lineList.wrap(p);
+		    var lineList =  [];
+		    console.log(line);
+		  line.words.forEach( word=>lineList.push(word.text));
+		    console.log(lineList);
+            return lineList;
         });
+		console.log(poemNode);
 		addDevices(poemNode);
+
+
+		var output = poemNode.map( function (line) {
+		    console.log(line);
+            var item = $('<p></p>');
+		    line.forEach(word=>item.append(word));
+
+            return item;
+        });
         $('#output').append(output);
+
+        addDeviceSelection();
 	}
 
-function addDevices(lines){
-	    devices.each(function (idNum, device) {
 
-	        var deviceLines = devices.indicies[0];
-            var deviceWords = devices.indicies[1];
-            deviceLines.each(function (i) {//find each line
-                var line = lines[this];
-                deviceWords.each(function (j) {
-                    var word = line[j];
-                    const span = $('<span></span>');
-                    if(!word.is('span')){
-                        word = word.wrap(span).data(idNum)
-                            .tooltipster(word.data); //make sure this evaluates dynamically!
-                    }
-                    var data = word.data.ids;
-                    data.add(idNum);
-                    word.data(deviceIds, data );
-                })
+	function addDeviceSelection() {
+	    devices.forEach(function([name, value], typeNum){
+            if (value != null){
+                var element = $('<button>');
+                element.click(showDevices, typeNum);
+                element.html(name);
+                $(body).append(element);
+            }
+        });
+
+    }
+
+    function showDevices(typeNum) {
+$('.device').removeClass('.currentDisplay');
+        $.each(devices[1][typeNum], function (i, instance) {
+            $.each(instance[0], function(j, line,){
+                $.each(this[1], function(k, word){
+                    $('#d'+line+'-'+word).addClass('currentDisplay');
+                });
             });
-            lines.each();
-        })
+        });
+    }
+
+function addDevices(lines){
+	    console.log(devices);
+	    devices.forEach(function ([typeName, type], TypeId) {
+            console.log(type);
+            console.log(typeName);
+            if(type!= null) {
+
+                $.each(type, function (InstanceId, device) {
+                    console.log(device);
+
+                    if (device != null && typeof device.indices != "undefined") {
+
+                        console.log('hi' + device);
+                        var deviceLines = device.indices[0];
+                        var deviceWords = device.indices[1];
+                        $.each(deviceLines, function (i, lineNum) {//find each line
+                            var line = lines[lineNum];
+                            console.log('line is ' + line);
+                            if(line != null) {
+
+
+                                $.each(deviceWords, function (j, deviceNum) {
+                                    console.log(this + " and j is " + j);
+                                    var word = line[deviceNum];
+                                    var span = $('<span class=".device" id="d' + lineNum + '-' + deviceNum + '"></span>');
+                                    if ((typeof word) == "string") {
+                                        var typeData = new Set([[TypeId, InstanceId]]);
+                                        word = span.html(word);
+                                        span.data("deviceIds", typeData)//TODO
+                                            .tooltipster(word.data); //make sure this evaluates dynamically!
+                                    }
+                                    var data = word.data("deviceIds");
+                                    data.add([TypeId, InstanceId]);
+
+                                    word.data("deviceIds", data);
+                                })
+                            }
+
+                        });
+
+                    }
+
+                });
+            }
+        });
 }
 
 $('.device').hover(showSharedDevices, hideSharedDevices);
@@ -61,15 +125,17 @@ $('.device').hover(showSharedDevices, hideSharedDevices);
 
 
 	    ids.each(function (index, id) {
-            var deviceData = devices[id];
-                devices[id].indicies[0].each(function (index) {
-                var line = $('#output:nth-child('+this+')');
-                devices[id].indicies[0].each(function () {
-                    var word = line.eq(this);
-                    var currentData = word.data(tempcolor);
-                    currentData.add[index];
-                    word.data(tempcolor, currentData);
-                    color(word, colors);
+            var deviceData = devices[id[0]][id[1]];
+                devices[id].indices[0].each(function (index, lineNum) {
+                    devices[id].indices[1].each(function () {
+
+                            var word = $('#d'+lineNum+'-'+this);
+                            var currentData = word.data(tempcolor);
+                            currentData.add[index];
+                            word.data(tempcolor, currentData);
+                            color(word, colors);
+
+
                 });
             });
         });
@@ -83,7 +149,7 @@ $('.device').hover(showSharedDevices, hideSharedDevices);
         var seperation = 360/num;
         var colors = [];
         for(let i=0;i<num;i++){
-            colors.add('hsl('+seperation*num+'70%, 70%)');
+            colors.push('hsl('+seperation*num+'70%, 70%)');
         }
         return colors;
     }
@@ -104,6 +170,7 @@ $('.device').hover(showSharedDevices, hideSharedDevices);
     $('.device').tooltipster({
         // this formats the content on the fly when it needs to be displayed but does not modify its value
         functionFormat: function(instance, helper, content){
+            console.log('hi');
             var displayedContent = "";
             devices.each(function(){
                 displayedContent += 'Device: '+this.Name+

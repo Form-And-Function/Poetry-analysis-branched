@@ -17,7 +17,9 @@ textarea {
     display: block;
     margin: 0 auto;
 }
-
+.currentDisplay{
+    font-weight: 900;
+}
 #submitButton {
     display: block;
     font-size: 2em;

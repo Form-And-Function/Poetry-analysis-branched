@@ -3,67 +3,82 @@ import java.util.ArrayList;
 
 //A list of devices within a section
 public class DeviceList {
-	private ArrayList<Device> AlliterationSound;
-	private ArrayList<Device> AlliterationVisual;
-	private ArrayList<Device> Rhyme;
-	private ArrayList<Device> Homophone;
-	private ArrayList<Device> Anaphora;
-	private ArrayList<Device> Assonance;
-	private ArrayList<Device> Consonance;
-	private ArrayList<Device> Polysyndeton;
-	private ArrayList<Device> Asyndeton;
+	
+	private ArrayList<ArrayList<Device>> allDevices;
+	private ArrayList<Device> alliterationSound;
+	private ArrayList<Device> alliterationVisual;
+	private ArrayList<Device> internalRhyme;
+	private ArrayList<Device> homophone;
+	private ArrayList<Device> anaphora;
+	private ArrayList<Device> assonance;
+	private ArrayList<Device> consonance;
+	private ArrayList<Device> polysyndeton;
+	private ArrayList<Device> asyndeton;
+	
+	public DeviceList() {
+		allDevices = new ArrayList<ArrayList<Device>>();
+	}
+	
 	public ArrayList<Device> getAlliterationSound() {
-		return AlliterationSound;
+		return alliterationSound;
 	}
 	public void setAlliterationSound(ArrayList<Device> alliterationSound) {
-		AlliterationSound = alliterationSound;
+		this.alliterationSound = alliterationSound;
 	}
 	public ArrayList<Device> getAlliterationVisual() {
-		return AlliterationVisual;
+		return alliterationVisual;
 	}
 	public void setAlliterationVisual(ArrayList<Device> alliterationVisual) {
-		AlliterationVisual = alliterationVisual;
+		this.alliterationVisual = alliterationVisual;
 	}
-	public ArrayList<Device> getRhyme() {
-		return Rhyme;
+	public ArrayList<Device> getInternalRhyme() {
+		return internalRhyme;
 	}
-	public void setRhyme(ArrayList<Device> rhyme) {
-		Rhyme = rhyme;
+	public void setInternalRhyme(ArrayList<Device> rhyme) {
+		internalRhyme = rhyme;
 	}
 	public ArrayList<Device> getHomophone() {
-		return Homophone;
+		return homophone;
 	}
 	public void setHomophone(ArrayList<Device> homophone) {
-		Homophone = homophone;
+		this.homophone = homophone;
 	}
 	public ArrayList<Device> getAnaphora() {
-		return Anaphora;
+		return anaphora;
 	}
 	public void setAnaphora(ArrayList<Device> anaphora) {
-		Anaphora = anaphora;
+		this.anaphora = anaphora;
 	}
 	public ArrayList<Device> getAssonance() {
-		return Assonance;
+		return assonance;
 	}
 	public void setAssonance(ArrayList<Device> assonance) {
-		Assonance = assonance;
+		this.assonance = assonance;
 	}
 	public ArrayList<Device> getConsonance() {
-		return Consonance;
+		return consonance;
 	}
 	public void setConsonance(ArrayList<Device> consonance) {
-		Consonance = consonance;
+		this.consonance = consonance;
 	}
 	public ArrayList<Device> getPolysyndeton() {
-		return Polysyndeton;
+		return polysyndeton;
 	}
 	public void setPolysyndeton(ArrayList<Device> polysyndeton) {
-		Polysyndeton = polysyndeton;
+		this.polysyndeton = polysyndeton;
 	}
 	public ArrayList<Device> getAsyndeton() {
-		return Asyndeton;
+		return asyndeton;
 	}
 	public void setAsyndeton(ArrayList<Device> asyndeton) {
-		Asyndeton = asyndeton;
+		this.asyndeton = asyndeton;
 	}
+	public ArrayList<ArrayList<Device>> getAllDevices() {
+		return allDevices;
+	}
+	public void setAllDevices(ArrayList<ArrayList<Device>> extantDevices) {
+		this.allDevices = extantDevices;
+	}
+	
+	
 }

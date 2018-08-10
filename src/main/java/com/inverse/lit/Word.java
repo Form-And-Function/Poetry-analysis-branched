@@ -9,6 +9,7 @@ public class Word {
 	private int count;
 	private String[] sound, vowels, consonants;
 	private byte[] stress;
+	private ArrayList<int[]> deviceIDs = new ArrayList<int[]>();
 	
 	//Word Static Constants
 	public static final byte UNKNOWN_STRESS = -1;
@@ -18,8 +19,7 @@ public class Word {
 	
 	Word (String str) {
 		setText(str);
-		ArrayList<String> cmuList = Queries.Pronunciation(str);
-		//ArrayList<String> cmuList = Main.getDb().Pronunciation(str);
+		ArrayList<String> cmuList = Main.getDb().Pronunciation(str);
 		if(!cmuList.isEmpty()) {//did we get anything from the DB?
 			//String cmu = "S EH1 K AH0 N D EH2 R IY0";
 			String cmu = cmuList.get(0);
@@ -54,7 +54,10 @@ public class Word {
 		
 		}
 		else {
-			sound = null;
+			sound = new String[0];
+			vowels = new String[0];
+			consonants = new String[0];
+			stress = new byte[0];
 		}
 	}
 
@@ -104,6 +107,14 @@ public class Word {
 
 	public void setStress(byte[] stress) {
 		this.stress = stress;
+	}
+	
+	public ArrayList<int[]> getDeviceIDs() {
+		return deviceIDs;
+	}
+
+	public void setDeviceIDs(ArrayList<int[]> deviceIDs) {
+		this.deviceIDs = deviceIDs;
 	}
 	
 	//returns the rhyme-relevant part of the sound of the word (from last stressed vowel sound to end)
