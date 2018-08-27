@@ -4,13 +4,10 @@ import java.util.ArrayList;
 
 public class Poem {
 	
-	static final int ALLITERATION = 1;
-	static final int ASSONANCE = 2;
-	static final int CONSONANCE = 3;
-	static final int INTERNAL_RHYME = 4;
-	static final int METAPHOR = 5;
-	static final int SIMILE = 6;
+	//STATIC VALUES
+	public static final String[] deviceNames = {"Alliteration", "Assonance", "Consonance", "Internal Rhyme", "Repetition", "Anaphora", "Polysyndeton", "Asyndeton"};
 	
+	//ATRIBUTES
 	private Line[] lines;
 	private DeviceList deviceList;
 	private int[] rhymeScheme;
@@ -51,7 +48,7 @@ public class Poem {
 			}
 		}
 		
-		deviceList = new DeviceList();
+		deviceList = new DeviceList(8);
 		
 		//find and store literary devices
 		deviceList.setAlliterationSound(SoundDevice.checkAlliteration(lines));
@@ -60,10 +57,24 @@ public class Poem {
 		deviceList.setAssonance(SoundDevice.checkAssonance(lines));
 		deviceList.getAllDevices().add(deviceList.getAssonance());
 
-		
 		deviceList.setConsonance(SoundDevice.checkConsonance(lines));
 		deviceList.getAllDevices().add(deviceList.getConsonance());
+		
+		deviceList.setInternalRhyme(SoundDevice.checkInRhyme(lines));
+		deviceList.getAllDevices().add(deviceList.getInternalRhyme());
+		
+		deviceList.setRepetition(MultiLineDevice.checkRepetition(lines));
+		deviceList.getAllDevices().add(deviceList.getRepetition());
+		
+		deviceList.setAnaphora(MultiLineDevice.checkAnaphora(lines));
+		deviceList.getAllDevices().add(deviceList.getAnaphora());
 
+		deviceList.setPolysyndeton(MultiLineDevice.checkPolysyndeton(lines));
+		deviceList.getAllDevices().add(deviceList.getPolysyndeton());
+		
+		deviceList.setAsyndeton(MultiLineDevice.checkAsyndeton(lines));
+		deviceList.getAllDevices().add(deviceList.getAsyndeton());
+		
 	}
 
 	public Line[] getLines() {

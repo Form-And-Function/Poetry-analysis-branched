@@ -16,6 +16,7 @@
 
               maxActive="15"
 
-              maxIdle="3"/>
+              maxIdle="3"
+              removeAbandonedTimeout = "1000"/>
 
 </Context>

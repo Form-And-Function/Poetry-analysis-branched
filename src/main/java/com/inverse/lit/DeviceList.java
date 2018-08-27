@@ -5,18 +5,20 @@ import java.util.ArrayList;
 public class DeviceList {
 	
 	private ArrayList<ArrayList<Device>> allDevices;
-	private ArrayList<Device> alliterationSound;
-	private ArrayList<Device> alliterationVisual;
-	private ArrayList<Device> internalRhyme;
-	private ArrayList<Device> homophone;
-	private ArrayList<Device> anaphora;
+
 	private ArrayList<Device> assonance;
 	private ArrayList<Device> consonance;
+	private ArrayList<Device> homophone;
+	private ArrayList<Device> internalRhyme;
+	private ArrayList<Device> alliterationSound;
+	private ArrayList<Device> alliterationVisual;
+	private ArrayList<Device> repetition;
+	private ArrayList<Device> anaphora;
 	private ArrayList<Device> polysyndeton;
 	private ArrayList<Device> asyndeton;
 	
-	public DeviceList() {
-		allDevices = new ArrayList<ArrayList<Device>>();
+	public DeviceList(int initialCapacity) {
+		allDevices = new ArrayList<ArrayList<Device>>(8);
 	}
 	
 	public ArrayList<Device> getAlliterationSound() {
@@ -78,6 +80,14 @@ public class DeviceList {
 	}
 	public void setAllDevices(ArrayList<ArrayList<Device>> extantDevices) {
 		this.allDevices = extantDevices;
+	}
+
+	public ArrayList<Device> getRepetition() {
+		return repetition;
+	}
+
+	public void setRepetition(ArrayList<Device> repetition) {
+		this.repetition = repetition;
 	}
 	
 	

@@ -19,7 +19,7 @@ public class Word {
 	
 	Word (String str) {
 		setText(str);
-		ArrayList<String> cmuList = Main.getDb().Pronunciation(str);
+		ArrayList<String> cmuList =Queries.Pronunciation(str);
 		if(!cmuList.isEmpty()) {//did we get anything from the DB?
 			//String cmu = "S EH1 K AH0 N D EH2 R IY0";
 			String cmu = cmuList.get(0);
