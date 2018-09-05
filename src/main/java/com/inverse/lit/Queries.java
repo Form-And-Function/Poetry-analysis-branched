@@ -13,7 +13,7 @@ import java.sql.ResultSetMetaData;
 import java.util.*;
 
 public class Queries {
-
+    public static Connection conn = null;
 
 	//private Connection conn = null;
 	public Queries() {
@@ -38,28 +38,29 @@ public class Queries {
 */
 	}
 	public static ArrayList<String> Pronunciation(String word) {
-        Connection conn = null;
         ResultSet rs = null;
         ArrayList<String> matches = null;
         Statement stmt = null;
+
         try {
-            Context initCtx = new InitialContext();
+            if(conn==null) {
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-
-            DataSource ds = (DataSource) envCtx.lookup("jdbc/pronounce");
-            conn = ds.getConnection();
-            System.out.println("conn: " + conn);
-
+                DataSource ds = (DataSource) envCtx.lookup("jdbc/pronounce");
+                conn = ds.getConnection();
+                System.out.println("conn: " + conn);
+            }
             stmt = null;
             rs = null;
             matches = new ArrayList<String>();
             System.out.println("starting db");
             //prevent sql injection
-            var query = "SELECT word, stress FROM pronounce WHERE word REGEXP CONCAT('^', ?, '\\\\(?');";
+            //TODO: clean
+            var query = "SELECT word, stress FROM pronounce WHERE word LIKE ? or CONCAT(?, '\\\\(');";
             var smnt = conn.prepareStatement(query);
             smnt.setString(1, word);
+            smnt.setString(2, word);
             //get the stress of the word!
             rs = smnt.executeQuery();
             while (rs.next()) {

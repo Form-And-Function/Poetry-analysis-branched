@@ -149,15 +149,16 @@ function addDevices(lines){
 
 
 	function showSharedDevices(){
-console.log(this);
 	    var ids = $(this).data("deviceIds");
 	    console.log(ids);
 	    var colors = getColors(ids.length);
         console.log(colors);
-	    ids.forEach(function (id) {
-            var deviceInstance = devices[id[0]][1][id[1]];
+	    ids.forEach(function (id, i) {
+	        var deviceFullData = devices[id[0]];
+	        var deviceName = deviceFullData[0];
+            var deviceInstance = deviceFullData[1][id[1]];
 
-            console.log(deviceInstance);
+            console.log('instance'+deviceInstance);
             deviceInstance.indices.forEach(function ([lineNum, wordNum], index) {
                 var word = $('#d'+lineNum+'-'+wordNum);
                 var currentData = word.data('tempcolor');
@@ -167,9 +168,9 @@ console.log(this);
                 word.data('tempcolor', currentData);
                 console.log(word.data('tempcolor'));
                 color(word, colors);
-
-
             });
+            var textWrapper = $('<span>'+deviceName+'</span>').append(deviceName).css('color', colors[i]);
+            $('body').append(textWrapper);
         });
     }
 
@@ -178,7 +179,10 @@ console.log(this);
     }
 
     function getColors(num) {
-        var separation = 360/num;
+        var separation = 0;
+        if(num){
+            var separation = 360/num;
+        }
         var colors = [];
         for(let i=0;i<num;i++){
             colors.push('hsl('+separation*i+',70%, 70%)');
@@ -186,10 +190,13 @@ console.log(this);
         return colors;
     }
 
+    //color a word's background to display a series of colors. Each color corresponds ro a device instance.
+    //allColors is all the colors available. The actual colors are in the data of the element
     function color(word, allColors){
         var colors = word.data('tempcolor');
         var value = "repeating-linear-gradient(45deg";
 console.log(colors);
+        console.log("all:   "+colors);
         colors.forEach(function(colorNum, i ){
             var color = allColors[colorNum];
             value += ',' + color + ' ' + i * 5 + 'px,' + color + ' ' + (i + 1) * 5 + 'px';

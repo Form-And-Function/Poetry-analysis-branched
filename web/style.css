@@ -10,6 +10,7 @@ body{
 .line{
     border-right-style: solid;
     border-right-width: 10px;
+    font-size: 2em;
 }
 textarea {
     height: 90vh;
