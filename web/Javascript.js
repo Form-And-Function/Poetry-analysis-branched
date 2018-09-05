@@ -32,7 +32,8 @@ $(document).ready(function() {
 		console.log(poemNode);
 		addDevices(poemNode);
 
-        var colors = getColors(Math.max(poem.rhymeScheme));
+		var maxRhymeIndex = Math.max.apply(null, poem.rhymeScheme);
+        var colors = getColors(Math.max(maxRhymeIndex));
         console.log(colors);
 		var output = poemNode.map( function (line, i) {
 		    console.log(line);
