@@ -169,13 +169,14 @@ function addDevices(lines){
                 console.log(word.data('tempcolor'));
                 color(word, colors);
             });
-            var textWrapper = $('<span>'+deviceName+'</span>').append(deviceName).css('color', colors[i]);
+            var textWrapper = $('<span>'+deviceName+'</span>').append(deviceName).css('color', colors[i]).addClass('deviceName');
             $('body').append(textWrapper);
         });
     }
 
     function hideSharedDevices(){
-	        $('.device').css('background-image', "none").data('tempcolor', []);
+	    $('.device').css('background-image', "none").data('tempcolor', []);
+        $('.deviceName').remove();
     }
 
     function getColors(num) {
