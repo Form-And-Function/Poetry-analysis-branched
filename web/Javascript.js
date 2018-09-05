@@ -192,11 +192,11 @@ console.log(this);
 console.log(colors);
         colors.forEach(function(colorNum, i ){
             var color = allColors[colorNum];
-            value += ',' + color + ' ' + i * 5 + 'px,';
-            value += color + ' ' + (i + 1) * 5 + 'px';
+            value += ',' + color + ' ' + i * 5 + 'px,' + color + ' ' + (i + 1) * 5 + 'px';
         });
-        value+=');';
+        value+=')';
         console.log(value);
+        console.log(word[0]);
         word[0].style.background = value;
     }
 
