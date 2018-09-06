@@ -7,7 +7,7 @@ public class Poem {
 	//STATIC VALUES
 	public static final String[] deviceNames = {"Alliteration", "Assonance", "Consonance", "Internal Rhyme", "Repetition", "Anaphora", "Polysyndeton", "Asyndeton"};
 	
-	//ATRIBUTES
+	//ATTRIBUTES
 	private Line[] lines;
 	private DeviceList deviceList;
 	private int[] rhymeScheme;

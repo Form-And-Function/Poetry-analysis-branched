@@ -220,25 +220,63 @@ public class MultiLineDevice extends Device {
 		
 	}
 
+    public static boolean CheckLineAsyndeton(Line line){
+	    var lineText = line.getText();
+        int commaCount = lineText.length() - lineText.replace(".", "").length(); //count the commas
+        if (commaCount < 3) {
+            return false;
+        }
+        var words = line.getWords();
+        for (var i = 0; i < words.length; i++) {
+            var word = words[i];
+            for (var conjunction : conjuncs) {
+                if (word.equals(conjunction)) {
+                    return false;
+                }
+            }
+        }
+        /*var strength = commaCount / words.length; //TODO: use this
+        if (strength > 1) {
+            strength = 1;
+        }*/
+	    return true;
+    }
+
+
 	public static ArrayList<Device> checkAsyndeton (Line[] lines) {
-		
-		ArrayList<Device> asynInstances = new ArrayList<Device>();
-		
-		boolean carryOver = false;
+
+        ArrayList<Device> asynInstances = new ArrayList<Device>();
+        var streak = false;
+		/*boolean carryOver = false;
 		int count = 0;
 		int v = 0;
-		int b = 0;
-		
-		for (int x = 0; x < lines.length; x++) {
-			
-			String lineText = lines[x].getText();
-			String word = "";
-			
+		int b = 0;*/
+
+        for (int x = 0; x < lines.length; x++) {
+
+            String lineText = lines[x].getText();
+
+
+            var isAsyndeton = CheckLineAsyndeton(lines[x]);
+            if (isAsyndeton){
+                if(streak){
+                    asynInstances.get(asynInstances.size() - 1).getIndices().add(new int[]{x,0}); //TODO: make words specific
+                }
+                else{
+                    streak = true;
+                    var device = new MultiLineDevice();
+                    device.getIndices().add(new int[]{x,0});//TODO: make words specific
+                    asynInstances.add(device);
+                }
+            }
+
+            /*String word = "";
+
 			for (int c = 0; c < lineText.length(); c++) {
-				
-				if (lineText.substring(c, c + 1).equals(",") || carryOver) {
+
+				if (lineText.substring(c, c + 1).equals(",") || carryOver) { //if the line has a comma
 					
-					if (c != lineText.length() - 1) {
+					if (c != lineText.length() - 1) { //if the character index is less than the line length,
 						
 						if (!carryOver) {
 							word = lineText.substring(c + 2, lineText.indexOf(" ", c + 2));
@@ -288,8 +326,10 @@ public class MultiLineDevice extends Device {
 				}
 			}
 		}
-		
-		return asynInstances;
-		
-	}
+		*/
+
+        }
+
+        return asynInstances;
+    }
 }

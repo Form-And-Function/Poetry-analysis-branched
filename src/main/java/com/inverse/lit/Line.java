@@ -25,6 +25,7 @@ public class Line {
 			    if(!startOfWord) {														//...and if it's not at the start of the word, we're at the end of a word
 			    	wordStrings.add(lineText.substring(startIndex, endIndex));			//add the word before char c to our list of words
 			    	startOfWord = true;														//next character will be at start of word, record
+					System.out.println("word is: "+lineText.substring(startIndex, endIndex));
 			    }
 		    	startIndex = endIndex + 1;										//move the index starting the word to the char after
 		    }
