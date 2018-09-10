@@ -183,10 +183,10 @@ function addDevices(lines){
     function getColors(num) {
         var separation = 0;
         if(num){
-            var separation = 360/num;
+            var separation = 359/num;
         }
         var colors = [];
-        for(let i=0;i<num;i++){
+        for(let i=0;i<num;i++){ //TODO: if these are too close, change the lightness
             colors.push('hsl('+separation*i+',70%, 70%)');
         }
         return colors;
