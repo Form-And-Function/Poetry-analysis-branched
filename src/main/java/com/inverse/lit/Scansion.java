@@ -14,7 +14,7 @@ public class Scansion {
 	
 	//STATIC CONSTANTS
 	
-	public static final byte AMBIGUOUS = -2;				//could be iambic or trochaic, base decision on charactarization of other lines
+	public static final byte AMBIGUOUS = -2;				//could be iambic or trochaic, base decision on characterization of other lines
 	public static final byte OTHER = 0;
 	public static final int LOOSE_IAMBIC = 280;
 	public static final int LOOSE_TROCHAIC = 330;
@@ -113,7 +113,8 @@ public class Scansion {
 		}
 		
 		//Determine overall meter pattern of poem
-		
+		//TODO: look at individual sections/stanzas
+
 			//(If poem has overall Trochaic pattern, switch trochaic/iambic ambiguous (1 ... 1) lines to iambic pattern)
 			//(If poem has overall Iambic pattern, switch ambiguous lines to iambic) (**is it possible to need this?)
 		

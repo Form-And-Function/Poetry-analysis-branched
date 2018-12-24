@@ -41,3 +41,33 @@ textarea {
 #submitButton:hover {
     border-color: black;
 }
+
+.deviceName {
+    display: inline-block;
+    padding: 10px;
+    font-size: 2em;
+    font-family: Arial sans-serif;
+}
+
+.btnBar{
+    background: #666;
+    border-radius: 5px;
+    max-width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+
+}
+
+.deviceBtn{
+    background: transparent;
+    transition: all 1s;
+    color: white;
+    border: none;
+    padding: 10px;
+}
+
+.deviceBtn:hover, .deviceBtnPressed{
+    background: black;
+}

@@ -38,16 +38,20 @@ $(document).ready(function() {
 		var output = poemNode.map( function (line, i) {
 		    console.log(line);
             var item = $('<p class="line"></p>');
-            item.css('border-right-color', colors[poem.rhymeScheme[i]]);
+            item.css('border-right-color', colors[poem.rhymeScheme[i]-1]);
             var itemRun ="";
 		    line.forEach(function (word) {
+		        console.log(word);
                 if (typeof word == "string") {
+                    console.log(word);
                     itemRun += " " + word;
                 }
                 else {
-                    if (itemRun != null){item.append($('<span>' + itemRun + '</span>'));
-
-                        itemRun = null;}
+                    if (itemRun != null){
+                        console.log(itemRun);
+                        item.append($('<span>' + itemRun + '</span>'));
+                        itemRun = "";
+                    }
                     item.append(word);
 
                 }
@@ -68,15 +72,17 @@ $(document).ready(function() {
 	function addDeviceSelection() {
 	    devices.forEach(function([name, value]){
             if (value != null && name != 'allDevices'){
-                var element = $('<button></button>');
+                var element = $('<button></button>').addClass('deviceBtn');
                 console.log(value);
                 element.click(function(){
                     showDevices(value);
+                    $(this).toggleClass('deviceBtnPressed');
                 });
                 element.html(name);
-                $('body').append(element);
+                $('.btnBar').append(element);
             }
         });
+
 
     }
 
@@ -170,8 +176,8 @@ function addDevices(lines){
                 console.log(word.data('tempcolor'));
                 color(word, colors);
             });
-            var textWrapper = $('<span>'+deviceName+'</span>').append(deviceName).css('color', colors[i]).addClass('deviceName');
-            $('body').append(textWrapper);
+            var textWrapper = $('<span>'+deviceName+'</span>').css('color', colors[i]).addClass('deviceName');
+            $('devices').append(textWrapper);
         });
     }
 
