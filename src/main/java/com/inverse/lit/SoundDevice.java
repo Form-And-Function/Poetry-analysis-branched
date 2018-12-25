@@ -304,12 +304,12 @@ public class SoundDevice extends Device {
 		double maxScore = 0;
 		for(int i = 0; i < instances.size(); i++) {									//get the raw score of each instance and record the highest raw score
 			((SoundDevice)instances.get(i)).buildRawIntensity(lines, deviceType);
-			if(((SoundDevice)instances.get(i)).getRawIntensity() > maxScore) {
-				maxScore = ((SoundDevice)instances.get(i)).getRawIntensity();
+			if(instances.get(i).getRawIntensity() > maxScore) {
+				maxScore = instances.get(i).getRawIntensity();
 			}
 		}
 		for(int i = 0; i < instances.size(); i++) {									//express each intensity score as a rounded percent of the maximum raw score
-			instances.get(i).setIntensity((int)Math.round(100*((SoundDevice)instances.get(i)).getRawIntensity()/maxScore));
+			instances.get(i).setIntensity((int)Math.round(100* instances.get(i).getRawIntensity()/maxScore));
 		}
 		return instances;
 	}

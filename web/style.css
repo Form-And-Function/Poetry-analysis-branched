@@ -5,13 +5,14 @@ body{
 }
 
 .device {
-    text-decoration: underline;
+    border-radius: 5px;
 }
 .line{
     border-right-style: solid;
     border-right-width: 10px;
     font-size: 2em;
 }
+
 textarea {
     height: 90vh;
     min-width: 100px;
@@ -20,6 +21,10 @@ textarea {
     resize: none;
     display: block;
     margin: 0 auto;
+}
+.keyContent{
+    border-radius: 5px;
+    margin: 5px;
 }
 .currentDisplay{
     font-weight: 900;
@@ -42,6 +47,11 @@ textarea {
     border-color: black;
 }
 
+.sliderLabel{
+    padding:5px;
+    margin: 5px;
+}
+
 .deviceName {
     display: inline-block;
     padding: 10px;
@@ -49,20 +59,27 @@ textarea {
     font-family: Arial sans-serif;
 }
 
-.btnBar{
-    background: #666;
-    border-radius: 5px;
-    max-width: 90%;
-    margin: 0 auto;
+.btnBar, #key{
     display: flex;
     flex-wrap: wrap;
-    overflow: hidden;
+    width: 100%;
+}
 
+.footer{
+    display: flex;
+    overflow: hidden;
+    border-radius: 5px;
+    width: 90%;
+    position: fixed;
+    z-index: 3;
+    bottom: 20px;
+    background: #666;
+    left: 5%;
 }
 
 .deviceBtn{
     background: transparent;
-    transition: all 1s;
+    transition: all 0.5s;
     color: white;
     border: none;
     padding: 10px;
@@ -70,4 +87,37 @@ textarea {
 
 .deviceBtn:hover, .deviceBtnPressed{
     background: black;
+}
+#key {
+    display: none;
+}
+
+input[type=range] {
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+}
+input[type=range]:focus {
+    outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    width: 80%;
+    height: 5px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: none;
+    background: #FFF;
+    border-radius: 100px;
+    border: none;
+}
+input[type=range]::-webkit-slider-thumb {
+    box-shadow: none;
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    background: white;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -8px;
 }
