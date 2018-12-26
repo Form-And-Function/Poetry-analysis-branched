@@ -27,8 +27,12 @@ public class Poem {
 		rhymeScheme = new int[getLines().length];						//(stores numbers corresponding to each unique rhyme, in order)
 		int n = 1;														//(stores number of rhymes found so far (serves as rhyme number to identify rhyming lines))
 		boolean match;													//(stores whether another rhyme of the same kind has been found)
+
 		for(int i = 0; i < getLines().length; i++) {
+
+
 			if(getLines()[i].getWords().length > 0) {						//get the rhyme-relevant sound of the last word of each line (ignoring blank lines)
+
 				endRhymes[i] = getLines()[i].getWords()[getLines()[i].getWords().length-1].getRhyme();
 				if(endRhymes[i] != "") {
 					match = false;
@@ -49,32 +53,33 @@ public class Poem {
 		}
 		
 		deviceList = new DeviceList(8);
-		
+        System.out.println("reached 10");
 		//find and store literary devices
 		deviceList.setAlliterationSound(SoundDevice.checkAlliteration(lines));
+        System.out.println("reached 20");
 		deviceList.getAllDevices().add(deviceList.getAlliterationSound());
-		
+        System.out.println("reached 30");
 		deviceList.setAssonance(SoundDevice.checkAssonance(lines));
 		deviceList.getAllDevices().add(deviceList.getAssonance());
-
+        System.out.println("reached 40");
 		deviceList.setConsonance(SoundDevice.checkConsonance(lines));
 		deviceList.getAllDevices().add(deviceList.getConsonance());
-		
+        System.out.println("reached 50");
 		deviceList.setInternalRhyme(SoundDevice.checkInRhyme(lines));
 		deviceList.getAllDevices().add(deviceList.getInternalRhyme());
-		
+        System.out.println("reached 60");
 		deviceList.setRepetition(MultiLineDevice.checkRepetition(lines));
 		deviceList.getAllDevices().add(deviceList.getRepetition());
-		
+        System.out.println("reached 70");
 		deviceList.setAnaphora(MultiLineDevice.checkAnaphora(lines));
 		deviceList.getAllDevices().add(deviceList.getAnaphora());
-
+        System.out.println("reached 80");
 		deviceList.setPolysyndeton(MultiLineDevice.checkPolysyndeton(lines));
 		deviceList.getAllDevices().add(deviceList.getPolysyndeton());
-		
+        System.out.println("reached 90");
 		deviceList.setAsyndeton(MultiLineDevice.checkAsyndeton(lines));
 		deviceList.getAllDevices().add(deviceList.getAsyndeton());
-		
+
 	}
 
 	public Line[] getLines() {

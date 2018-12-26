@@ -128,7 +128,7 @@ $(document).ready(function () {
 function makeWordElement(word){
     console.log(word);
     console.log(unstressed);
-    var element = $('<div class="wordWrapper">').append('<span>'+word.text+'</span>');
+    var element = $('<div class="wordWrapper">').append('<span>'+word.originalText+'</span>');
     var scansion = $('<span>').addClass('scansion');
     word.stressBool.forEach(stress=> {
         console.log(stress);

@@ -94,6 +94,9 @@ public class MultiLineDevice extends Device {
 		ArrayList<String> anaphoricWords = new ArrayList<String>();
 		
 		for (int x = 0; x < lines.length; x++) {
+			if(lines[x].getWords().length<=0){
+				continue;
+			}
 			String firstWord = lines[x].getWords()[0].getText();
 					
 			if (!anaphoricWords.contains(firstWord) || 
@@ -110,13 +113,13 @@ public class MultiLineDevice extends Device {
 				anaInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add(new int[]{x,0});
 			}
 		}
-		
+		System.out.println("reached 71");
 		for (int i = anaInstances.size() - 1; i >= 0; i--) {
 			if (anaInstances.get(i).getIndices().size() == 1) {
 				anaInstances.remove(i);
 			}
 		}
-		
+		System.out.println("reached 72");
 		for (Device a : anaInstances) {
 			int minWords = Integer.MAX_VALUE;
 			
@@ -162,6 +165,10 @@ public class MultiLineDevice extends Device {
 		int conjuncInstances = 0;
 		
 		for (int x = 0; x < lines.length; x++) {
+			System.out.println(x);
+			if(lines[x].getWords().length<=0){
+				continue;
+			}
 			for (int w = 0; w < lines[x].getWords().length; w++) {
 				String text = lines[x].getWords()[w].getText().toLowerCase();
 				if (conjuncBuscar.equals("")) {
@@ -181,6 +188,9 @@ public class MultiLineDevice extends Device {
 			    		
 			    		for (int h = x; h >= 0; h--) {
 			    			for (int v = w; v >= 0; v--) {
+								if(lines[h].getWords().length <= v){
+									continue;
+								}
 			    				String word = lines[h].getWords()[v].getText();
 			    				
 			    				if (word.equals(conjuncBuscar)) {

@@ -11,6 +11,7 @@ body{
     border-right-style: solid;
     border-right-width: 10px;
     font-size: 2em;
+    min-height: 2em;
 }
 
 textarea {
@@ -33,6 +34,7 @@ textarea {
 }
 .bufferSpace{
     height: 100px;
+    margin: 10px;
 }
 #submitButton {
     display: block;
@@ -51,7 +53,9 @@ textarea {
 #submitButton:hover {
     border-color: black;
 }
-
+#inputBox{
+    white-space: pre;
+}
 .sliderLabel{
     padding:5px;
     margin: 5px;

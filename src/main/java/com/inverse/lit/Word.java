@@ -6,6 +6,7 @@ public class Word {
 	
 	//Word Attributes
 	private String text;
+	private String originalText;
 	private int count;
 	private String[] sound, vowels, consonants;
 	private byte[] stress;
@@ -20,6 +21,7 @@ public class Word {
 	
 	Word (String str) {
 		setText(str);
+		setOriginalText(str);
 		ArrayList<String> cmuList =Queries.Pronunciation(str);
 		if(!cmuList.isEmpty()) {//did we get anything from the DB?
 			//String cmu = "S EH1 K AH0 N D EH2 R IY0";
@@ -73,7 +75,13 @@ public class Word {
 	public void setText(String txt) {
 		text = txt.toLowerCase();
 	}
-	
+    public String getOriginalText() {
+        return text;
+    }
+
+    public void setOriginalText(String txt) {
+        text = txt;
+    }
 	public int getCount() {
 		return count;
 	}
