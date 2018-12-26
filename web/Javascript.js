@@ -7,25 +7,25 @@ $(document).ready(function () {
     const unstressed = $('<div class="stressMark">x</div>');
     const footer = $('.footer');
     const bufferSpace = $('.bufferSpace');
+    var $loading = $('.loader');
 
     function fixHeights(){
         bufferSpace.height(footer.height());
     }
 
     function submit() {
-        var input = document.getElementById("inputBox");
         var txt = $("#inputBox").val();
         $.ajax("rest/poem", {data: {text: txt}}).done(processInput);
 
-        input.style.display = "none";
-        var button = document.getElementById("submitButton");
-        button.style.display = "none";
+        $('.pg1').hide();
+        $('.pg2').show();
     }
 
     var submitButton = document.getElementById("submitButton");
     submitButton.onclick = submit;
 
     function processInput(poem) {
+
         console.log(poem);
         Poem = poem;
         devices = Object.entries(poem.deviceList);
@@ -66,6 +66,7 @@ $(document).ready(function () {
 
             return item;
         });
+        $loading.hide();
         $('#output').append(output);
 
         addDeviceSelection();
@@ -284,6 +285,7 @@ function makeWordElement(word){
         console.log(word[0]);
         word[0].style.background = value;
     }
+
 
 
 });

@@ -121,9 +121,11 @@ public class SoundDevice extends Device {
 		boolean contains;													//(stores whether the current rhyme-ending is stored in the instances ArrayList yet)
 		for(int a = 0; a < lines.length; a++) {							
 			for(int b = 0; b < lines[a].getWords().length; b++) {
+				System.out.println(61);
 				rhyme = lines[a].getWords()[b].getRhyme();
 				int[] index = {a, b};
 				contains = false;
+				System.out.println(62);
 				for(int c = 0; c < instances.size(); c++) {
 					if(instances.get(c).getText().equals(rhyme)) {
 						instances.get(c).getIndices().add(index);
@@ -131,6 +133,7 @@ public class SoundDevice extends Device {
 						c = instances.size();
 					}
 				}
+				System.out.println(63);
 				if(!contains) {
 					instances.add(new SoundDevice(rhyme));
 					instances.get(instances.size()-1).getIndices().add(index);

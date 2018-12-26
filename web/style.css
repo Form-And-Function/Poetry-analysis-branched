@@ -2,10 +2,19 @@
 body{
     margin: 0;
     padding: 10px 0;
+    font-family: 'Mada', sans-serif;
 }
 
 .device {
     border-radius: 5px;
+}
+#title{
+    text-align: center;
+    font-size: 4em;
+    font-family: 'Norican', cursive;
+}
+.top {
+    text-align: center;
 }
 .line{
     border-right-style: solid;
@@ -39,7 +48,7 @@ textarea {
 #submitButton {
     display: block;
     font-size: 2em;
-    font-family: Garamond;
+    font-family: 'Norican', cursive;
     height: 50px;
     width: 120px;
     background-color: transparent;
@@ -61,13 +70,13 @@ textarea {
     margin: 5px;
 }
 #keyTitle{
+    font-family: 'Norican', cursive;
     margin: 10px;
 }
 .deviceName {
     display: inline-block;
     margin: 10px;
     font-size: 2em;
-    font-family: Arial sans-serif;
 }
 
 .btnBar, #key{
@@ -87,7 +96,6 @@ textarea {
     left: 5%;
     color: #FFF;
 }
-
 
 .wordWrapper{
     display: inline-flex;
@@ -111,6 +119,13 @@ input[type=range] {
 input[type=range]:focus {
     outline: none;
 }
+.output{
+    margin-left: 10px;
+}
+.pg2{
+    margin: 0 auto;
+    display: none;
+}
 input[type=range]::-webkit-slider-runnable-track {
     width: 80%;
     height: 5px;
@@ -131,4 +146,36 @@ input[type=range]::-webkit-slider-thumb {
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -8px;
+}
+
+
+
+/* =Animate the stuff
+------------------------ */
+.dot {
+    display: inline-block;
+    width: 30px;
+    height: 15px;
+
+}
+.loader{
+    position: relative;;
+    top: 40vw;
+    margin: 0 auto;
+    font-size: 3em;
+    font-weight: bold;
+    font-family: 'Norican', cursive;
+    max-width:300px;
+}
+
+.loader .dot:nth-last-child(1) {animation: loadingC .6s .1s linear infinite;}
+.loader .dot:nth-last-child(2) {animation: loadingC .6s .2s linear infinite;}
+.loader .dot:nth-last-child(3) {animation: loadingC .6s .3s linear infinite;}
+
+
+
+@keyframes loadingC {
+0 {transform: translate(0,0);}
+50% {transform: translate(0,15px);}
+100% {transform: translate(0,0);}
 }

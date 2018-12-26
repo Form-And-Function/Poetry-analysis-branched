@@ -4,12 +4,15 @@
 <meta charset="ISO-8859-1">
 <title>Inverse</title>
 <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css?family=Anonymous+Pro" rel="stylesheet">
-    <link rel="stylesheet" href="node_modules/tooltipster/dist/css/tooltipster.bundle.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Mada|Norican" rel="stylesheet">
 </head>
 <body>
-<h1>Poetry Analyzer</h1>
+
+<h1 id="title">Inverse</h1>
+<div class="top pg1">
+<h3> A Poetry Analyzer</h3>
 <p> Please paste your poem in here and hit run. We'll process it and walk you through all the literary devices inside. It might take us a minute to parse through the whole thing, so thank you for your patience!</p>
+
     <textarea id="inputBox">Two roads diverged in a yellow wood,
 And sorry I could not travel both
 And be one traveler, long I stood
@@ -36,6 +39,15 @@ And that has made all the difference.
     </textarea>
     <input type="submit"id="submitButton">
 
+</div>
+
+<div class="pg2">
+    <div class="loader">
+        <p>Loading . . .</p>
+        <div class="dot">?</div>
+        <div class="dot">!</div>
+        <div class="dot">;</div>
+    </div>
 <div id="output">
 
 </div>
@@ -46,7 +58,7 @@ And that has made all the difference.
     <div class="btnBar"></div>
 </div>
 <div class="bufferSpace"></div>
-
+</div>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/tooltipster/dist/js/tooltipster.main.min.js"></script>
 <script src="node_modules/tooltipster/dist/js/tooltipster.bundle.min.js"></script>
