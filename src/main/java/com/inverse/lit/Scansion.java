@@ -114,7 +114,26 @@ public class Scansion {
 		
 		//Determine overall meter pattern of poem
 		//TODO: look at individual sections/stanzas
-
+        var TrochaicTotal = 0;
+        var IambicTotal = 0;
+        for(var meter:meterType){
+            if(meter==230){
+                IambicTotal++;
+            }
+            else if(meter==380){
+                TrochaicTotal++;
+            }
+        }
+        for(int i=0;i<meterType.length;i++){
+            if(meterType[i]== -2 ){
+                if( TrochaicTotal>IambicTotal){
+                meterType[i]= 380;
+                }
+                else{
+                meterType[i] = 230;
+                }
+            }
+        }
 			//(If poem has overall Trochaic pattern, switch trochaic/iambic ambiguous (1 ... 1) lines to iambic pattern)
 			//(If poem has overall Iambic pattern, switch ambiguous lines to iambic) (**is it possible to need this?)
 		
@@ -123,6 +142,7 @@ public class Scansion {
 	}
 	
 	//returns the likelihood that this scansion is the actual scansion of the poem, as raw number
+    //TODO: dive score
 	public int getScore() {
 		int score = 0;
 		

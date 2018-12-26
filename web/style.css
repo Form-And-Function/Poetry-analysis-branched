@@ -25,9 +25,14 @@ textarea {
 .keyContent{
     border-radius: 5px;
     margin: 5px;
+    padding: 5px;
+    color: black;
 }
 .currentDisplay{
     font-weight: 900;
+}
+.bufferSpace{
+    height: 100px;
 }
 #submitButton {
     display: block;
@@ -51,10 +56,12 @@ textarea {
     padding:5px;
     margin: 5px;
 }
-
+#keyTitle{
+    margin: 10px;
+}
 .deviceName {
     display: inline-block;
-    padding: 10px;
+    margin: 10px;
     font-size: 2em;
     font-family: Arial sans-serif;
 }
@@ -66,7 +73,6 @@ textarea {
 }
 
 .footer{
-    display: flex;
     overflow: hidden;
     border-radius: 5px;
     width: 90%;
@@ -75,23 +81,24 @@ textarea {
     bottom: 20px;
     background: #666;
     left: 5%;
+    color: #FFF;
 }
 
-.deviceBtn{
-    background: transparent;
-    transition: all 0.5s;
-    color: white;
-    border: none;
-    padding: 10px;
+
+.wordWrapper{
+    display: inline-flex;
+    flex-direction: column;
+    margin: 10px;
 }
 
-.deviceBtn:hover, .deviceBtnPressed{
-    background: black;
-}
 #key {
     display: none;
+    align-items: center;
 }
-
+.scansion {
+    display: flex;
+    justify-content: space-around;
+}
 input[type=range] {
     -webkit-appearance: none;
     margin: 10px 0;

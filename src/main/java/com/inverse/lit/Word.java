@@ -9,6 +9,7 @@ public class Word {
 	private int count;
 	private String[] sound, vowels, consonants;
 	private byte[] stress;
+	private boolean[] stressBool;
 	private ArrayList<int[]> deviceIDs = new ArrayList<int[]>();
 	
 	//Word Static Constants
@@ -35,6 +36,7 @@ public class Word {
 				}
 			}
 			stress = new byte[vowelCount];				//initialize arrays of stresses, vowels, and consonants
+            stressBool= new boolean[vowelCount];
 			vowels = new String[vowelCount];
 			consonants = new String[consonantCount];
 			vowelCount = 0;
@@ -42,6 +44,9 @@ public class Word {
 			for(int a = 0; a < sound.length; a++) {		//populate arrays with relevant parts of CMU output
 				if(sound[a].length() == 3) {
 					stress[vowelCount] = (byte)(sound[a].charAt(2) - 48);
+					int stressInt = stress[vowelCount];
+
+					stressBool[vowelCount] = (stress[vowelCount]>0);
 					vowels[vowelCount] = sound[a].charAt(0) + "" + sound[a].charAt(1);
 					sound[a] = vowels[vowelCount];
 					vowelCount++;
@@ -108,6 +113,10 @@ public class Word {
 	public void setStress(byte[] stress) {
 		this.stress = stress;
 	}
+
+    public boolean[] getStressBool() {
+        return stressBool;
+    }
 	
 	public ArrayList<int[]> getDeviceIDs() {
 		return deviceIDs;

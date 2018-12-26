@@ -3,6 +3,14 @@ $(document).ready(function () {
     var devices;
     var Poem;
     var key = $('#key');
+    const stressed = $('<div class="stressMark">/</div>');
+    const unstressed = $('<div class="stressMark">x</div>');
+    const footer = $('.footer');
+    const bufferSpace = $('.bufferSpace');
+
+    function fixHeights(){
+        bufferSpace.height(footer.height());
+    }
 
     function submit() {
         var input = document.getElementById("inputBox");
@@ -22,14 +30,13 @@ $(document).ready(function () {
         Poem = poem;
         devices = Object.entries(poem.deviceList);
 
-        var output = $('<div></div>');
 
         var poemNode = poem.lines.map(function (line) {
             var lineList = [];
             console.log(line);
-            line.words.forEach(word => lineList.push(word.text));
+            line.words.forEach(word => lineList.push(word));
             console.log(lineList);
-            return lineList;
+            return (lineList);
         });
         console.log(poemNode);
         addDevices(poemNode);
@@ -39,29 +46,23 @@ $(document).ready(function () {
         console.log(colors);
 
         var output = poemNode.map(function (line, i) {
+
+
             console.log(line);
-            var item = $('<p class="line"></p>');
+            var item = $('<div class="line"></div>');
             item.css('border-right-color', colors[poem.rhymeScheme[i] - 1]);
-            var itemRun = "";
-            line.forEach(function (word) {
-                console.log(word);
-                if (typeof word == "string") {
-                    console.log(word);
-                    itemRun += " " + word;
+
+            line.forEach(function (wordObj) {
+
+                if (wordObj.element) {
+                    item.append(wordObj.element);
                 }
                 else {
-                    if (itemRun != null) {
-                        console.log(itemRun);
-                        item.append($('<span>' + itemRun + '</span>'));
-                        itemRun = "";
-                    }
+                    var word = makeWordElement(wordObj);
                     item.append(word);
 
                 }
             });
-            if (itemRun != null) {
-                item.append($('<span>' + itemRun + '</span>'));
-            }
 
             return item;
         });
@@ -70,6 +71,7 @@ $(document).ready(function () {
         addDeviceSelection();
         $('.device').hover(showSharedDevices, hideSharedDevices);
         updateBold();
+        fixHeights();
     }
 
 
@@ -123,7 +125,25 @@ $(document).ready(function () {
         });
     };
 
+function makeWordElement(word){
+    console.log(word);
+    console.log(unstressed);
+    var element = $('<div class="wordWrapper">').append('<span>'+word.text+'</span>');
+    var scansion = $('<span>').addClass('scansion');
+    word.stressBool.forEach(stress=> {
+        console.log(stress);
+        if (stress) {
+            scansion.append(stressed.clone());
+        }
+        else {
+            scansion.append(unstressed.clone());
+        }
 
+
+    });
+    element.append(scansion);
+    return element;
+}
     function addDevices(lines) {
         console.log(devices);
         devices.forEach(function ([typeName, type], TypeId) {
@@ -148,22 +168,22 @@ $(document).ready(function () {
 
                                 console.log(word);
 
-                                if ((typeof word) == "string") {
-                                    var span = $('<span class="device" id="d' + lineNum + '-' + deviceNum + '"></span>');
+                                if (! word.element) {
                                     var typeData = [[TypeId, InstanceId]];
-                                    word = span.html(" " + word + " ");
-                                    span.data("deviceIds", typeData)
+                                    var elem = makeWordElement(word)
+                                        .addClass('device')
+                                        .attr('id','d' + lineNum + '-' + deviceNum)
+                                        .data("deviceIds", typeData)
                                         .data("tempcolor", new Set()); //make sure this evaluates dynamically!
+
+                                    line[deviceNum].element = elem;
                                 }
                                 else {
-                                    var data = word.data("deviceIds");
+                                    var data = word.element.data("deviceIds");
                                     data.push([TypeId, InstanceId]);
 
-                                    word.data("deviceIds", data);
+                                    word.element.data("deviceIds", data);
                                 }
-                                line[deviceNum] = word;
-                                console.log('the word is');
-                                console.log(word);
 
                             }
 
@@ -222,15 +242,17 @@ $(document).ready(function () {
             var textWrapper = $('<span>' + deviceName + '</span>').css('color', colors[i]).addClass('deviceName');
             $('devices').append(textWrapper);
         });
-        $(this).css({'border': '5px solid #CCC', 'background': 'none'});
+        $(this).css({'box-shadow': '0 0 0 3px #CCC', 'background': 'none'});
         key.css('display', 'flex');
+        fixHeights();
     }
 
     function hideSharedDevices() {
-        $('.device').css({'border': "none", 'background': 'none'}).data('tempcolor', new Set());
+        $('.device').css({'box-shadow': 'none', 'background': 'none'}).data('tempcolor', new Set());
         $('.deviceName').remove();
         key.hide();
         $('.keyContent').remove();
+        fixHeights();
     }
 
     function getColors(num) {
