@@ -9,7 +9,7 @@ $(document).ready(function () {
     const bufferSpace = $('.bufferSpace');
     var $loading = $('.loader');
 
-    function fixHeights(){
+    function fixHeights() {
         bufferSpace.height(footer.height());
     }
 
@@ -50,7 +50,11 @@ $(document).ready(function () {
 
             console.log(line);
             var item = $('<div class="line"></div>');
-            item.css('border-right-color', colors[poem.rhymeScheme[i] - 1]);
+            var colorNum = poem.rhymeScheme[i] - 1;
+            if (colorNum >= 0) {
+                item.css('border-right-color', colors[colorNum]);
+            }
+
 
             line.forEach(function (wordObj) {
 
@@ -70,7 +74,7 @@ $(document).ready(function () {
         $('#output').append(output);
 
         addDeviceSelection();
-        $('.device').hover(showSharedDevices, hideSharedDevices);
+        $('.device').mouseenter(showSharedDevices);
         updateBold();
         fixHeights();
     }
@@ -84,7 +88,9 @@ $(document).ready(function () {
                     .change(function () {
                         updateBold();
                     });
-                var label = $('<div>').addClass('sliderLabel').text(name).append(slider);
+                var displayName = fromCamel(name);
+                var count = $('<span class="count">').text('(' + value.length + ')');
+                var label = $('<div>').addClass('sliderLabel').text(displayName).append(count, slider);
                 console.log(value);
 
 
@@ -100,22 +106,22 @@ $(document).ready(function () {
         $('.device').removeClass('currentDisplay');
         devices.forEach(([typeName, deviceInstances]) => {
             console.log(typeName);
-            var sliderVal = $('#'+typeName).val();
-            if(deviceInstances != null) {
+            var sliderVal = $('#' + typeName).val();
+            if (deviceInstances != null) {
                 deviceInstances.forEach((device) => {
 
                     if (device != null && typeof device.indices != "undefined") {
                         var intensity = device.intensity;
                         console.log(intensity);
                         console.log(sliderVal);
-                        if ((sliderVal>0) && ((intensity) || intensity >= sliderVal)) {
+                        if ((sliderVal > 0) && ((intensity) || intensity >= sliderVal)) {
                             device.indices.forEach(function (deviceTriplet) {
 
                                 console.log(deviceTriplet);
                                 var lineNum = deviceTriplet[0];
                                 var deviceNum = deviceTriplet[1];
 
-                                    $('#d' + lineNum + '-' + deviceNum).addClass('currentDisplay');
+                                $('#d' + lineNum + '-' + deviceNum).addClass('currentDisplay');
 
                             });
                         }
@@ -126,25 +132,29 @@ $(document).ready(function () {
         });
     };
 
-function makeWordElement(word){
-    console.log(word);
-    console.log(unstressed);
-    var element = $('<div class="wordWrapper">').append('<span>'+word.originalText+'</span>');
-    var scansion = $('<span>').addClass('scansion');
-    word.stressBool.forEach(stress=> {
-        console.log(stress);
-        if (stress) {
-            scansion.append(stressed.clone());
-        }
-        else {
-            scansion.append(unstressed.clone());
-        }
+    function makeWordElement(word) {
+        console.log(word);
+        console.log(unstressed);
+        var element = $('<div class="wordWrapper">').append('<span>' + word.originalText + '</span>');
+        var scansion = $('<span>').addClass('scansion');
+        if (word.stressBool) {
+            word.stressBool.forEach(stress => {
+                console.log(stress);
+                if (stress) {
+                    scansion.append(stressed.clone());
+                }
+                else {
+                    scansion.append(unstressed.clone());
+                }
 
 
-    });
-    element.append(scansion);
-    return element;
-}
+            });
+        }
+
+        element.append(scansion);
+        return element;
+    }
+
     function addDevices(lines) {
         console.log(devices);
         devices.forEach(function ([typeName, type], TypeId) {
@@ -169,11 +179,11 @@ function makeWordElement(word){
 
                                 console.log(word);
 
-                                if (! word.element) {
+                                if (!word.element) {
                                     var typeData = [[TypeId, InstanceId]];
                                     var elem = makeWordElement(word)
                                         .addClass('device')
-                                        .attr('id','d' + lineNum + '-' + deviceNum)
+                                        .attr('id', 'd' + lineNum + '-' + deviceNum)
                                         .data("deviceIds", typeData)
                                         .data("tempcolor", new Set()); //make sure this evaluates dynamically!
 
@@ -201,19 +211,20 @@ function makeWordElement(word){
 
 
     function showSharedDevices() {
-        if(! $(this).hasClass('currentDisplay')){
+
+        if (!$(this).hasClass('currentDisplay')) {
             return;
         }
+        hideSharedDevices();
         var ids = $(this).data("deviceIds");
         var colors = getColors(ids.length);
         console.log(ids);
         ids.forEach(function (id, i) {
             console.log(id);
             var deviceFullData = devices[id[0]];
-            var deviceName = deviceFullData[0];
+            var deviceName = fromCamel(deviceFullData[0]);
             var deviceInstance = deviceFullData[1][id[1]];
-            var devColor = colors[i];
-            console.log(deviceFullData);
+            var devColor = colors[i]
             $('<p>').text(deviceName)
                 .css('background', devColor)
                 .addClass('keyContent')
@@ -227,7 +238,7 @@ function makeWordElement(word){
 
                 if (!used.includes(elem)) {//TODO
                     var word = $('#d' + lineNum + '-' + wordNum);
-                    if(word.hasClass('currentDisplay')){
+                    if (word.hasClass('currentDisplay')) {
                         var currentData = word.data('tempcolor');
                         currentData.add(i);
                         word.data('tempcolor', currentData);
@@ -240,11 +251,11 @@ function makeWordElement(word){
             });
 
 
-            var textWrapper = $('<span>' + deviceName + '</span>').css('color', colors[i]).addClass('deviceName');
-            $('devices').append(textWrapper);
         });
         $(this).css({'box-shadow': '0 0 0 3px #CCC', 'background': 'none'});
+        var scroll = $('body').scrollTop();
         key.css('display', 'flex');
+        $('body').scrollTop(scroll);
         fixHeights();
     }
 
@@ -260,17 +271,27 @@ function makeWordElement(word){
         var separation = 359 / (num + 1);
 
         var colors = [];
-        for (let i = 0; i < num; i++) { //TODO: if these are too close, change the lightness
-            colors.push('hsl(' + (separation * i) + ',70%, 70%)');
-            console.log(i);
+        var numInSet = 8;
+        var numSets = Math.ceil(num / numInSet);
+        for (var i = 0; i < numSets; i++) {
+            for (let j = 0; j < (numInSet); j++) {
+
+                colors.push(getColor(j, i, separation));
+
+            }
         }
-        console.log(colors);
+
         return colors;
+    }
+
+    function getColor(colorIdx, brightnessIdx, separation) {
+        return 'hsl(' + (separation * colorIdx) + ',70%, ' + (80 - 10 * brightnessIdx) + '%)';
     }
 
     //color a word's background to display a series of colors. Each color corresponds ro a device instance.
     //allColors is all the colors available. The actual colors are in the data of the element
     function color(word, allColors) {
+        const stripeWidth = 8;
         var colors = word.data('tempcolor');
         var value = "repeating-linear-gradient(45deg";
         console.log(colors);
@@ -278,7 +299,7 @@ function makeWordElement(word){
         console.log("all:   " + colors);
         colors.forEach(function (colorNum, i) {
             var color = allColors[colorNum];
-            value += ',' + color + ' ' + i * 5 + 'px,' + color + ' ' + (i + 1) * 5 + 'px';
+            value += ',' + color + ' ' + i * stripeWidth + 'px,' + color + ' ' + (i + 1) * stripeWidth + 'px';
         });
         value += ')';
         console.log(value);
@@ -286,6 +307,11 @@ function makeWordElement(word){
         word[0].style.background = value;
     }
 
-
+    function fromCamel(str) {
+        return str.replace(/([A-Z])/g, ' $1')
+            .replace(/^./, function (str) {
+                return str.toUpperCase();
+            })
+    }
 
 });
