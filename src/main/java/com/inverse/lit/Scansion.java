@@ -124,6 +124,7 @@ public class Scansion {
                 TrochaicTotal++;
             }
         }
+
         for(int i=0;i<meterType.length;i++){
             if(meterType[i]== -2 ){
                 if( TrochaicTotal>IambicTotal){

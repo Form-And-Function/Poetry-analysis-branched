@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Poem {
 	
 	//STATIC VALUES
-	public static final String[] deviceNames = {"Alliteration", "Assonance", "Consonance", "Internal Rhyme", "Repetition", "Anaphora", "Polysyndeton", "Asyndeton"};
+	public static final String[] deviceNames = {"Alliteration", "Assonance", "Consonance", "Internal Rhyme", "Repetition", "Anaphora", "Polysyndeton", "Asyndeton", "Simile"};
 	
 	//ATTRIBUTES
 	private Line[] lines;
@@ -20,8 +20,9 @@ public class Poem {
 		lines = new Line[text.size()];
 		for(int i = 0; i < lines.length; i++) {
 			lines[i] = new Line(text.get(i));
+            System.out.println(i);
 		}
-		
+
 		//calculate rhyme scheme
 		String[] endRhymes = new String[getLines().length];				//(stores rhyme relevant part of each line (last stressed vowel onward))
 		rhymeScheme = new int[getLines().length];						//(stores numbers corresponding to each unique rhyme, in order)
@@ -32,11 +33,15 @@ public class Poem {
 
 
 			if(getLines()[i].getWords().length > 0) {						//get the rhyme-relevant sound of the last word of each line (ignoring blank lines)
-
-				endRhymes[i] = getLines()[i].getWords()[getLines()[i].getWords().length-1].getRhyme();
+                var words = getLines()[i].getWords();
+                System.out.println("reacheddddd "+i);
+				endRhymes[i] = words[words.length-1].getRhyme();
+                System.out.println("reached "+i);
 				if(endRhymes[i] != "") {
+                    System.out.println("reached 2 "+i);
 					match = false;
 					for(int j = 0; j < i; j++) {								//check if it matches any others
+                        System.out.println("reached "+j);
 						if(endRhymes[i].equals(endRhymes[j])) {
 							rhymeScheme[i] = rhymeScheme[j];					//if it does, give it the same rhyme number as the one it matches
 							match = true;
@@ -51,8 +56,8 @@ public class Poem {
 				else rhymeScheme[i] = 0;
 			}
 		}
-		
-		deviceList = new DeviceList(8);
+		System.out.println("reached 00");
+		deviceList = new DeviceList(9);
         System.out.println("reached 10");
 		//find and store literary devices
 		deviceList.setAlliterationSound(SoundDevice.checkAlliteration(lines));
@@ -79,6 +84,8 @@ public class Poem {
         System.out.println("reached 90");
 		deviceList.setAsyndeton(MultiLineDevice.checkAsyndeton(lines));
 		deviceList.getAllDevices().add(deviceList.getAsyndeton());
+        deviceList.setSimile(MultiLineDevice.checkSimile(lines));
+        deviceList.getAllDevices().add(deviceList.getSimile());
 
 	}
 

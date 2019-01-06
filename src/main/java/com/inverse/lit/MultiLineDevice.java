@@ -1,9 +1,13 @@
 package com.inverse.lit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MultiLineDevice extends Device {
-	
+
+	public static final List<String> SIMILE_DETECTORS = Arrays.asList("as", "like", "than");
+	public static final List<String> POSSIBLE_RELATIONS = Arrays.asList("nmod", "nsubj");
 	//MULTIPLE
 	private static final String[] conjuncs = {"and", "or", "but", "nor", "for", "yet", "so"}; //common conjunctions
 	
@@ -87,7 +91,74 @@ public class MultiLineDevice extends Device {
 		
 		return reps;
 	}
-	
+
+	public static ArrayList<Device> checkSimile (Line[] lines){
+		System.out.println("checking...");
+		ArrayList<Device> simileInstances = new ArrayList<Device>();
+		for(int lineNum = 0; lineNum<lines.length; lineNum++){
+			var line = lines[lineNum];
+			var words = line.getWords();
+			for(int i = 0; i < words.length; i++) {
+				var word = words[i].getText();
+
+				if(SIMILE_DETECTORS.contains(word)&& line.getSentence().posTag(i).equals("IN")){ //checkForSimiles
+					ArrayList<Integer> deviceIdxs = new ArrayList<>();
+					var dependencies = line.getSemanticRelations();
+					var simileWord = dependencies.getNodeByIndex(i+1);
+					System.out.println("simileWord: "+simileWord.originalText());
+					var incoming = dependencies.incomingEdgeIterator(simileWord);
+
+					deviceIdxs.add(i);
+					while (incoming.hasNext()){
+
+						var next = incoming.next();
+						System.out.println("relation: "+next.getRelation().getShortName());
+						System.out.println("dependent: "+next.getDependent().originalText());
+						System.out.println("governer: "+next.getGovernor().originalText());
+						if(next.getRelation().getShortName().equals("case")){
+							deviceIdxs.add(next.getGovernor().index()-1);
+							System.out.println("dependent: "+next.getDependent().index());
+							System.out.println("governer: "+next.getGovernor().index());
+							var devPt1 = next.getGovernor();
+							var incoming2 = dependencies.outgoingEdgeIterator(devPt1);
+							while (incoming2.hasNext()){
+								var next2 = incoming2.next();
+								System.out.println("governer2 rel: "+next2.getRelation().getShortName());
+								System.out.println("governer2: "+next2.getGovernor());
+								System.out.println(next2);
+
+								if(POSSIBLE_RELATIONS.contains(next2.getRelation().getShortName())){
+									System.out.println("governer2 dep: "+next2.getDependent().originalText());
+									deviceIdxs.add(next2.getDependent().index()-1);
+								}
+							}
+							var incoming3 = dependencies.incomingEdgeIterator(devPt1);
+							while (incoming3.hasNext()){
+								var next3 = incoming3.next();
+								System.out.println("governer3 rel: "+next3.getRelation().getShortName());
+								System.out.println("governer3: "+next3.getGovernor());
+								System.out.println(next3);
+
+								if(POSSIBLE_RELATIONS.contains(next3.getRelation().getShortName())){
+									System.out.println("governer3 dep: "+next3.getDependent().originalText());
+									deviceIdxs.add(next3.getGovernor().index()-1);
+								}
+							}
+						}
+					}
+					var device = new MultiLineDevice();//TODO: intensity. and actually making sure it's not a comparision.
+					device.setIntensity(100);
+					for(var idx:deviceIdxs){
+						device.getIndices().add(new int[]{lineNum, idx});
+					}
+					simileInstances.add(device);
+				}
+			}
+
+		}
+		return simileInstances;
+	}
+
 	public static ArrayList<Device> checkAnaphora (Line[] lines) {
 		
 		ArrayList<Device> anaInstances = new ArrayList<Device>();

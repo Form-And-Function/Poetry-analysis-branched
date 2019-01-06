@@ -136,6 +136,7 @@ public class Word {
 	
 	//returns the rhyme-relevant part of the sound of the word (from last stressed vowel sound to end)
 	public String getRhyme() {
+        System.out.println("reached r1");
 		String rhyme = "";
 		int index = 0;
 		for(int i = stress.length - 1; i > -1; i--) {		//find the index of the last stressed syllable in the vowels[] (same as in stress[])

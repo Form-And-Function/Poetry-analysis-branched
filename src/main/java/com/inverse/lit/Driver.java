@@ -34,9 +34,7 @@ public class Driver {
 				System.out.println(poemList[0]);
 				ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(poemList));
 				StructuralAnalysis structural = new StructuralAnalysis(arrayList);		//initiate structural analysis of poem
-				System.out.println(structural.getPoem().getLines()[1].getText());
 				poem = structural.getPoem();
-				System.out.println(poem.getLines()[0].getText());
 			}
 			return poem;
 			

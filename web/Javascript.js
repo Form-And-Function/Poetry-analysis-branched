@@ -108,14 +108,14 @@ $(document).ready(function () {
             console.log(typeName);
             var sliderVal = $('#' + typeName).val();
             if (deviceInstances != null) {
-                deviceInstances.forEach((device) => {
+                deviceInstances.forEach((deviceInstance) => {
 
-                    if (device != null && typeof device.indices != "undefined") {
-                        var intensity = device.intensity;
+                    if (deviceInstance != null && typeof deviceInstance.indices != "undefined") {
+                        var intensity = deviceInstance.intensity;
                         console.log(intensity);
                         console.log(sliderVal);
-                        if ((sliderVal > 0) && ((intensity) || intensity >= sliderVal)) {
-                            device.indices.forEach(function (deviceTriplet) {
+                        if ((sliderVal > 0) && ((intensity) || intensity >= (100 - sliderVal))) {
+                            deviceInstance.indices.forEach(function (deviceTriplet) {
 
                                 console.log(deviceTriplet);
                                 var lineNum = deviceTriplet[0];
@@ -184,8 +184,7 @@ $(document).ready(function () {
                                     var elem = makeWordElement(word)
                                         .addClass('device')
                                         .attr('id', 'd' + lineNum + '-' + deviceNum)
-                                        .data("deviceIds", typeData)
-                                        .data("tempcolor", new Set()); //make sure this evaluates dynamically!
+                                        .data({"deviceIds": typeData, "tempcolor": new Set()});
 
                                     line[deviceNum].element = elem;
                                 }
@@ -209,6 +208,32 @@ $(document).ready(function () {
 
     }
 
+    function meetsIntensity(deviceInstance, deviceName) {
+        var sliderVal = $('#' + deviceName).val();
+        var intensity = deviceInstance.intensity;
+        console.log(deviceInstance);
+        return ((sliderVal > 0) && ((intensity) || intensity >= 100 - sliderVal));
+    }
+
+    function addKey(deviceInfo, colors) {
+
+        deviceInfo.forEach((d, i) => {
+            var name = d.name;
+            var extra = d.text;
+            var devColor = colors[i];
+            var text = name;
+            if(extra !=null){
+                text+='('+extra+')';
+            }
+            $('<p>').text(text)
+                .css('background', devColor)
+                .addClass('keyContent')
+                .appendTo(key);
+
+        });
+        key.css('display', 'flex');
+
+    }
 
     function showSharedDevices() {
 
@@ -217,50 +242,70 @@ $(document).ready(function () {
         }
         hideSharedDevices();
         var ids = $(this).data("deviceIds");
-        var colors = getColors(ids.length);
         console.log(ids);
-        ids.forEach(function (id, i) {
-            console.log(id);
+        var instancesToAddToKey = [];
+        var count = 0;
+        ids.forEach(function (id) { //for every instance of a device that the highlighted word has
+
             var deviceFullData = devices[id[0]];
-            var deviceName = fromCamel(deviceFullData[0]);
+            var deviceNameOriginal = deviceFullData[0];
+
+            console.log(deviceFullData);
+            var deviceName = fromCamel(deviceNameOriginal);
             var deviceInstance = deviceFullData[1][id[1]];
-            var devColor = colors[i]
-            $('<p>').text(deviceName)
-                .css('background', devColor)
-                .addClass('keyContent')
-                .appendTo(key);
-            var used = [];
-            deviceInstance.indices.forEach(function (index) {
+            if (meetsIntensity(deviceInstance, deviceNameOriginal)) {
+                instancesToAddToKey.push({name:deviceName, text: deviceInstance.text});
+                deviceInstance.indices.forEach(function (index) { //find all words associated with that device instance
 
-                var lineNum = index[0];
-                var wordNum = index[1];
-                var elem = [lineNum, wordNum];
-
-                if (!used.includes(elem)) {//TODO
-                    var word = $('#d' + lineNum + '-' + wordNum);
-                    if (word.hasClass('currentDisplay')) {
-                        var currentData = word.data('tempcolor');
-                        currentData.add(i);
-                        word.data('tempcolor', currentData);
-                        color(word, colors);
-                        used.push(elem);
-                    }
-
-                }
-
-            });
+                    var lineNum = index[0];
+                    var wordNum = index[1];
 
 
+                        let word = $('#d' + lineNum + '-' + wordNum);
+                        if (word.hasClass('currentDisplay')) {
+                            console.log(index);
+
+                            let currentData = new Set(word.data('tempcolor'));
+
+                            console.log(currentData);
+                            console.log(currentData.size);
+                            console.log(count);
+                            currentData.add(count);
+
+                            console.log(word);
+                            console.log(currentData);
+                            word.data('tempcolor', currentData);
+                            word.addClass('colored');
+
+                        }
+
+                });
+                count++;
+            }
         });
-        $(this).css({'box-shadow': '0 0 0 3px #CCC', 'background': 'none'});
+
         var scroll = $('body').scrollTop();
-        key.css('display', 'flex');
+        var colors = getColors(count);
+        colorWords(colors);
+        addKey(instancesToAddToKey, colors);
         $('body').scrollTop(scroll);
         fixHeights();
+        $(this).css({'box-shadow': '0 0 0 3px #CCC', 'background': 'none'});
+    }
+
+    function colorWords(colors) {
+        console.log('coloring...');
+        $('.colored').each((idx, word) => {
+            console.log($(word).data());
+            color($(word), colors);
+        });
     }
 
     function hideSharedDevices() {
-        $('.device').css({'box-shadow': 'none', 'background': 'none'}).data('tempcolor', new Set());
+        $('.device')
+            .css({'box-shadow': 'none', 'background': 'none'})
+            .data('tempcolor', new Set())
+            .removeClass('colored');
         $('.deviceName').remove();
         key.hide();
         $('.keyContent').remove();
@@ -268,38 +313,47 @@ $(document).ready(function () {
     }
 
     function getColors(num) {
-        var separation = 359 / (num + 1);
 
         var colors = [];
-        var numInSet = 8;
-        var numSets = Math.ceil(num / numInSet);
+        var numInSet = 9;
+        var separationDefault = 359 / (numInSet + 1);
+        var numSets = Math.floor(num / numInSet);
+        var numExtra = num % numInSet;
         for (var i = 0; i < numSets; i++) {
             for (let j = 0; j < (numInSet); j++) {
-
-                colors.push(getColor(j, i, separation));
-
+                colors.push(getColor(j, i, separationDefault));
             }
         }
-
+        var separation = 359 / (numExtra + 1);
+        for (let j = 0; j < numExtra; j++) {
+            colors.push(getColor(j, numSets, separation));
+        }
+        console.log(colors);
         return colors;
     }
 
     function getColor(colorIdx, brightnessIdx, separation) {
-        return 'hsl(' + (separation * colorIdx) + ',70%, ' + (80 - 10 * brightnessIdx) + '%)';
+        return 'hsl(' + (separation * colorIdx) + ',70%, ' + (70 - 10 * brightnessIdx) + '%)';
     }
 
     //color a word's background to display a series of colors. Each color corresponds ro a device instance.
     //allColors is all the colors available. The actual colors are in the data of the element
     function color(word, allColors) {
+        console.log(word);
         const stripeWidth = 8;
         var colors = word.data('tempcolor');
         var value = "repeating-linear-gradient(45deg";
         console.log(colors);
         console.log(allColors);
         console.log("all:   " + colors);
-        colors.forEach(function (colorNum, i) {
+        var i=0;
+        colors.forEach(function (colorNum) {
+            console.log(i);
+            console.log(allColors[colorNum]);
             var color = allColors[colorNum];
+
             value += ',' + color + ' ' + i * stripeWidth + 'px,' + color + ' ' + (i + 1) * stripeWidth + 'px';
+            i++;
         });
         value += ')';
         console.log(value);

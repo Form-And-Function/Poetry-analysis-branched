@@ -1,7 +1,10 @@
 package com.inverse.lit;
 
 import java.util.ArrayList;
-import com.inverse.lit.DeviceList;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.stanford.nlp.semgraph.SemanticGraph;
+import edu.stanford.nlp.simple.*;
 
 public class Line {
 	
@@ -9,7 +12,11 @@ public class Line {
 	private Word[] words;
 	private String text;
 	private DeviceList devices;
-	
+	@JsonIgnore
+	private Sentence sentence;
+    @JsonIgnore
+	private SemanticGraph semanticRelations;
+
 	//CONSTRUCTOR
 	public Line (String lineText) {
 		text = lineText;														//Store text of line under Line.text
@@ -33,13 +40,12 @@ public class Line {
 		    	startOfWord = false;
 		    }
 		}
-	    words = new Word[wordStrings.size()];
-	    for(int i = 0; i < words.length; i++) {
-	    	words[i] = new Word(wordStrings.get(i));
-	    }
+        words = new Word[wordStrings.size()];
+        for(int i = 0; i < words.length; i++) {
+            words[i] = new Word(wordStrings.get(i));
+        }
 	}
-	
-	
+
 	public Word[] getWords() {
 		return words;
 	}
@@ -64,5 +70,19 @@ public class Line {
 	public void setDevices(DeviceList devices) {
 		this.devices = devices;
 	}
-	
+    @JsonIgnore
+	public SemanticGraph getSemanticRelations(){
+	    if(semanticRelations ==null){
+
+            semanticRelations = sentence.dependencyGraph();
+        }
+        return semanticRelations;
+    }
+    @JsonIgnore
+    public Sentence getSentence(){
+	    if(sentence == null){
+            sentence = new Sentence(getText());
+        }
+	    return sentence;
+    }
 }

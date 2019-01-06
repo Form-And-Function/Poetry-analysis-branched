@@ -19,8 +19,7 @@ body{
     text-align: center;
 }
 .line{
-    border-right-style: solid;
-    border-right-width: 20px;
+    border-right: solid 20px Transparent;
     font-size: 2em;
     min-height: 2em;
 }
@@ -98,7 +97,9 @@ textarea {
     left: 5%;
     color: #FFF;
 }
-
+.plain{
+    font-weight: normal;
+}
 .wordWrapper{
     display: inline-flex;
     flex-direction: column;

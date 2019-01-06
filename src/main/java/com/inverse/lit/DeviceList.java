@@ -16,6 +16,7 @@ public class DeviceList {
 	private ArrayList<Device> anaphora;
 	private ArrayList<Device> polysyndeton;
 	private ArrayList<Device> asyndeton;
+	private ArrayList<Device> simile;
 	
 	public DeviceList(int initialCapacity) {
 		allDevices = new ArrayList<ArrayList<Device>>(8);
@@ -75,8 +76,8 @@ public class DeviceList {
 	public void setAsyndeton(ArrayList<Device> asyndeton) {
 		this.asyndeton = asyndeton;
 	}
-	public ArrayList<ArrayList<Device>> getAllDevices() {
-		return allDevices;
+	public ArrayList<Device> getSimile() {
+		return simile;
 	}
 	public void setAllDevices(ArrayList<ArrayList<Device>> extantDevices) {
 		this.allDevices = extantDevices;
@@ -89,6 +90,11 @@ public class DeviceList {
 	public void setRepetition(ArrayList<Device> repetition) {
 		this.repetition = repetition;
 	}
-	
+	public void setSimile(ArrayList<Device> simile) {
+		this.simile = simile;
+	}
+	public ArrayList<ArrayList<Device>> getAllDevices() {
+		return allDevices;
+	}
 	
 }
