@@ -85,7 +85,7 @@ public class SoundDevice extends Device {
 		}
 		else {																														//if the first and last instance are on different lines
 			for(int c = startIndex; c < lines[getIndices().get(0)[0]].getWords()[getIndices().get(0)[1]].getSound().length; c++) {		//count sounds in first word from index of first instances' sound onward
-				totalSeparation += soundWeight(lines[getIndices().get(0)[0]].getWords()[getIndices().get(0)[1]].getSound()[c]);
+				totalSeparation += soundWeight(lines[getIndices().get(0)[0]].getWords()[getIndices().get(0)[1]].getSound()[c]);//TODO: Debug
 			}
 			for(int b = getIndices().get(0)[1] + 1; b < lines[getIndices().get(0)[0]].getWords().length; b++) {							//count sounds in all words of first line following first word
 				for(int c = 0; c < lines[getIndices().get(0)[0]].getWords()[b].getSound().length; c++) {
@@ -322,6 +322,6 @@ public class SoundDevice extends Device {
 	 * Make groups of repeated sounds (each group separated from its compatriots by more than sensitivity# lines) individual Device instances that can be individually homophone-filtered and checked for intensity
 	 * Find homophones, internal rhyme, alliteration scheme
 	 */
-	
+
 	
 }
