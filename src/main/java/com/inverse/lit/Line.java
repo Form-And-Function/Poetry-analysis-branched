@@ -20,7 +20,7 @@ public class Line {
 	//CONSTRUCTOR
 	public Line (String lineText) {
 		text = lineText;														//Store text of line under Line.text
-		System.out.println(text);		//TODO: Debug
+		//System.out.println(text);		//TODO: Debug
 		lineText += " ";														//(adds padding to end of line text to allow iterating 1 char past last word)
 		ArrayList<String> wordStrings = new ArrayList<String>();				//(stores String of each word in line)
 		int startIndex = 0;														//(stores index at beginning of word)
@@ -32,7 +32,7 @@ public class Line {
 			    if(!startOfWord) {														//...and if it's not at the start of the word, we're at the end of a word
 			    	wordStrings.add(lineText.substring(startIndex, endIndex));			//add the word before char c to our list of words
 			    	startOfWord = true;														//next character will be at start of word, record
-					System.out.println("word is: "+lineText.substring(startIndex, endIndex));
+					//System.out.println("word is: "+lineText.substring(startIndex, endIndex));
 			    }
 		    	startIndex = endIndex + 1;										//move the index starting the word to the char after
 		    }

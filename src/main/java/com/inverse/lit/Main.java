@@ -47,11 +47,11 @@ public class Main implements ActionListener {
             // The newInstance() call is a work around for some
             // broken Java implementations
 
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+            //Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (Exception ex) {
             // handle the error
         }
-		System.out.println("hi");
+		//System.out.println("hi");
 		
 		
 		

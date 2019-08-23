@@ -20,7 +20,7 @@ public class Poem {
 		lines = new Line[text.size()];
 		for(int i = 0; i < lines.length; i++) {
 			lines[i] = new Line(text.get(i));
-            System.out.println(i);
+            //System.out.println(i);
 		}
 
 		//calculate rhyme scheme
@@ -34,14 +34,14 @@ public class Poem {
 
 			if(getLines()[i].getWords().length > 0) {						//get the rhyme-relevant sound of the last word of each line (ignoring blank lines)
                 var words = getLines()[i].getWords();
-                System.out.println("reacheddddd "+i);
+                //System.out.println("reacheddddd "+i);
 				endRhymes[i] = words[words.length-1].getRhyme();
-                System.out.println("reached "+i);
+                //System.out.println("reached "+i);
 				if(endRhymes[i] != "") {
-                    System.out.println("reached 2 "+i);
+                    //System.out.println("reached 2 "+i);
 					match = false;
 					for(int j = 0; j < i; j++) {								//check if it matches any others
-                        System.out.println("reached "+j);
+                        //System.out.println("reached "+j);
 						if(endRhymes[i].equals(endRhymes[j])) {
 							rhymeScheme[i] = rhymeScheme[j];					//if it does, give it the same rhyme number as the one it matches
 							match = true;
@@ -56,32 +56,32 @@ public class Poem {
 				else rhymeScheme[i] = 0;
 			}
 		}
-		System.out.println("reached 00");
+		//System.out.println("reached 00");
 		deviceList = new DeviceList(9);
-        System.out.println("reached 10");
+        //System.out.println("reached 10");
 		//find and store literary devices
 		deviceList.setAlliterationSound(SoundDevice.checkAlliteration(lines));
-        System.out.println("reached 20");
+        //System.out.println("reached 20");
 		deviceList.getAllDevices().add(deviceList.getAlliterationSound());
-        System.out.println("reached 30");
+        //System.out.println("reached 30");
 		deviceList.setAssonance(SoundDevice.checkAssonance(lines));
 		deviceList.getAllDevices().add(deviceList.getAssonance());
-        System.out.println("reached 40");
+        //System.out.println("reached 40");
 		deviceList.setConsonance(SoundDevice.checkConsonance(lines));
 		deviceList.getAllDevices().add(deviceList.getConsonance());
-        System.out.println("reached 50");
+        //System.out.println("reached 50");
 		deviceList.setInternalRhyme(SoundDevice.checkInRhyme(lines));
 		deviceList.getAllDevices().add(deviceList.getInternalRhyme());
-        System.out.println("reached 60");
+        //System.out.println("reached 60");
 		deviceList.setRepetition(MultiLineDevice.checkRepetition(lines));
 		deviceList.getAllDevices().add(deviceList.getRepetition());
-        System.out.println("reached 70");
+        //System.out.println("reached 70");
 		deviceList.setAnaphora(MultiLineDevice.checkAnaphora(lines));
 		deviceList.getAllDevices().add(deviceList.getAnaphora());
-        System.out.println("reached 80");
+        //System.out.println("reached 80");
 		deviceList.setPolysyndeton(MultiLineDevice.checkPolysyndeton(lines));
 		deviceList.getAllDevices().add(deviceList.getPolysyndeton());
-        System.out.println("reached 90");
+        //System.out.println("reached 90");
 		deviceList.setAsyndeton(MultiLineDevice.checkAsyndeton(lines));
 		deviceList.getAllDevices().add(deviceList.getAsyndeton());
         deviceList.setSimile(MultiLineDevice.checkSimile(lines));

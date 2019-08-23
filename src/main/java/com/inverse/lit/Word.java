@@ -1,6 +1,9 @@
 package com.inverse.lit;
 
 import java.util.ArrayList;
+import edu.stanford.nlp.coref.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.stanford.nlp.simple.Sentence;
 
 public class Word {
 	
@@ -12,7 +15,8 @@ public class Word {
 	private byte[] stress;
 	private boolean[] stressBool;
 	private ArrayList<int[]> deviceIDs = new ArrayList<int[]>();
-	
+	private Sentence sentence;
+
 	//Word Static Constants
 	public static final byte UNKNOWN_STRESS = -1;
 	public static final byte NO_STRESS = 0;
@@ -20,7 +24,11 @@ public class Word {
 	public static final byte SECONDARY_STRESS = 2;
 	
 	Word (String str) {
+
 		setText(str);
+
+		//lemma = getSentence().lemma();
+
 		setOriginalText(str);
 		ArrayList<String> cmuList =Queries.Pronunciation(str);
 		if(!cmuList.isEmpty()) {//did we get anything from the DB?
@@ -133,10 +141,12 @@ public class Word {
 	public void setDeviceIDs(ArrayList<int[]> deviceIDs) {
 		this.deviceIDs = deviceIDs;
 	}
+
+	private String lemma;
 	
 	//returns the rhyme-relevant part of the sound of the word (from last stressed vowel sound to end)
 	public String getRhyme() {
-        System.out.println("reached r1");
+        //System.out.println("reached r1");
 		String rhyme = "";
 		int index = 0;
 		for(int i = stress.length - 1; i > -1; i--) {		//find the index of the last stressed syllable in the vowels[] (same as in stress[])
@@ -156,5 +166,20 @@ public class Word {
 		}
 		return rhyme;
 	}
-	
+
+	public String getLemma() {
+		return lemma;
+	}
+
+	@JsonIgnore
+	public Sentence getSentence(){
+		if(sentence == null){
+			sentence = new Sentence(getText());
+		}
+		return sentence;
+	}
+
+	public void setLemma(String lemma) {
+		this.lemma = lemma;
+	}
 }

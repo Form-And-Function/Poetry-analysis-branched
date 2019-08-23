@@ -26,12 +26,12 @@ public class Driver {
 		public Poem Analyze(@QueryParam("text") String poemLines) {
 
 			Poem poem = null;
-		System.out.println(poemLines);
+		//System.out.println(poemLines);
 			
 			//poemLines = readFile(inputTF.getText());
 			if(poemLines != null) {
 				String[] poemList = poemLines.split("\n");
-				System.out.println(poemList[0]);
+				//System.out.println(poemList[0]);
 				ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(poemList));
 				StructuralAnalysis structural = new StructuralAnalysis(arrayList);		//initiate structural analysis of poem
 				poem = structural.getPoem();

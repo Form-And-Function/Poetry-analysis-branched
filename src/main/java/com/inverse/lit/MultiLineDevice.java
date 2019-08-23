@@ -93,7 +93,7 @@ public class MultiLineDevice extends Device {
 	}
 
 	public static ArrayList<Device> checkSimile (Line[] lines){
-		System.out.println("checking...");
+		//System.out.println("checking...");
 		ArrayList<Device> simileInstances = new ArrayList<Device>();
 		for(int lineNum = 0; lineNum<lines.length; lineNum++){
 			var line = lines[lineNum];
@@ -105,42 +105,42 @@ public class MultiLineDevice extends Device {
 					ArrayList<Integer> deviceIdxs = new ArrayList<>();
 					var dependencies = line.getSemanticRelations();
 					var simileWord = dependencies.getNodeByIndex(i+1);
-					System.out.println("simileWord: "+simileWord.originalText());
+					//System.out.println("simileWord: "+simileWord.originalText());
 					var incoming = dependencies.incomingEdgeIterator(simileWord);
 
 					deviceIdxs.add(i);
 					while (incoming.hasNext()){
 
 						var next = incoming.next();
-						System.out.println("relation: "+next.getRelation().getShortName());
-						System.out.println("dependent: "+next.getDependent().originalText());
-						System.out.println("governer: "+next.getGovernor().originalText());
+						//System.out.println("relation: "+next.getRelation().getShortName());
+						//System.out.println("dependent: "+next.getDependent().originalText());
+						//System.out.println("governer: "+next.getGovernor().originalText());
 						if(next.getRelation().getShortName().equals("case")){
 							deviceIdxs.add(next.getGovernor().index()-1);
-							System.out.println("dependent: "+next.getDependent().index());
-							System.out.println("governer: "+next.getGovernor().index());
+							//System.out.println("dependent: "+next.getDependent().index());
+							//System.out.println("governer: "+next.getGovernor().index());
 							var devPt1 = next.getGovernor();
 							var incoming2 = dependencies.outgoingEdgeIterator(devPt1);
 							while (incoming2.hasNext()){
 								var next2 = incoming2.next();
-								System.out.println("governer2 rel: "+next2.getRelation().getShortName());
-								System.out.println("governer2: "+next2.getGovernor());
-								System.out.println(next2);
+								//System.out.println("governer2 rel: "+next2.getRelation().getShortName());
+								//System.out.println("governer2: "+next2.getGovernor());
+								//System.out.println(next2);
 
 								if(POSSIBLE_RELATIONS.contains(next2.getRelation().getShortName())){
-									System.out.println("governer2 dep: "+next2.getDependent().originalText());
+									//System.out.println("governer2 dep: "+next2.getDependent().originalText());
 									deviceIdxs.add(next2.getDependent().index()-1);
 								}
 							}
 							var incoming3 = dependencies.incomingEdgeIterator(devPt1);
 							while (incoming3.hasNext()){
 								var next3 = incoming3.next();
-								System.out.println("governer3 rel: "+next3.getRelation().getShortName());
-								System.out.println("governer3: "+next3.getGovernor());
-								System.out.println(next3);
+								//System.out.println("governer3 rel: "+next3.getRelation().getShortName());
+								//System.out.println("governer3: "+next3.getGovernor());
+								//System.out.println(next3);
 
 								if(POSSIBLE_RELATIONS.contains(next3.getRelation().getShortName())){
-									System.out.println("governer3 dep: "+next3.getDependent().originalText());
+									//System.out.println("governer3 dep: "+next3.getDependent().originalText());
 									deviceIdxs.add(next3.getGovernor().index()-1);
 								}
 							}
@@ -158,6 +158,32 @@ public class MultiLineDevice extends Device {
 		}
 		return simileInstances;
 	}
+
+	/*public static ArrayList<Device> checkAdynaton(Line[] lines){
+	   var devices = new ArrayList<Device>();
+
+
+	    var maxLemmmaDist = 15;
+	    int pos = 0;
+	    var lemmaLists =
+        var lemmaList = new ArrayList<String>(maxLemmmaDist);
+	    for(int i = 0; i< lines.length; i++){
+            var sentence = lines[i].getSentence();
+            var lemmas = sentence. .lemmas();
+            lemmas.forEach();
+
+        }
+
+	    for(device:deviceList){
+	        var device = new MultiLineDevice();
+	        device.setText()
+            device.set;
+	        devices.add(device);
+        }
+            Sentence sentence = new Sentence("hi");
+            var lemmas = sentence.lemmas();
+
+    }*/
 
 	public static ArrayList<Device> checkAnaphora (Line[] lines) {
 		
@@ -184,13 +210,13 @@ public class MultiLineDevice extends Device {
 				anaInstances.get(anaphoricWords.indexOf(firstWord)).getIndices().add(new int[]{x,0});
 			}
 		}
-		System.out.println("reached 71");
+		//System.out.println("reached 71");
 		for (int i = anaInstances.size() - 1; i >= 0; i--) {
 			if (anaInstances.get(i).getIndices().size() == 1) {
 				anaInstances.remove(i);
 			}
 		}
-		System.out.println("reached 72");
+		//System.out.println("reached 72");
 		for (Device a : anaInstances) {
 			int minWords = Integer.MAX_VALUE;
 			
@@ -236,7 +262,7 @@ public class MultiLineDevice extends Device {
 		int conjuncInstances = 0;
 		
 		for (int x = 0; x < lines.length; x++) {
-			System.out.println(x);
+			//System.out.println(x);
 			if(lines[x].getWords().length<=0){
 				continue;
 			}

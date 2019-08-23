@@ -1,8 +1,8 @@
 $(document).ready(function () {
 
     var devices;
-    var Poem;
-    var key = $('#key');
+    let Poem;
+    const key = $('#key');
     const stressed = $('<div class="stressMark">/</div>');
     const unstressed = $('<div class="stressMark">x</div>');
     const footer = $('.footer');
@@ -114,7 +114,8 @@ $(document).ready(function () {
                         var intensity = deviceInstance.intensity;
                         console.log(intensity);
                         console.log(sliderVal);
-                        if ((sliderVal > 0) && ((intensity) || intensity >= (100 - sliderVal))) {
+                        if(sliderVal == 0 || intensity === null)
+                        if ((sliderVal > 0) && intensity > (100 - sliderVal)) {
                             deviceInstance.indices.forEach(function (deviceTriplet) {
 
                                 console.log(deviceTriplet);
